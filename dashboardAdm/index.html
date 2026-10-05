@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel Administrativo | Azul</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <aside class="sidebar">
+    <a class="marca" href="#inicio" aria-label="Azul - início">
+      <span class="marca-texto">AzulTrack</span><span class="marca-ponto">✦</span>
+    </a>
+
+    <span class="menu-titulo" style="margin-top: 30px;">PAINEL DE CONTROLE</span>
+    <nav class="menu-lateral">
+
+      <a class="menu-link ativo" href="index.html" data-menu="inicio">
+        <i data-lucide="layout-dashboard" class="icone"></i>
+        <span>Visão geral</span>
+      </a>
+
+      <a class="menu-link" href="operacoes/index.html" data-menu="atendimento" data-permissao="view_support">
+        <i data-lucide="headset" class="icone"></i>
+        <span>Abrir ocorrência</span>
+      </a>
+
+      <a class="menu-link" href="detalhes/index.html" data-menu="gestao" data-permissao="view_reports">
+        <i data-lucide="chart-no-axes-combined" class="icone"></i>
+        <span>Ocorrências</span>
+      </a>
+
+      <a class="menu-link" href="notificacoes/index.html" data-menu="permissoes" data-permissao="manage_settings">
+        <i data-lucide="bell" class="icone"></i>
+        <span>Notificações</span>
+      </a>
+
+      <a class="menu-link" href="setores/index.html" data-menu="usuarios" data-permissao="manage_employees">
+        <i data-lucide="users" class="icone"></i>
+        <span>Usuários e funcionários</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-final">
+      <span class="menu-titulo">PREFERÊNCIAS</span>
+      <a class="menu-link" href="#configuracoes"><span class="menu-icone">⚙</span><span>Configurações</span></a>
+      <a class="sair" href="index.html"><span>↪</span> Sair da conta</a>
+    </div>
+  </aside>
+
+  <main class="principal" id="inicio">
+    <header class="barra-topo">
+      <div class="topo-direita">
+        <button class="icone-botao notificacao" aria-label="Notificações"><i data-lucide="bell"
+            class="icone"></i></button>
+        <div class="data-atual"><strong>Central operacional</strong><span>Visão de demonstração</span></div>
+        <div class="avatar avatar-pequeno">MS</div>
+      </div>
+    </header>
+
+    <section class="boas-vindas-admin">
+      <div class="boas-texto">
+        <span class="sobretitulo">ÁREA ADMINISTRATIVA</span>
+        <h1>Painel operacional</h1>
+        <p>Acompanhe os indicadores, a movimentação dos voos e as ocorrências da operação.</p>
+        <div class="boas-acoes">
+          <a class="botao botao-azul" href="#voos">Ver voos do dia <span>→</span></a>
+          <a class="botao botao-claro" href="#relatorios">Consultar relatórios</a>
+        </div>
+      </div>
+      <div class="banner-aviao">
+        <div class="banner-conteudo">
+          <span>OPERAÇÃO AZUL</span>
+          <strong>Conectando pessoas.<br>Movendo destinos.</strong>
+          <small>PAINEL INTERNO · DADOS ILUSTRATIVOS</small>
+        </div>
+        <div class="banner-sol"></div>
+        <div class="banner-nuvem nuvem-um"></div>
+        <div class="banner-nuvem nuvem-dois"></div>
+        <div class="aviao-decorativo">✈</div>
+      </div>
+    </section>
+
+    <section class="indicadores" aria-label="Indicadores operacionais">
+      <article class="indicador">
+        <div class="indicador-topo"><span class="indicador-icone azul-claro">✈</span><span class="variacao positiva">↑
+            12%</span></div>
+        <span class="indicador-label">Voos programados hoje</span>
+        <strong class="indicador-numero">412</strong>
+        <span class="indicador-nota">em relação ao dia anterior</span>
+      </article>
+      <article class="indicador" id="passageiros">
+        <div class="indicador-topo"><span class="indicador-icone ciano-claro">♙</span><span class="variacao positiva">↑
+            9%</span></div>
+        <span class="indicador-label">Passageiros previstos</span>
+        <strong class="indicador-numero">48.732</strong>
+        <span class="indicador-nota">em relação ao dia anterior</span>
+      </article>
+      <article class="indicador">
+        <div class="indicador-topo"><span class="indicador-icone verde-claro">◷</span><span class="variacao positiva">↑
+            6%</span></div>
+        <span class="indicador-label">Pontualidade operacional</span>
+        <strong class="indicador-numero">89<span class="unidade">%</span></strong>
+        <span class="indicador-nota">meta operacional: 90%</span>
+      </article>
+      <article class="indicador" id="ocorrencias">
+        <div class="indicador-topo"><span class="indicador-icone vermelho-claro">⚠</span><span
+            class="variacao negativa">Requer atenção</span></div>
+        <span class="indicador-label">Ocorrências em aberto</span>
+        <strong class="indicador-numero">7</strong>
+        <span class="indicador-nota">2 com prioridade alta</span>
+      </article>
+    </section>
+
+    <section class="painel-grid">
+      <article class="cartao grafico-cartao" id="relatorios">
+        <div class="cartao-cabecalho">
+          <div>
+            <h2>Movimentação de voos</h2>
+            <p>Voos realizados nos últimos 7 dias</p>
+          </div>
+          <button class="seletor-periodo">Últimos 7 dias⌄</button>
+        </div>
+        <div class="legenda"><span><i class="legenda-azul"></i>Realizados</span><span><i
+              class="legenda-ciano"></i>Programados</span></div>
+        <div class="grafico" role="img" aria-label="Gráfico ilustrativo da movimentação de voos nos últimos sete dias">
+          <div class="eixo-y">
+            <span>500</span><span>400</span><span>300</span><span>200</span><span>100</span><span>0</span>
+          </div>
+          <div class="grafico-area">
+            <div class="linhas-grade"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <svg viewBox="0 0 600 190" preserveAspectRatio="none" aria-hidden="true">
+              <defs>
+                <linearGradient id="areaAzul" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0%" stop-color="#0084BE" stop-opacity=".24" />
+                  <stop offset="100%" stop-color="#0084BE" stop-opacity=".02" />
+                </linearGradient>
+              </defs>
+              <path d="M10 143 L105 119 L200 126 L295 96 L390 82 L485 59 L585 38 L585 178 L10 178 Z"
+                fill="url(#areaAzul)" />
+              <polyline points="10,143 105,119 200,126 295,96 390,82 485,59 585,38" fill="none" stroke="#0084BE"
+                stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+              <polyline points="10,126 105,107 200,91 295,76 390,66 485,48 585,23" fill="none" stroke="#8BCFF2"
+                stroke-width="2" stroke-dasharray="5 5" stroke-linecap="round" stroke-linejoin="round" />
+              <g fill="#0084BE">
+                <circle cx="10" cy="143" r="4" />
+                <circle cx="105" cy="119" r="4" />
+                <circle cx="200" cy="126" r="4" />
+                <circle cx="295" cy="96" r="4" />
+                <circle cx="390" cy="82" r="4" />
+                <circle cx="485" cy="59" r="4" />
+                <circle cx="585" cy="38" r="4" />
+              </g>
+              <g fill="#8BCFF2">
+                <circle cx="10" cy="126" r="3.5" />
+                <circle cx="105" cy="107" r="3.5" />
+                <circle cx="200" cy="91" r="3.5" />
+                <circle cx="295" cy="76" r="3.5" />
+                <circle cx="390" cy="66" r="3.5" />
+                <circle cx="485" cy="48" r="3.5" />
+                <circle cx="585" cy="23" r="3.5" />
+              </g>
+            </svg>
+            <div class="eixo-x">
+              <span>22/04</span><span>23/04</span><span>24/04</span><span>25/04</span><span>26/04</span><span>27/04</span><span>28/04</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="cartao status-cartao">
+        <div class="cartao-cabecalho">
+          <div>
+            <h2>Status dos voos</h2>
+            <p>Distribuição do dia</p>
+          </div><span class="ponto-atualizado">● Atualizado</span>
+        </div>
+        <div class="status-conteudo">
+          <div class="grafico-rosca">
+            <div><strong>412</strong><span>Total de voos</span></div>
+          </div>
+          <div class="status-legenda">
+            <div><i class="status-ponto no-horario"></i><span>No horário</span><strong>362 <small>88%</small></strong>
+            </div>
+            <div><i class="status-ponto atrasado"></i><span>Atrasados</span><strong>32 <small>8%</small></strong></div>
+            <div><i class="status-ponto cancelado"></i><span>Cancelados</span><strong>8 <small>2%</small></strong></div>
+            <div><i class="status-ponto solo"></i><span>Em solo</span><strong>10 <small>2%</small></strong></div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="inferior-grid">
+      <article class="cartao tabela-cartao" id="voos">
+        <div class="cartao-cabecalho">
+          <div>
+            <h2>Próximos voos</h2>
+            <p>Acompanhamento da programação</p>
+          </div>
+          <a class="link-ver-mais" href="#voos">Ver todos →</a>
+        </div>
+        <div class="tabela-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Voo</th>
+                <th>Rota</th>
+                <th>Horário</th>
+                <th>Status</th>
+                <th>Portão</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="mini-aviao">✈</span> AD 2743</td>
+                <td>GRU <span class="rota-seta">→</span> SSA</td>
+                <td>15:20</td>
+                <td><span class="tag-status tag-verde">No horário</span></td>
+                <td>B12</td>
+              </tr>
+              <tr>
+                <td><span class="mini-aviao">✈</span> AD 3268</td>
+                <td>CNF <span class="rota-seta">→</span> CGH</td>
+                <td>16:05</td>
+                <td><span class="tag-status tag-verde">No horário</span></td>
+                <td>B04</td>
+              </tr>
+              <tr>
+                <td><span class="mini-aviao">✈</span> AD 4587</td>
+                <td>BSB <span class="rota-seta">→</span> VCP</td>
+                <td>16:40</td>
+                <td><span class="tag-status tag-laranja">Atrasado</span></td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td><span class="mini-aviao">✈</span> AD 6112</td>
+                <td>GIG <span class="rota-seta">→</span> FOR</td>
+                <td>17:25</td>
+                <td><span class="tag-status tag-verde">No horário</span></td>
+                <td>A08</td>
+              </tr>
+              <tr>
+                <td><span class="mini-aviao">✈</span> AD 7390</td>
+                <td>MAO <span class="rota-seta">→</span> CGH</td>
+                <td>18:10</td>
+                <td><span class="tag-status tag-verde">No horário</span></td>
+                <td>B16</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="cartao comunicacoes" id="comunicacoes">
+        <div class="cartao-cabecalho">
+          <div>
+            <h2>Últimas notificações</h2>
+            <p>Atualizações da operação</p>
+          </div><a class="link-ver-mais" href="#comunicacoes">Ver todas →</a>
+        </div>
+        <div class="notificacao-item"><span class="notificacao-simbolo info">i</span>
+          <div><strong>Manutenção programada</strong>
+            <p>Voo AD 3268 · CNF → CGH terá manutenção preventiva às 15h.</p>
+          </div><time>Há 12 min</time>
+        </div>
+        <div class="notificacao-item"><span class="notificacao-simbolo sucesso">✓</span>
+          <div><strong>Check-in liberado</strong>
+            <p>O check-in do voo AD 2743 está disponível para os passageiros.</p>
+          </div><time>Há 45 min</time>
+        </div>
+        <div class="notificacao-item"><span class="notificacao-simbolo alerta">!</span>
+          <div><strong>Condições climáticas</strong>
+            <p>Possibilidade de chuva forte em SSA. Acompanhe as atualizações.</p>
+          </div><time>Há 1 h</time>
+        </div>
+      </article>
+
+      <article class="cartao acoes-cartao" id="configuracoes">
+        <div class="cartao-cabecalho">
+          <div>
+            <h2>Ações rápidas</h2>
+            <p>Acessos da equipe</p>
+          </div>
+        </div>
+        <a href="#voos" class="acao-link"><span class="acao-icone">✈</span><span>Gerenciar voos</span><b>›</b></a>
+        <a href="#passageiros" class="acao-link"><span class="acao-icone">♙</span><span>Consultar
+            passageiros</span><b>›</b></a>
+        <a href="#relatorios" class="acao-link"><span class="acao-icone">▥</span><span>Relatórios
+            operacionais</span><b>›</b></a>
+        <a href="#comunicacoes" class="acao-link"><span class="acao-icone">▱</span><span>Comunicar
+            equipe</span><b>›</b></a>
+        <a href="#suporte" class="acao-link"><span class="acao-icone">⚙</span><span>Ajustes do
+            sistema</span><b>›</b></a>
+      </article>
+    </section>
+
+    <footer class="rodape">
+      <span><strong>AZUL</strong> · Painel administrativo</span>
+      <p>Interface demonstrativa. Os indicadores e voos apresentados são ilustrativos.</p>
+    </footer>
+  </main>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../supabase.js"></script>
+  <script src="script.js"></script>
+</body>
+
+</html>

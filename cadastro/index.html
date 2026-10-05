@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro | Azul</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <main class="pagina-login">
+
+        <section class="apresentacao">
+            <div class="texto-apresentacao">
+                <p class="identificacao">ÁREA DO CLIENTE</p>
+
+                <h1>
+                    Sua jornada começa <span> aqui.</span>
+                </h1>
+
+                <p>
+                    Crie sua conta e tenha acesso às suas informações
+                    com praticidade, segurança e tranquilidade.
+                </p>
+            </div>
+        </section>
+
+        <section class="area-formulario">
+
+            <img src="../img/nuvem1.png" alt="" class="imagem-nuvem">
+
+            <div class="painel-branco">
+                <div class="formulario">
+
+                    <p class="subtitulo">ÁREA DO CLIENTE</p>
+                    <h2>Crie sua conta</h2>
+
+                    <form id="formCadastro">
+
+                        <div class="campo">
+                            <label for="nome">Nome completo</label>
+                            <input type="text" id="nome" name="nome" placeholder="Digite seu nome completo" required>
+                        </div>
+
+                        <div class="campo">
+                            <label for="email">E-mail</label>
+                            <input type="email" id="email" name="email" placeholder="Digite seu e-mail" required>
+                        </div>
+
+                        <div class="linha-campos">
+                            <div class="campo">
+                                <label for="cpf">CPF</label>
+                                <input type="text" id="cpf" name="cpf" placeholder="Digite seu CPF" required>
+                            </div>
+
+                            <div class="campo">
+                                <label for="telefone">Telefone</label>
+                                <input type="tel" id="telefone" name="telefone" placeholder="Digite seu telefone"
+                                    required>
+                            </div>
+                        </div>
+
+                        <div class="linha-campos">
+                            <div class="campo">
+                                <label for="senha">Senha</label>
+                                <input type="password" id="senha" name="senha" placeholder="Crie uma senha" required>
+                            </div>
+
+                            <div class="campo">
+                                <label for="confirmar-senha">Confirmar senha</label>
+                                <input type="password" id="confirmar-senha" name="confirmar_senha"
+                                    placeholder="Confirme sua senha" required>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="botao-entrar" id="botaoCadastro">
+                            Criar conta
+                        </button>
+
+                        <p id="mensagemCadastro" class="mensagem-login" role="status" aria-live="polite"></p>
+
+                    </form>
+
+                    <p class="cadastro">
+                        Já tem uma conta? <a href="../login/index.html">Entrar</a>
+                    </p>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../supabase.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

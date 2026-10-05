@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operações | AzulTrack</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+    <aside class="sidebar">
+        <a class="marca" href="index.html" aria-label="AzulTrack - início">
+            <span class="marca-texto">AzulTrack</span>
+            <span class="marca-ponto">✦</span>
+        </a>
+
+        <span class="menu-titulo" style="margin-top: 30px;">PAINEL DE CONTROLE</span>
+
+        <nav class="menu-lateral">
+            <a class="menu-link" href="../index.html" data-menu="inicio">
+                <i data-lucide="layout-dashboard" class="icone"></i>
+                <span>Visão geral</span>
+            </a>
+
+            <a class="menu-link" href="../operacoes/index.html" data-menu="atendimento" data-permissao="view_support">
+                <i data-lucide="headset" class="icone"></i>
+                <span>Abrir ocorrência</span>
+            </a>
+
+            <a class="menu-link ativo" href="../detalhes/index.html" data-menu="gestao" data-permissao="view_reports">
+                <i data-lucide="chart-no-axes-combined" class="icone"></i>
+                <span>Ocorrências</span>
+            </a>
+
+            <a class="menu-link" href="../notificacoes/index.html" data-menu="permissoes"
+                data-permissao="manage_settings">
+                <i data-lucide="bell" class="icone"></i>
+                <span>Notificações</span>
+            </a>
+
+            <a class="menu-link" href="../setores/index.html" data-menu="usuarios" data-permissao="manage_employees">
+                <i data-lucide="users" class="icone"></i>
+                <span>Usuários e funcionários</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-final">
+            <span class="menu-titulo">PREFERÊNCIAS</span>
+
+            <a class="menu-link" href="../index.html">
+                <i data-lucide="settings" class="icone"></i>
+                <span>Configurações</span>
+            </a>
+            <a class="sair" href="../../login/index.html">
+                <span>↪</span> Sair da conta
+            </a>
+        </div>
+    </aside>
+
+    <main class="principal">
+        <header class="barra-topo">
+            <div class="topo-direita">
+                <button type="button" class="icone-botao notificacao" aria-label="Notificações">
+                    <i data-lucide="bell" class="icone"></i>
+                </button>
+
+                <div class="data-atual">
+                    <strong>Central operacional</strong>
+                    <span>Gerenciamento de ocorrências</span>
+                </div>
+
+                <div class="avatar avatar-pequeno">AT</div>
+            </div>
+        </header>
+
+        <section class="cabecalho-operacoes">
+            <div>
+                <span class="sobretitulo">CENTRAL DE OPERAÇÕES</span>
+                <h1>Ocorrências operacionais</h1>
+                <p>
+                    Consulte os registros e acompanhe os problemas
+                    identificados na operação.
+                </p>
+            </div>
+
+            <button type="button" class="botao-atualizar" id="atualizarOcorrencias">
+                <i data-lucide="refresh-cw" class="icone"></i>
+                Atualizar
+            </button>
+        </section>
+
+        <section class="indicadores" aria-label="Resumo das ocorrências">
+            <article class="indicador">
+                <div class="indicador-topo">
+                    <i data-lucide="clipboard-list" class="icone"></i>
+                </div>
+                <span class="indicador-label">Total de ocorrências</span>
+                <strong class="indicador-numero" id="totalOcorrencias">—</strong>
+                <span class="indicador-nota">Registros encontrados</span>
+            </article>
+
+            <article class="indicador">
+                <div class="indicador-topo">
+                    <i data-lucide="alert-triangle" class="icone"></i>
+                </div>
+                <span class="indicador-label">Em aberto</span>
+                <strong class="indicador-numero" id="abertasOcorrencias">—</strong>
+                <span class="indicador-nota">Aguardando resolução</span>
+            </article>
+
+            <article class="indicador">
+                <div class="indicador-topo">
+                    <i data-lucide="alert-circle" class="icone"></i>
+                </div>
+                <span class="indicador-label">Alta prioridade</span>
+                <strong class="indicador-numero" id="criticasOcorrencias">—</strong>
+                <span class="indicador-nota">Gravidade alta ou crítica</span>
+            </article>
+
+            <article class="indicador">
+                <div class="indicador-topo">
+                    <i data-lucide="check-circle-2" class="icone"></i>
+                </div>
+                <span class="indicador-label">Resolvidas</span>
+                <strong class="indicador-numero" id="resolvidasOcorrencias">—</strong>
+                <span class="indicador-nota">Ocorrências finalizadas</span>
+            </article>
+        </section>
+
+        <section class="cartao ocorrencias-cartao">
+            <div class="cartao-cabecalho">
+                <div>
+                    <h2>Registros de ocorrências</h2>
+                    <p>Selecione um registro para consultar seus detalhes.</p>
+                </div>
+                <span id="quantidadeFiltrada" class="quantidade-filtrada">— registros</span>
+            </div>
+
+            <div class="filtros-operacoes">
+                <label>
+                    <span>Pesquisar</span>
+                    <div class="campo-pesquisa">
+                        <i data-lucide="search" class="icone"></i>
+                        <input type="search" id="pesquisaOcorrencia" placeholder="Código ou título da ocorrência">
+                    </div>
+                </label>
+
+                <label>
+                    <span>Status</span>
+                    <select id="filtroStatus">
+                        <option value="">Todos os status</option>
+                        <option value="aberta">Aberta</option>
+                        <option value="em_analise">Em análise</option>
+                        <option value="em_andamento">Em andamento</option>
+                        <option value="resolvida">Resolvida</option>
+                        <option value="cancelada">Cancelada</option>
+                    </select>
+                </label>
+
+                <label>
+                    <span>Gravidade</span>
+                    <select id="filtroGravidade">
+                        <option value="">Todas</option>
+                        <option value="baixa">Baixa</option>
+                        <option value="media">Média</option>
+                        <option value="alta">Alta</option>
+                        <option value="critica">Crítica</option>
+                    </select>
+                </label>
+            </div>
+
+            <div id="mensagemOcorrencias" class="mensagem-ocorrencias" role="status" aria-live="polite">
+                Carregando ocorrências...
+            </div>
+
+            <div id="listaOcorrencias" class="lista-ocorrencias"></div>
+        </section>
+
+        <footer class="rodape">
+            <span><strong>AZUL</strong> · Central de operações</span>
+            <p>AzulTrack · Monitoramento e gerenciamento operacional.</p>
+        </footer>
+    </main>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../supabase.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes da ocorrência | AzulTrack</title>
+
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <aside class="sidebar">
+        <a class="marca" href="index.html" aria-label="AzulTrack - início">
+            <span class="marca-texto">AzulTrack</span>
+            <span class="marca-ponto">✦</span>
+        </a>
+
+        <span class="menu-titulo" style="margin-top: 30px;">PAINEL DE CONTROLE</span>
+
+        <nav class="menu-lateral">
+            <a class="menu-link" href="../index.html" data-menu="inicio">
+                <i data-lucide="layout-dashboard" class="icone"></i>
+                <span>Visão geral</span>
+            </a>
+
+            <a class="menu-link" href="../operacoes/index.html" data-menu="atendimento" data-permissao="view_support">
+                <i data-lucide="headset" class="icone"></i>
+                <span>Abrir ocorrência</span>
+            </a>
+
+            <a class="menu-link ativo" href="index.html" data-menu="gestao" data-permissao="view_reports">
+                <i data-lucide="chart-no-axes-combined" class="icone"></i>
+                <span>Ocorrências</span>
+            </a>
+
+            <a class="menu-link" href="../notificacoes/index.html" data-menu="permissoes"
+                data-permissao="manage_settings">
+                <i data-lucide="bell" class="icone"></i>
+                <span>Notificações</span>
+            </a>
+
+            <a class="menu-link" href="../setores/index.html" data-menu="usuarios" data-permissao="manage_employees">
+                <i data-lucide="users" class="icone"></i>
+                <span>Usuários e funcionários</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-final">
+            <span class="menu-titulo">PREFERÊNCIAS</span>
+
+            <a class="menu-link" href="../index.html">
+                <i data-lucide="settings" class="icone"></i>
+                <span>Configurações</span>
+            </a>
+            <a href="../../login/index.html" class="menu-link sair" id="botaoSair">
+                <i data-lucide="log-out"></i>
+                <span>Sair</span>
+            </a>
+        </div>
+    </aside>
+
+    <main class="principal">
+        <header class="barra-topo">
+            <div class="topo-direita">
+                <button type="button" class="icone-botao notificacao" aria-label="Notificações">
+                    <i data-lucide="bell" class="icone"></i>
+                </button>
+
+                <div class="data-atual">
+                    <strong>Central operacional</strong>
+                    <span>Gerenciamento de ocorrências</span>
+                </div>
+
+                <div class="avatar avatar-pequeno" id="avatarUsuario">AT</div>
+            </div>
+        </header>
+
+        <section class="detalhes-cabecalho">
+            <a href="operacoes.html" class="voltar-ocorrencias">
+                <i data-lucide="arrow-left"></i>
+                Voltar para operações
+            </a>
+
+            <div class="detalhes-titulo-linha">
+                <div>
+                    <span class="sobretitulo">ACOMPANHAMENTO OPERACIONAL</span>
+                    <h1 id="tituloOcorrencia">Carregando ocorrência...</h1>
+                    <p id="codigoOcorrencia" class="detalhes-codigo"></p>
+                </div>
+
+                <div class="detalhes-acoes">
+                    <span id="statusOcorrencia" class="badge-ocorrencia">Carregando</span>
+                    <span id="gravidadeOcorrencia" class="badge-ocorrencia">—</span>
+                </div>
+            </div>
+        </section>
+
+        <div id="mensagemPagina" class="mensagem-pagina" role="status">
+            <i data-lucide="loader-circle"></i>
+            Carregando informações da ocorrência...
+        </div>
+
+        <div id="conteudoOcorrencia" class="conteudo-detalhes" hidden>
+
+            <section class="detalhes-indicadores">
+                <article class="detalhe-indicador">
+                    <div class="indicador-icone azul">
+                        <i data-lucide="calendar-clock"></i>
+                    </div>
+                    <div>
+                        <span>Identificada em</span>
+                        <strong id="dataIdentificacao">—</strong>
+                    </div>
+                </article>
+
+                <article class="detalhe-indicador">
+                    <div class="indicador-icone ciano">
+                        <i data-lucide="building-2"></i>
+                    </div>
+                    <div>
+                        <span>Departamento responsável</span>
+                        <strong id="departamentoResponsavel">—</strong>
+                    </div>
+                </article>
+
+                <article class="detalhe-indicador">
+                    <div class="indicador-icone marinho">
+                        <i data-lucide="plane"></i>
+                    </div>
+                    <div>
+                        <span>Voos relacionados</span>
+                        <strong id="quantidadeVoos">0 voos</strong>
+                    </div>
+                </article>
+            </section>
+
+            <div class="detalhes-grid">
+                <div class="detalhes-coluna">
+                    <section class="cartao painel-detalhes">
+                        <div class="cartao-cabecalho">
+                            <div>
+                                <span class="sobretitulo">INFORMAÇÕES</span>
+                                <h2>Visão geral</h2>
+                            </div>
+                            <i data-lucide="clipboard-list"></i>
+                        </div>
+
+                        <div class="campo-detalhe">
+                            <span>Descrição da ocorrência</span>
+                            <p id="descricaoOcorrencia">—</p>
+                        </div>
+
+                        <div class="campos-duplos">
+                            <div class="campo-detalhe">
+                                <span>Categoria</span>
+                                <p id="categoriaOcorrencia">—</p>
+                            </div>
+
+                            <div class="campo-detalhe">
+                                <span>Localização</span>
+                                <p id="localOcorrencia">—</p>
+                            </div>
+                        </div>
+
+                        <div class="campo-detalhe">
+                            <span>Observações</span>
+                            <p id="observacoesOcorrencia">Nenhuma observação registrada.</p>
+                        </div>
+
+                        <div class="campos-duplos">
+                            <div class="campo-detalhe">
+                                <span>Registrada em</span>
+                                <p id="dataCriacao">—</p>
+                            </div>
+
+                            <div class="campo-detalhe">
+                                <span>Última atualização</span>
+                                <p id="dataAtualizacao">—</p>
+                            </div>
+                        </div>
+
+                        <div class="campo-detalhe" id="campoResolucao" hidden>
+                            <span>Resolvida em</span>
+                            <p id="dataResolucao">—</p>
+                        </div>
+                    </section>
+
+                    <section class="cartao painel-detalhes">
+                        <div class="cartao-cabecalho">
+                            <div>
+                                <span class="sobretitulo">IMPACTO OPERACIONAL</span>
+                                <h2>Voos relacionados</h2>
+                            </div>
+                            <i data-lucide="plane-takeoff"></i>
+                        </div>
+
+                        <div id="listaVoos" class="lista-voos"></div>
+                    </section>
+                </div>
+
+                <div class="detalhes-coluna">
+                    <section class="cartao painel-detalhes">
+                        <div class="cartao-cabecalho">
+                            <div>
+                                <span class="sobretitulo">ACOMPANHAMENTO</span>
+                                <h2>Histórico da ocorrência</h2>
+                            </div>
+                            <i data-lucide="history"></i>
+                        </div>
+
+                        <div id="historicoOcorrencia" class="historico-ocorrencia"></div>
+                    </section>
+
+                    <section class="cartao painel-detalhes">
+                        <div class="cartao-cabecalho">
+                            <div>
+                                <span class="sobretitulo">COMUNICAÇÃO</span>
+                                <h2>Mensagens registradas</h2>
+                            </div>
+                            <i data-lucide="messages-square"></i>
+                        </div>
+
+                        <div id="mensagensOcorrencia" class="mensagens-ocorrencia"></div>
+                    </section>
+                </div>
+            </div>
+        </div>
+
+        <footer class="rodape">
+            <span>AzulTrack — Acompanhamento operacional</span>
+            <span>Informações atualizadas conforme os registros do sistema.</span>
+        </footer>
+    </main>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../supabase.js"></script>
+    <script src="detalhes.js"></script>
+</body>
+
+</html>

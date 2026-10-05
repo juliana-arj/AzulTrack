@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | AzulTrack</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <aside class="sidebar">
+        <a class="marca" href="#inicio" aria-label="AzulTrack - início">
+            <span class="marca-texto">AzulTrack</span>
+            <span class="marca-ponto">✦</span>
+        </a>
+
+        <span class="menu-titulo">MENU PRINCIPAL</span>
+
+
+        <nav class="menu-lateral">
+            <a href="index.html">
+                <i data-lucide="layout-dashboard" class="icone"></i>
+                Visão geral
+            </a>
+
+            <a href="#meu-voo">
+                <i data-lucide="plane" class="icone"></i>
+                Meus voos
+            </a>
+
+            <a href="../check-in/index.html">
+                <i data-lucide="clipboard-check" class="icone"></i>
+                Orientações
+            </a>
+
+            <a href="#notificacoes">
+                <i data-lucide="bell" class="icone"></i>
+                Notificações
+            </a>
+        </nav>
+
+        <div class="sidebar-inferior">
+            <a href="#configuracoes">
+                <span class="icone">⚙</span>
+                Configurações
+            </a>
+
+            <a href="../landingPage/index.html" class="sair">
+                <span class="icone">↪</span>
+                Voltar
+            </a>
+        </div>
+
+        <div class="sidebar-rodape">
+            <span>AZULTRACK</span>
+            <p>Sua viagem em um só lugar.</p>
+        </div>
+    </aside>
+
+    <main class="principal" id="inicio">
+
+        <header class="barra-topo">
+
+            <div class="topo-direita">
+                <a href="#notificacoes" class="icone-botao notificacao" aria-label="Ver notificações"><i
+                        data-lucide="bell" class="icone"></i></a>
+
+                <div class="data-atual">
+                    <strong>Área do cliente</strong>
+                    <span id="nomeCliente">Carregando perfil...</span>
+                </div>
+
+                <div class="avatar avatar-pequeno" id="avatarCliente">CL</div>
+            </div>
+        </header>
+
+        <header class="topo">
+            <div>
+                <span class="subtitulo">ÁREA DO CLIENTE</span>
+                <h1>Visão geral</h1>
+            </div>
+        </header>
+
+        <section class="boas-vindas">
+            <div>
+                <span class="etiqueta">BEM-VINDO A BORDO</span>
+                <h2>Sua próxima viagem começa aqui.</h2>
+                <p>Acompanhe os detalhes do seu voo e fique por dentro das atualizações.</p>
+            </div>
+
+            <div class="ilustracao-aviao">✈</div>
+        </section>
+
+        <section class="secao" id="meu-voo">
+
+            <div class="secao-cabecalho">
+                <div>
+                    <h2>Consultar voo</h2>
+                    <p>Digite o código do voo que deseja acompanhar.</p>
+                </div>
+
+                <span class="status status-azul" id="statusConsulta">
+                    Consulta de voos
+                </span>
+            </div>
+
+
+            <form class="consulta-voo" id="formConsulta">
+                <div class="consulta-campos">
+                    <div class="campo-consulta">
+                        <label for="codigoConsulta">Número do voo</label>
+                        <input type="text" id="codigoConsulta" name="codigoVoo" placeholder="Ex.: AD1234" maxlength="10"
+                            autocomplete="off" required>
+                    </div>
+
+                    <div class="campo-consulta">
+                        <label for="dataConsulta">Data do voo</label>
+                        <input type="date" id="dataConsulta" name="dataVoo" required>
+                    </div>
+
+                    <button type="submit" class="botao-principal">
+                        Consultar voo <span>→</span>
+                    </button>
+                </div>
+
+                <p class="ajuda-consulta">
+                    Consulte um voo pelo código e pela data.
+                </p>
+
+                <p class="mensagem-consulta" id="mensagemConsulta" role="status" aria-live="polite"></p>
+            </form>
+
+            <div class="secao-cabecalho resumo-cabecalho">
+                <div>
+                    <h2>Voos acompanhados</h2>
+                    <p>Gerencie os voos que você escolheu acompanhar.</p>
+                </div>
+                <span class="status status-neutro" id="contadorVoos">
+                    0 voos
+                </span>
+            </div>
+
+            <div id="listaVoosAcompanhados">
+                <div class="resultado-vazio">
+                    <h3>Nenhum voo acompanhado</h3>
+                    <p>Quando você adicionar um voo, ele aparecerá aqui.</p>
+                </div>
+            </div>
+
+            <article class="voo-card" id="resultadoVoo">
+                <div class="resultado-vazio">
+                    <div class="resultado-vazio-icone">✈</div>
+                    <h3>Consulte um voo para começar</h3>
+                    <p>O resultado da consulta aparecerá nesta área.</p>
+                </div>
+            </article>
+
+        </section>
+
+        <section class="atalhos">
+
+            <a href="../check-in/index.html" class="atalho-card">
+                <div class="atalho-icone marinho"> <i data-lucide="plane" class="icone"></i></div>
+                <div>
+                    <h3>Acompanhe seus voos.</h3>
+                    <p>Encontre o voo que você procura.</p>
+                    <span>Consultar voo →</span>
+                </div>
+            </a>
+
+            <a href="../check-in/index.html" class="atalho-card">
+                <div class="atalho-icone marinho"><i data-lucide="clipboard-check" class="icone"></i></div>
+                <div>
+                    <h3>Precisa de ajuda?</h3>
+                    <p>Encontre orientações para sua viagem.</p>
+                    <span>Acessar orientações →</span>
+                </div>
+            </a>
+
+            <a href="../configuracoes/index.html" class="atalho-card">
+                <div class="atalho-icone marinho">⚙</div>
+                <div>
+                    <h3>Gerencie seu perfil aqui.</h3>
+                    <p>Atualize seus dados.</p>
+                    <span>Acessar configurações →</span>
+                </div>
+            </a>
+
+        </section>
+
+        <section class="secao notificacoes-secao" id="notificacoes">
+            <div class="secao-cabecalho">
+                <div>
+                    <h2>Central de informações</h2>
+                    <p>Avisos e orientações para sua viagem.</p>
+                </div>
+
+                <span class="status status-neutro">Informativo</span>
+            </div>
+
+            <article class="aviso">
+                <div class="aviso-icone">i</div>
+                <div>
+                    <h3>Confira os dados da sua viagem</h3>
+                    <p>Verifique os horários, o aeroporto e os documentos necessários antes da partida.</p>
+                </div>
+            </article>
+
+            <article class="aviso">
+                <div class="aviso-icone aviso-ciano">✓</div>
+                <div>
+                    <h3>Limitações das consultas</h3>
+                    <p>Devido às limitações do plano gratuito da API, não foi possível consultar os horários programados
+                        para todas as datas futuras. Quando disponíveis, os dados de voos anteriores podem incluir os
+                        horários reais de partida e chegada. As informações devem ser confirmadas nos canais oficiais da
+                        companhia aérea.</p>
+                </div>
+            </article>
+        </section>
+
+        <footer class="rodape-dashboard">
+            <a href="#inicio" class="logo">
+                <img src="../img/logo2.png" alt="AzulTrack">
+            </a>
+
+            <p>Projeto demonstrativo — consultas sem dados operacionais reais.</p>
+        </footer>
+
+    </main>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../supabase.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

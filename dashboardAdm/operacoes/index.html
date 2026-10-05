@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova ocorrência | AzulTrack</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="cadastro-ocorrencia.css">
+</head>
+
+<body>
+    <aside class="sidebar">
+        <a class="marca" href="index.html" aria-label="AzulTrack - início">
+            <span class="marca-texto">AzulTrack</span>
+            <span class="marca-ponto">✦</span>
+        </a>
+
+        <span class="menu-titulo" style="margin-top: 30px;">PAINEL DE CONTROLE</span>
+
+        <nav class="menu-lateral">
+            <a class="menu-link" href="../index.html" data-menu="inicio">
+                <i data-lucide="layout-dashboard" class="icone"></i>
+                <span>Visão geral</span>
+            </a>
+
+            <a class="menu-link ativo" href="index.html" data-menu="atendimento" data-permissao="view_support">
+                <i data-lucide="headset" class="icone"></i>
+                <span>Abrir ocorrência</span>
+            </a>
+
+            <a class="menu-link" href="../detalhes/index.html" data-menu="gestao" data-permissao="view_reports">
+                <i data-lucide="chart-no-axes-combined" class="icone"></i>
+                <span>Ocorrências</span>
+            </a>
+
+            <a class="menu-link" href="../notificacoes/index.html" data-menu="permissoes" data-permissao="manage_settings">
+                <i data-lucide="bell" class="icone"></i>
+                <span>Notificações</span>
+            </a>
+
+            <a class="menu-link" href="../setores/index.html" data-menu="usuarios" data-permissao="manage_employees">
+                <i data-lucide="users" class="icone"></i>
+                <span>Usuários e funcionários</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-final">
+            <span class="menu-titulo">PREFERÊNCIAS</span>
+
+            <a class="menu-link" href="../index.html">
+                <i data-lucide="settings" class="icone"></i>
+                <span>Configurações</span>
+            </a>
+
+            <a class="sair" href="index.html">
+                <span>↪</span> Sair da conta
+            </a>
+        </div>
+    </aside>
+
+    <main class="principal">
+        <header class="barra-topo">
+            <div class="topo-direita">
+                <button type="button" class="icone-botao notificacao" aria-label="Notificações">
+                    <i data-lucide="bell" class="icone"></i>
+                </button>
+
+                <div class="data-atual">
+                    <strong>Central operacional</strong>
+                    <span>Registro de ocorrência</span>
+                </div>
+
+                <div class="avatar avatar-pequeno">AT</div>
+            </div>
+        </header>
+
+        <section class="cadastro-cabecalho">
+
+            <h1>Nova ocorrência operacional</h1>
+            <p>
+                Registre o problema identificado para centralizar as informações
+                e permitir o acompanhamento pelos setores envolvidos.
+            </p>
+        </section>
+
+        <section class="cartao formulario-cartao">
+            <form id="formOcorrencia">
+
+                <div class="secao-formulario">
+                    <div class="titulo-secao-formulario">
+                        <span class="numero-secao">01</span>
+                        <div>
+                            <h2>Identificação da ocorrência</h2>
+                            <p>Informe o que aconteceu e a gravidade inicial do caso.</p>
+                        </div>
+                    </div>
+
+                    <div class="grade-formulario">
+                        <label class="campo-ocorrencia campo-largo">
+                            <span>Título da ocorrência *</span>
+                            <input type="text" id="tituloOcorrencia" maxlength="150" required
+                                placeholder="Ex.: Falha técnica em aeronave">
+                        </label>
+
+                        <label class="campo-ocorrencia">
+                            <span>Categoria *</span>
+                            <select id="categoriaOcorrencia" required>
+                                <option value="">Selecione uma categoria</option>
+                                <option value="Manutenção">Manutenção</option>
+                                <option value="Condições climáticas">Condições climáticas</option>
+                                <option value="Tripulação">Tripulação</option>
+                                <option value="Infraestrutura aeroportuária">Infraestrutura aeroportuária</option>
+                                <option value="Sistema">Sistema</option>
+                                <option value="Segurança">Segurança</option>
+                                <option value="Outro">Outro</option>
+                            </select>
+                        </label>
+
+                        <label class="campo-ocorrencia">
+                            <span>Gravidade inicial *</span>
+                            <select id="gravidadeOcorrencia" required>
+                                <option value="baixa">Baixa</option>
+                                <option value="media" selected>Média</option>
+                                <option value="alta">Alta</option>
+                                <option value="critica">Crítica</option>
+                            </select>
+                        </label>
+
+                        <label class="campo-ocorrencia campo-largo">
+                            <span>Descrição detalhada *</span>
+                            <textarea id="descricaoOcorrencia" rows="5" required
+                                placeholder="Descreva o que foi identificado, as circunstâncias conhecidas e os possíveis impactos operacionais."></textarea>
+                        </label>
+
+                        <label class="campo-ocorrencia">
+                            <span>Data e horário da identificação *</span>
+                            <input type="datetime-local" id="dataIdentificacaoOcorrencia" required>
+                        </label>
+
+                        <label class="campo-ocorrencia">
+                            <span>Local da ocorrência</span>
+                            <input type="text" id="localOcorrencia" maxlength="150"
+                                placeholder="Ex.: Aeroporto de Viracopos (VCP)">
+                        </label>
+                    </div>
+                </div>
+
+                <div class="secao-formulario">
+                    <div class="titulo-secao-formulario">
+                        <span class="numero-secao">02</span>
+                        <div>
+                            <h2>Impacto operacional</h2>
+                            <p>Registre os impactos já identificados na operação aérea.</p>
+                        </div>
+                    </div>
+
+                    <div id="listaVoosOcorrencia" class="lista-voos-ocorrencia">
+                        <div class="voo-ocorrencia">
+                            <div class="grade-formulario">
+                                <label class="campo-ocorrencia">
+                                    <span>Número do voo</span>
+                                    <input type="text" name="numeroVoo" maxlength="20" placeholder="Ex.: AD1234">
+                                </label>
+
+                                <label class="campo-ocorrencia">
+                                    <span>Data da viagem</span>
+                                    <input type="date" name="dataVoo">
+                                </label>
+
+                                <label class="campo-ocorrencia">
+                                    <span>Relação com a ocorrência</span>
+                                    <select name="tipoRelacaoVoo">
+                                        <option value="">Selecione</option>
+                                        <option value="origem">Voo de origem</option>
+                                        <option value="afetado">Voo afetado</option>
+                                        <option value="conexao">Voo de conexão</option>
+                                    </select>
+                                </label>
+
+                                <label class="campo-ocorrencia">
+                                    <span>Situação do impacto</span>
+                                    <select name="situacaoImpactoVoo">
+                                        <option value="suspeito">Em avaliação</option>
+                                        <option value="confirmado">Confirmado</option>
+                                        <option value="descartado">Descartado</option>
+                                    </select>
+                                </label>
+
+                                <label class="campo-ocorrencia">
+                                    <span>Atraso estimado (minutos)</span>
+                                    <input type="number" name="atrasoEstimado" min="0" step="1"
+                                        placeholder="Se conhecido">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" class="botao botao-claro botao-adicionar-voo" id="adicionarVooOcorrencia">
+                        <i data-lucide="plus" class="icone"></i>
+                        Adicionar outro voo
+                    </button>
+
+                    <p class="ajuda-formulario">
+                        Se nenhum voo tiver sido identificado ainda, deixe os campos
+                        em branco. Os voos poderão ser relacionados posteriormente.
+                    </p>
+                </div>
+
+                <div class="secao-formulario">
+                    <div class="titulo-secao-formulario">
+                        <span class="numero-secao">03</span>
+                        <div>
+                            <h2>Responsabilidade inicial</h2>
+                            <p>Indique o setor que deverá conduzir o acompanhamento inicial.</p>
+                        </div>
+                    </div>
+
+                    <div class="grade-formulario">
+                        <label class="campo-ocorrencia campo-largo">
+                            <span>Departamento responsável *</span>
+                            <select id="departamentoOcorrencia" required>
+                                <option value="">Selecione o setor responsável</option>
+                            </select>
+                        </label>
+
+                        <label class="campo-ocorrencia campo-largo">
+                            <span>Observações complementares</span>
+                            <textarea id="observacoesOcorrencia" rows="3"
+                                placeholder="Outras informações relevantes, se houver."></textarea>
+                        </label>
+                    </div>
+                </div>
+
+                <p id="erroFormularioOcorrencia" class="erro-formulario" role="alert" aria-live="polite" hidden></p>
+
+                <div class="acoes-formulario-ocorrencia">
+                    <button type="submit" class="botao botao-azul" id="salvarOcorrencia">
+                        <i data-lucide="save" class="icone"></i>
+                        Registrar ocorrência
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <footer class="rodape">
+            <span><strong>AZUL</strong> · Central de operações</span>
+            <p>AzulTrack · Monitoramento e gerenciamento operacional.</p>
+        </footer>
+    </main>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../supabase.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

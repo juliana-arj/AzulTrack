@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orientações de Check-in | AzulTrack</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <aside class="sidebar">
+        <a class="marca" href="index.html" aria-label="AzulTrack - início">
+            <span class="marca-texto">AzulTrack</span>
+            <span class="marca-ponto">✦</span>
+        </a>
+
+        <span class="menu-titulo">MENU PRINCIPAL</span>
+
+        <nav class="menu-lateral">
+            <a href="../dashboardCliente/index.html">
+                <i data-lucide="layout-dashboard" class="icone"></i>
+                Visão geral
+            </a>
+
+            <a href="../dashboardCliente/index.html">
+                <i data-lucide="plane" class="icone"></i>
+                Meus voos
+            </a>
+
+            <a href="index.html">
+                <i data-lucide="clipboard-check" class="icone"></i>
+                Orientações
+            </a>
+
+            <a href="../dashboardCliente/index.html">
+                <i data-lucide="bell" class="icone"></i>
+                Notificações
+            </a>
+        </nav>
+
+        <div class="sidebar-inferior">
+            <a href="index.html#configuracoes">
+                <span class="icone">⚙</span>
+                Configurações
+            </a>
+
+            <a href="../landingPage/index.html" class="sair">
+                <span class="icone">↪</span>
+                Voltar
+            </a>
+        </div>
+
+        <div class="sidebar-rodape">
+            <span>AZULTRACK</span>
+            <p>Sua viagem em um só lugar.</p>
+        </div>
+    </aside>
+
+    <main class="principal">
+
+        <header class="barra-topo">
+
+            <div class="topo-direita">
+                <a href="index.html#notificacoes" class="icone-botao notificacao" aria-label="Ver notificações"><i
+                        data-lucide="bell" class="icone"></i></a>
+
+                <div class="data-atual">
+                    <strong>Área do cliente</strong>
+                    <span id="nomeCliente">Carregando perfil...</span>
+                </div>
+
+                <div class="avatar avatar-pequeno" id="avatarCliente"></div>
+            </div>
+        </header>
+
+        <div class="conteudo">
+
+            <header class="topo">
+                <div>
+                    <span class="subtitulo">ÁREA DO CLIENTE / ORIENTAÇÕES</span>
+                    <h1>Orientações de check-in</h1>
+                    <p class="descricao-topo">Prepare-se para sua viagem com informações importantes para realizar o
+                        check-in com tranquilidade.</p>
+                </div>
+            </header>
+
+            <section class="banner-orientacoes">
+                <div class="banner-icone"><i data-lucide="clipboard-check" class="icone"></i></div>
+
+                <div class="banner-texto">
+                    <span class="etiqueta">GUIA DO PASSAGEIRO</span>
+                    <h2>Sua viagem começa antes do embarque.</h2>
+                    <p>Confira as etapas, organize seus documentos e saiba o que fazer antes de chegar ao aeroporto.</p>
+                </div>
+
+                <div class="banner-aviao">✈</div>
+            </section>
+
+            <div class="conteudo-grid">
+
+                <section class="secao orientacoes-lista">
+                    <div class="secao-cabecalho">
+                        <div>
+                            <h2>Prepare-se para viajar</h2>
+                            <p>Selecione uma etapa para consultar as orientações.</p>
+                        </div>
+                    </div>
+
+                    <div class="lista-etapas">
+
+                        <details class="etapa">
+                            <summary>
+                                <span class="etapa-icone">◷</span>
+                                <span class="etapa-numero">01</span>
+                                <span class="etapa-titulo">
+                                    <strong>Quando fazer o check-in</strong>
+                                    <small>Confira os prazos da sua companhia aérea.</small>
+                                </span>
+                                <span class="etapa-seta">⌄</span>
+                            </summary>
+
+                            <div class="etapa-conteudo">
+                                <p>O check-in permite confirmar sua presença no voo e, quando disponível, obter o cartão
+                                    de embarque.</p>
+                                <ul>
+                                    <li>Consulte quando o check-in estará disponível para sua reserva.</li>
+                                    <li>Verifique os horários de abertura e encerramento nos canais oficiais da
+                                        companhia.</li>
+                                    <li>Não deixe para realizar o procedimento no último momento.</li>
+                                </ul>
+                                <div class="nota-etapa">
+                                    <strong>Importante:</strong> os prazos variam conforme a companhia aérea, o destino
+                                    e o tipo de voo.
+                                </div>
+                            </div>
+                        </details>
+
+                        <details class="etapa">
+                            <summary>
+                                <span class="etapa-icone">▤</span>
+                                <span class="etapa-numero">02</span>
+                                <span class="etapa-titulo">
+                                    <strong>Documentos necessários</strong>
+                                    <small>Saiba o que separar antes de sair de casa.</small>
+                                </span>
+                                <span class="etapa-seta">⌄</span>
+                            </summary>
+
+                            <div class="etapa-conteudo">
+                                <p>Os documentos exigidos dependem do destino, da idade do passageiro e das regras
+                                    aplicáveis à viagem.</p>
+                                <ul>
+                                    <li>Separe um documento de identificação válido e em boas condições.</li>
+                                    <li>Para viagens internacionais, confira a necessidade de passaporte, visto e outros
+                                        documentos.</li>
+                                    <li>Verifique os requisitos específicos para crianças e adolescentes.</li>
+                                    <li>Mantenha os documentos acessíveis durante o deslocamento.</li>
+                                </ul>
+                                <div class="nota-etapa">
+                                    <strong>Dica:</strong> confirme a documentação exigida nos canais oficiais antes da
+                                    viagem.
+                                </div>
+                            </div>
+                        </details>
+
+                        <details class="etapa">
+                            <summary>
+                                <span class="etapa-icone">▣</span>
+                                <span class="etapa-numero">03</span>
+                                <span class="etapa-titulo">
+                                    <strong>Bagagem</strong>
+                                    <small>Confira limites e itens permitidos.</small>
+                                </span>
+                                <span class="etapa-seta">⌄</span>
+                            </summary>
+
+                            <div class="etapa-conteudo">
+                                <p>As regras de bagagem podem variar conforme a companhia, a tarifa e o destino.</p>
+                                <ul>
+                                    <li>Confira as dimensões e o peso permitidos para a bagagem de mão.</li>
+                                    <li>Verifique se sua passagem inclui bagagem despachada.</li>
+                                    <li>Consulte as restrições para líquidos, objetos cortantes e itens especiais.</li>
+                                    <li>Identifique suas malas com informações de contato.</li>
+                                </ul>
+                                <div class="nota-etapa">
+                                    <strong>Atenção:</strong> consulte as regras específicas da companhia antes de
+                                    preparar suas malas.
+                                </div>
+                            </div>
+                        </details>
+
+                        <details class="etapa">
+                            <summary>
+                                <span class="etapa-icone">✈</span>
+                                <span class="etapa-numero">04</span>
+                                <span class="etapa-titulo">
+                                    <strong>No dia do voo</strong>
+                                    <small>Organize sua chegada ao aeroporto.</small>
+                                </span>
+                                <span class="etapa-seta">⌄</span>
+                            </summary>
+
+                            <div class="etapa-conteudo">
+                                <p>Depois de concluir o check-in, continue acompanhando as informações da sua viagem.
+                                </p>
+                                <ul>
+                                    <li>Chegue ao aeroporto com a antecedência recomendada pela companhia.</li>
+                                    <li>Se precisar despachar bagagem, localize o balcão ou ponto de atendimento
+                                        correto.</li>
+                                    <li>Confira os painéis informativos e os canais oficiais para verificar o portão.
+                                    </li>
+                                    <li>Respeite o horário de apresentação para embarque indicado pela companhia.</li>
+                                </ul>
+                                <div class="nota-etapa">
+                                    <strong>Lembre-se:</strong> o portão e os horários podem mudar. Confirme as
+                                    informações no aeroporto.
+                                </div>
+                            </div>
+                        </details>
+
+                    </div>
+                </section>
+
+                <aside class="coluna-lateral">
+
+                    <section class="painel-informativo">
+                        <div class="painel-icone">i</div>
+                        <h2>Informações importantes</h2>
+
+                        <ul class="lista-dicas">
+                            <li>O check-in online não está disponível nas mesmas condições para todos os voos.</li>
+                            <li>Em viagens internacionais, podem existir exigências adicionais.</li>
+                            <li>O cartão de embarque pode ser digital ou impresso, conforme as regras da companhia.</li>
+                            <li>Em caso de dúvidas, consulte os canais oficiais da empresa responsável pelo voo.</li>
+                        </ul>
+                    </section>
+
+                    <section class="painel-oficial">
+                        <div class="painel-icone painel-icone-ciano">↗</div>
+                        <h2>Faça o check-in oficial</h2>
+                        <p>Realize o procedimento diretamente no site ou aplicativo da companhia aérea responsável pela
+                            sua viagem.</p>
+
+                        <a href="https://www.voeazul.com.br/" target="_blank" rel="noopener noreferrer"
+                            class="botao-oficial">
+                            Acessar site da Azul <span>↗</span>
+                        </a>
+
+                        <small>Se seu voo for operado por outra companhia, utilize o canal oficial
+                            correspondente.</small>
+                    </section>
+
+                    <section class="dica-extra">
+                        <div class="dica-icone">✦</div>
+                        <div>
+                            <h3>Dica para sua viagem</h3>
+                            <p>Salve seu cartão de embarque no celular e mantenha os documentos necessários à mão.</p>
+                        </div>
+                    </section>
+
+                </aside>
+
+            </div>
+
+            <footer class="rodape-dashboard">
+                <a href="index.html" class="logo">
+                    <img src="../img/logo2.png" alt="AzulTrack">
+                </a>
+
+                <p>Projeto demonstrativo — confirme as informações nos canais oficiais.</p>
+            </footer>
+
+        </div>
+
+    </main>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../supabase.js"></script>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

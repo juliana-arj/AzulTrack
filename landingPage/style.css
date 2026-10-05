@@ -1,0 +1,1200 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 70px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 130px;
+
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+
+    z-index: 1000;
+}
+
+.navbar {
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.navbar.navbar-rolagem {
+    background-color: #012251;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.navbar.navbar-rolagem .menu a {
+    color: white;
+}
+
+.logo img {
+    width: 100px;
+    height: 45px;
+    object-fit: contain;
+}
+
+.menu {
+    display: flex;
+    gap: 30px;
+}
+
+.menu a {
+    color: #222;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.perfil {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.perfil img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hero {
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+
+    padding: 70px 8% 0;
+
+    background-image: url("../img/bannerLanding.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.hero-conteudo {
+    max-width: 500px;
+}
+
+.hero-conteudo h1 {
+    font-size: 60px;
+    font-weight: 600;
+    line-height: 1.1;
+    margin-bottom: 20px;
+}
+
+.hero-conteudo h1 span {
+    color: #1F99CF;
+}
+
+.hero-conteudo p {
+    font-size: 20px;
+    font-weight: 300;
+    margin-bottom: 30px;
+}
+
+.hero-conteudo button {
+    padding: 12px 28px;
+
+    border: none;
+    border-radius: 8px;
+
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+
+    cursor: pointer;
+}
+
+.botoes {
+    display: flex;
+    gap: 15px;
+}
+
+.botoes button {
+    color: white;
+    padding: 12px 28px;
+    border: none;
+    border-radius: 8px;
+
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+
+    cursor: pointer;
+}
+
+.corpo {
+    position: relative;
+
+    width: 100%;
+    min-height: 600px;
+
+    margin: -40px 0 0;
+
+    padding: 60px;
+
+    background-color: white;
+    background-image: url("../img/aviao.png");
+    background-repeat: no-repeat;
+    background-position: left 30px;
+    background-size: 280px auto;
+
+    border-radius: 30px 30px 0 0;
+
+    z-index: 2;
+}
+
+.corpo h2 {
+    text-align: center;
+
+    font-size: 36px;
+    font-weight: 600;
+
+    margin-top: 65px;
+    margin-bottom: 40px;
+}
+
+.cartoes {
+    display: flex;
+    width: 60%;
+    height: 550px;
+    gap: 15px;
+    margin: 0 auto;
+}
+
+.cartao-imagem {
+    width: 100%;
+    height: 100%;
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    position: relative;
+}
+
+.cartao-imagem::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background: linear-gradient(to top,
+            rgba(1, 24, 55, 0.85) 5%,
+            rgba(1, 34, 81, 0.45) 40%,
+            rgba(1, 34, 81, 0.08) 80%,
+            transparent 100%);
+}
+
+.cartao {
+    position: relative;
+
+    display: grid;
+    grid-template-columns: 1fr;
+
+    flex: 1;
+    min-width: 0;
+    height: 100%;
+
+    border-radius: 20px;
+    overflow: hidden;
+
+    transition: flex 0.5s ease, grid-template-columns 0.5s ease;
+}
+
+.cartao:hover {
+    flex: 3;
+    grid-template-columns: 1fr 2fr;
+}
+
+.cartao-imagem {
+    width: 100%;
+    height: 100%;
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.cartao-informacoes {
+    position: absolute;
+
+    left: 70px;
+    bottom: 0;
+
+    z-index: 2;
+
+    color: white;
+
+    height: 180px;
+    display: flex;
+    align-items: flex-end;
+    white-space: nowrap;
+}
+
+.cartao h3 {
+    font-size: 26px;
+    font-weight: 600;
+
+    margin-bottom: 30px;
+    line-height: 1;
+
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+}
+
+.cartao p {
+    margin: 10px 0 0;
+
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.6;
+
+    opacity: 0;
+}
+
+.cartao:hover .cartao-informacoes {
+    left: 33.33%;
+    right: 0;
+    bottom: 0;
+
+    width: 66.67%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+
+    padding: 30px;
+
+    background-color: rgb(208, 243, 255);
+    color: #222;
+}
+
+.cartao:hover h3 {
+    writing-mode: horizontal-tb;
+    transform: none;
+
+    margin: 0;
+    white-space: normal;
+}
+
+.cartao:hover p {
+    opacity: 1;
+    white-space: normal;
+}
+
+
+.cartao:nth-child(1) .cartao-imagem {
+    background-image: url("../img/card1.png");
+}
+
+.cartao:nth-child(2) .cartao-imagem {
+    background-image: url("../img/card2.png");
+}
+
+.cartao:nth-child(3) .cartao-imagem {
+    background-image: url("../img/card3.png");
+}
+
+.cartao:nth-child(4) .cartao-imagem {
+    background-image: url("../img/card4.png");
+}
+
+.cartao:nth-child(5) .cartao-imagem {
+    background-image: url("../img/card5.png");
+}
+
+.transicao {
+    position: relative;
+
+    width: 100%;
+    min-height: 1400px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    background: linear-gradient(110deg,
+            #034CB0 0%,
+            #2085C8 50%,
+            #49B8DE 100%);
+}
+
+.jornada {
+    position: relative;
+
+    width: 100%;
+    max-width: 1100px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    z-index: 2;
+}
+
+.jornada h2 {
+    color: white;
+
+    font-size: 36px;
+    font-weight: 600;
+
+    text-align: center;
+
+    margin-bottom: 50px;
+}
+
+.etapas {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.etapa {
+    width: 210px;
+    height: 210px;
+}
+
+.etapa-card {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 25px;
+
+    background-color: white;
+
+    border-radius: 20px;
+
+    text-align: center;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+
+    transition: transform 0.3s ease;
+}
+
+.etapa-card:hover {
+    transform: translateY(-8px);
+}
+
+.etapa-card h3 {
+    color: #1F99CF;
+
+    font-size: 24px;
+    font-weight: 600;
+
+    margin-bottom: 10px;
+}
+
+.etapa-card p {
+    color: #555;
+
+    font-size: 14px;
+    font-weight: 400;
+
+    line-height: 1.5;
+}
+
+.seta {
+    color: white;
+
+    font-size: 40px;
+    font-weight: 300;
+
+    margin: 0 15px;
+}
+
+.nuvem-superior,
+.nuvem-inferior {
+    position: absolute;
+
+    width: 100%;
+    height: auto;
+
+    left: 0;
+
+    z-index: 3;
+
+    pointer-events: none;
+}
+
+.nuvem-superior {
+    top: -1px;
+}
+
+.nuvem-inferior {
+    bottom: -1px;
+}
+
+.cadastro {
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+
+    padding: 70px 40px;
+
+    background-color: white;
+}
+
+.cadastro-card {
+    width: 100%;
+    max-width: 1100px;
+    min-height: 257px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 30px 40px;
+
+    background-color: #F0FAFE;
+
+    border: 1px solid #C8E6F5;
+    border-radius: 14px;
+    margin-bottom: 100px;
+}
+
+.cadastro-logo {
+    width: 35%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cadastro-logo img {
+    width: 200px;
+    height: auto;
+    object-fit: contain;
+}
+
+.cadastro-texto {
+    width: 40%;
+}
+
+.cadastro-texto h2 {
+    color: #111;
+
+    font-size: 24px;
+    font-weight: 600;
+
+    line-height: 1.3;
+
+    margin-bottom: 18px;
+}
+
+.cadastro-texto h2 span {
+    color: #1F99CF;
+}
+
+.cadastro-texto p {
+    color: #444;
+
+    font-size: 14px;
+    font-weight: 400;
+
+    line-height: 1.5;
+}
+
+.cadastro-botoes {
+    width: 25%;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 20px;
+}
+
+.cadastro-botoes button {
+    width: 153px;
+    height: 47px;
+
+    border: none;
+    border-radius: 9px;
+
+    background-color: #2499CF;
+
+    color: white;
+
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+
+    cursor: pointer;
+
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.cadastro-botoes button:hover {
+    background-color: #2085C8;
+
+    transform: translateY(-2px);
+}
+
+.rodape {
+    width: 100%;
+
+    padding: 60px 8% 25px;
+
+    background-color: #012251;
+
+    color: white;
+}
+
+.rodape-conteudo {
+    max-width: 1200px;
+
+    margin: 0 auto;
+
+    display: flex;
+    justify-content: space-between;
+
+    gap: 80px;
+}
+
+.rodape-marca {
+    width: 30%;
+}
+
+.rodape-marca img {
+    width: 150px;
+    height: auto;
+
+    margin-bottom: 20px;
+}
+
+.rodape-marca p {
+    max-width: 250px;
+
+    color: rgba(255, 255, 255, 0.7);
+
+    font-size: 14px;
+    font-weight: 300;
+
+    line-height: 1.6;
+}
+
+.rodape-links {
+    width: 60%;
+
+    display: flex;
+    justify-content: space-between;
+
+    gap: 50px;
+}
+
+.rodape-links div {
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+.rodape-links h3 {
+    margin-bottom: 10px;
+
+    color: white;
+
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.rodape-links a,
+.rodape-politicas a {
+    color: rgba(255, 255, 255, 0.7);
+
+    text-decoration: none;
+
+    font-size: 14px;
+    font-weight: 300;
+
+    transition: color 0.2s ease;
+}
+
+.rodape-links a:hover,
+.rodape-politicas a:hover {
+    color: #22B5EA;
+}
+
+.rodape-linha {
+    max-width: 1200px;
+
+    height: 1px;
+
+    margin: 40px auto 20px;
+
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.rodape-inferior {
+    max-width: 1200px;
+
+    margin: 0 auto;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.rodape-inferior p {
+    color: rgba(255, 255, 255, 0.5);
+
+    font-size: 12px;
+    font-weight: 300;
+}
+
+.rodape-politicas {
+    display: flex;
+    gap: 25px;
+}
+
+
+.perfil {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.botao-login-nav {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 9px 22px;
+    border-radius: 9px;
+    background-color: #153562;
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+
+.botao-login-nav:hover {
+    background-color: #1F99CF;
+}
+
+.avatar-perfil {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: none;
+    border-radius: 50%;
+    background-color: #1F99CF;
+    color: #fff;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.avatar-perfil:hover {
+    background-color: #153562;
+}
+
+
+.perfil {
+    position: relative;
+    overflow: visible;
+}
+
+
+.menu-perfil {
+    display: none;
+    position: absolute;
+    top: 52px;
+    right: 0;
+    width: 125px;
+    padding: 5px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1001;
+}
+
+.menu-perfil.aberto {
+    display: block;
+}
+
+.botao-sair {
+    width: 100%;
+    padding: 7px 8px;
+    border: none;
+    border-radius: 5px;
+    background: white;
+    color: #012251;
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    text-align: left;
+    cursor: pointer;
+}
+
+.botao-sair:hover {
+    background: #f0f5fa;
+    color: #d32f2f;
+}
+
+@media (max-width: 1000px) {
+
+    .navbar {
+        padding: 0 20px;
+    }
+
+    .menu {
+        gap: 18px;
+    }
+
+    .menu a {
+        font-size: 14px;
+    }
+
+    .hero {
+        background-position: 60% center;
+        padding: 100px 6% 40px;
+    }
+
+    .hero-conteudo {
+        max-width: 450px;
+    }
+
+    .hero-conteudo h1 {
+        font-size: 48px;
+    }
+
+    .hero-conteudo p {
+        font-size: 17px;
+    }
+
+    .corpo {
+        padding: 40px 30px;
+        background-size: 200px auto;
+    }
+
+    .corpo h2 {
+        font-size: 30px;
+        margin-top: 50px;
+    }
+
+    .cartoes {
+        width: 100%;
+        height: 450px;
+        gap: 12px;
+    }
+
+    .cartao h3 {
+        font-size: 21px;
+    }
+
+    .cartao-informacoes {
+        left: 25px;
+    }
+
+    .cartao:hover .cartao-informacoes {
+        padding: 20px;
+    }
+
+    .cartao:hover .cartao-informacoes h3 {
+        font-size: 20px;
+    }
+
+    .cartao p {
+        font-size: 13px;
+    }
+
+    .transicao {
+        min-height: 1000px;
+        padding: 180px 25px;
+    }
+
+    .jornada h2 {
+        font-size: 30px;
+    }
+
+    .etapas {
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .etapa {
+        width: 190px;
+        height: 190px;
+    }
+
+    .seta {
+        margin: 0;
+    }
+
+    .cadastro-card {
+        padding: 25px;
+    }
+
+    .cadastro-logo img {
+        width: 150px;
+    }
+
+    .cadastro-texto h2 {
+        font-size: 21px;
+    }
+
+    .rodape-conteudo {
+        gap: 40px;
+    }
+
+    .rodape-links {
+        gap: 25px;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .navbar {
+        height: 65px;
+        padding: 0 15px;
+    }
+
+    .logo img {
+        width: 75px;
+        height: 40px;
+    }
+
+    .menu {
+        gap: 12px;
+    }
+
+    .menu a {
+        font-size: 11px;
+    }
+
+    .perfil {
+        width: 34px;
+        height: 34px;
+        flex-shrink: 0;
+    }
+
+    .hero {
+        min-height: 750px;
+        min-height: 100svh;
+        padding: 100px 25px 50px;
+        background-position: 60% center;
+    }
+
+    .hero-conteudo {
+        max-width: 100%;
+    }
+
+    .hero-conteudo h1 {
+        font-size: clamp(36px, 9vw, 48px);
+        line-height: 1.15;
+    }
+
+    .hero-conteudo p {
+        font-size: 16px;
+        line-height: 1.6;
+    }
+
+    .botoes {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .botoes button {
+        padding: 11px 17px;
+        font-size: 14px;
+    }
+
+    .corpo {
+        padding: 35px 20px 50px;
+        margin-top: -25px;
+        background-size: 130px auto;
+        background-position: left 15px;
+        border-radius: 22px 22px 0 0;
+    }
+
+    .corpo h2 {
+        font-size: 23px;
+        line-height: 1.4;
+        margin-top: 35px;
+        margin-bottom: 30px;
+    }
+
+    .cartoes {
+        width: 100%;
+        height: auto;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .cartao,
+    .cartao:hover {
+        display: block;
+        height: 320px;
+        min-height: 320px;
+        flex: none;
+        border-radius: 16px;
+        transform: none;
+    }
+
+    .cartao-imagem {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .cartao-informacoes,
+    .cartao:hover .cartao-informacoes {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: auto;
+        min-height: 110px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: flex-start;
+        white-space: normal;
+        background: transparent;
+        color: white;
+    }
+
+    .cartao h3,
+    .cartao:hover h3 {
+        writing-mode: horizontal-tb;
+        transform: none;
+        font-size: 21px;
+        line-height: 1.3;
+        margin: 0;
+        white-space: normal;
+    }
+
+    .cartao p,
+    .cartao:hover p {
+        opacity: 1;
+        font-size: 13px;
+        line-height: 1.5;
+        margin-top: 8px;
+        white-space: normal;
+    }
+
+    .transicao {
+        min-height: auto;
+        padding: 180px 20px;
+    }
+
+    .jornada {
+        padding: 20px 0;
+    }
+
+    .jornada h2 {
+        font-size: 24px;
+        line-height: 1.4;
+        margin-bottom: 30px;
+    }
+
+    .etapas {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .etapa {
+        width: min(100%, 280px);
+        height: 180px;
+    }
+
+    .etapa-card {
+        padding: 20px;
+    }
+
+    .etapa-card h3 {
+        font-size: 22px;
+    }
+
+    .seta {
+        font-size: 30px;
+        transform: rotate(90deg);
+    }
+
+    .nuvem-superior,
+    .nuvem-inferior {
+        width: 180%;
+        max-width: none;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .cadastro {
+        padding: 40px 20px;
+    }
+
+    .cadastro-card {
+        min-height: auto;
+        flex-direction: column;
+        text-align: center;
+        gap: 25px;
+        padding: 30px 20px;
+        margin-bottom: 20px;
+    }
+
+    .cadastro-logo,
+    .cadastro-texto,
+    .cadastro-botoes {
+        width: 100%;
+    }
+
+    .cadastro-logo img {
+        width: 130px;
+    }
+
+    .cadastro-texto h2 {
+        font-size: 23px;
+    }
+
+    .cadastro-texto p {
+        font-size: 14px;
+    }
+
+    .cadastro-botoes {
+        align-items: center;
+        gap: 12px;
+    }
+
+    .cadastro-botoes button {
+        width: 100%;
+        max-width: 250px;
+    }
+
+    .rodape {
+        padding: 40px 25px 25px;
+    }
+
+    .rodape-conteudo {
+        flex-direction: column;
+        gap: 35px;
+    }
+
+    .rodape-marca {
+        width: 100%;
+    }
+
+    .rodape-links {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 30px 20px;
+    }
+
+    .rodape-links h3 {
+        font-size: 15px;
+    }
+
+    .rodape-links a {
+        font-size: 13px;
+    }
+
+    .rodape-linha {
+        margin: 30px auto 20px;
+    }
+
+    .rodape-inferior {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .rodape-inferior p {
+        font-size: 11px;
+        line-height: 1.5;
+    }
+
+    .rodape-politicas {
+        gap: 20px;
+    }
+}
+
+@media (max-width: 380px) {
+
+    .navbar {
+        padding: 0 10px;
+    }
+
+    .logo img {
+        width: 60px;
+    }
+
+    .menu {
+        gap: 8px;
+    }
+
+    .menu a {
+        font-size: 10px;
+    }
+
+    .perfil {
+        width: 29px;
+        height: 29px;
+    }
+
+    .hero {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .hero-conteudo h1 {
+        font-size: 34px;
+    }
+
+    .botoes button {
+        padding: 10px 12px;
+        font-size: 13px;
+    }
+
+    .corpo h2 {
+        font-size: 20px;
+    }
+
+    .cartao {
+        height: 290px;
+        min-height: 290px;
+    }
+
+    .cartao h3,
+    .cartao:hover h3 {
+        font-size: 19px;
+    }
+
+    .rodape-links {
+        grid-template-columns: 1fr 1fr;
+        gap: 25px 12px;
+    }
+}

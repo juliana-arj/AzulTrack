@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Azul</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <main class="pagina-login">
+
+        <section class="apresentacao">
+            <div class="texto-apresentacao">
+                <p class="identificacao">ÁREA DO CLIENTE</p>
+
+                <h1>
+                    Sua jornada continua <span> aqui.</span>
+                </h1>
+
+                <p>
+                    Acesse sua conta e acompanhe suas informações
+                    com praticidade, segurança e tranquilidade.
+                </p>
+            </div>
+        </section>
+
+        <section class="area-formulario">
+
+            <img src="../img/nuvem1.png" alt="" class="imagem-nuvem">
+
+            <div class="painel-branco">
+                <div class="formulario">
+                    <p class="subtitulo">ÁREA DO CLIENTE</p>
+                    <h2>Acesse sua conta</h2>
+                    <p class="descricao">Entre com seus dados para continuar.</p>
+
+                    <form id="formLogin">
+
+                        <div class="campo">
+                            <label for="usuario">E-mail</label>
+                            <input type="email" id="usuario" name="usuario" placeholder="Digite seu e-mail"
+                                autocomplete="username" required>
+                        </div>
+
+                        <div class="campo">
+                            <label for="senha">Senha</label>
+                            <input type="password" id="senha" name="senha" placeholder="Digite sua senha"
+                                autocomplete="current-password" required>
+                        </div>
+
+                        <div class="opcoes">
+                            <label class="lembrar">
+                                <input type="checkbox" name="lembrar">
+                                Lembrar de mim
+                            </label>
+
+                            <a href="#">Esqueceu sua senha?</a>
+                        </div>
+
+                        <button type="submit" class="botao-entrar" id="botaoEntrar">
+                            Entrar
+                        </button>
+
+                        <p id="mensagemLogin" class="mensagem-login" role="status" aria-live="polite"></p>
+                    </form>
+
+                    <p class="cadastro">
+                        Ainda não tem uma conta?
+                        <a href="../cadastro/index.html">Cadastre-se</a>
+                    </p>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../supabase.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

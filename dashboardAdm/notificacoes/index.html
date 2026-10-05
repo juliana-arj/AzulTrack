@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notificações | AzulTrack</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+    <aside class="sidebar">
+        <a class="marca" href="index.html" aria-label="AzulTrack - início">
+            <span class="marca-texto">AzulTrack</span>
+            <span class="marca-ponto">✦</span>
+        </a>
+
+        <span class="menu-titulo" style="margin-top: 30px;">PAINEL DE CONTROLE</span>
+
+        <nav class="menu-lateral">
+            <a class="menu-link" href="../index.html" data-menu="inicio">
+                <i data-lucide="layout-dashboard" class="icone"></i>
+                <span>Visão geral</span>
+            </a>
+
+            <a class="menu-link" href="../operacoes/index.html" data-menu="atendimento" data-permissao="view_support">
+                <i data-lucide="headset" class="icone"></i>
+                <span>Abrir ocorrência</span>
+            </a>
+
+            <a class="menu-link" href="../detalhes/index.html" data-menu="gestao" data-permissao="view_reports">
+                <i data-lucide="chart-no-axes-combined" class="icone"></i>
+                <span>Ocorrências</span>
+            </a>
+
+            <a class="menu-link ativo" href="index.html" data-menu="permissoes" data-permissao="manage_settings">
+                <i data-lucide="bell" class="icone"></i>
+                <span>Notificações</span>
+            </a>
+
+            <a class="menu-link" href="../setores/index.html" data-menu="usuarios" data-permissao="manage_employees">
+                <i data-lucide="users" class="icone"></i>
+                <span>Usuários e funcionários</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-final">
+            <span class="menu-titulo">PREFERÊNCIAS</span>
+
+            <a class="menu-link" href="../index.html">
+                <i data-lucide="settings" class="icone"></i>
+                <span>Configurações</span>
+            </a>
+            <a class="sair" href="../../login/index.html" id="sairConta">
+                <span>↪</span> Sair da conta
+            </a>
+        </div>
+    </aside>
+
+    <main class="principal">
+        <header class="barra-topo">
+            <div class="topo-direita">
+                <div class="data-atual">
+                    <strong id="nomeDepartamento">Central de notificações</strong>
+                    <span id="nomeUsuario">Carregando perfil...</span>
+                </div>
+
+                <div class="avatar avatar-pequeno" id="avatarUsuario">AT</div>
+            </div>
+        </header>
+
+        <section class="cabecalho-operacoes">
+            <div>
+                <span class="sobretitulo">CENTRAL DE NOTIFICAÇÕES</span>
+                <h1>Notificações</h1>
+                <p>Acompanhe os avisos e as atualizações relevantes para sua área.</p>
+            </div>
+
+            <button type="button" class="botao-atualizar" id="atualizarNotificacoes">
+                <i data-lucide="refresh-cw" class="icone"></i>
+                Atualizar
+            </button>
+        </section>
+
+        <section class="indicadores" aria-label="Resumo das notificações">
+            <article class="indicador">
+                <div class="indicador-topo">
+                    <i data-lucide="bell" class="icone"></i>
+                </div>
+                <span class="indicador-label">Total</span>
+                <strong class="indicador-numero" id="totalNotificacoes">—</strong>
+                <span class="indicador-nota">Notificações recebidas</span>
+            </article>
+
+            <article class="indicador">
+                <div class="indicador-topo">
+                    <i data-lucide="mail" class="icone"></i>
+                </div>
+                <span class="indicador-label">Não lidas</span>
+                <strong class="indicador-numero" id="naoLidasNotificacoes">—</strong>
+                <span class="indicador-nota">Aguardando leitura</span>
+            </article>
+
+            <article class="indicador">
+                <div class="indicador-topo">
+                    <i data-lucide="mail-open" class="icone"></i>
+                </div>
+                <span class="indicador-label">Lidas</span>
+                <strong class="indicador-numero" id="lidasNotificacoes">—</strong>
+                <span class="indicador-nota">Notificações consultadas</span>
+            </article>
+        </section>
+
+        <section class="cartao notificacoes-cartao">
+            <div class="cartao-cabecalho">
+                <div>
+                    <h2>Seus avisos</h2>
+                    <p>Consulte as atualizações destinadas à sua conta.</p>
+                </div>
+
+                <button type="button" class="botao-marcar-todas" id="marcarTodasLidas">
+                    Marcar todas como lidas
+                </button>
+            </div>
+
+            <div class="filtros-notificacoes">
+                <label>
+                    <span>Pesquisar</span>
+                    <div class="campo-pesquisa">
+                        <i data-lucide="search" class="icone"></i>
+                        <input type="search" style="border: none;" id="pesquisaNotificacao"
+                            placeholder="Pesquisar nos avisos">
+                    </div>
+                </label>
+
+                <label>
+                    <span>Exibir</span>
+                    <select id="filtroLeitura">
+                        <option value="todas">Todas</option>
+                        <option value="nao_lidas">Não lidas</option>
+                        <option value="lidas">Lidas</option>
+                    </select>
+                </label>
+            </div>
+
+            <div id="mensagemNotificacoes" class="mensagem-notificacoes" role="status" aria-live="polite">
+                Carregando notificações...
+            </div>
+
+            <div id="listaNotificacoes" class="lista-notificacoes"></div>
+        </section>
+
+        <footer class="rodape">
+            <span><strong>AZUL</strong> · Central de notificações</span>
+            <p>AzulTrack · Monitoramento e gerenciamento operacional.</p>
+        </footer>
+    </main>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../supabase.js"></script>
+    <script src="./script.js"></script>
+</body>
+
+</html>
