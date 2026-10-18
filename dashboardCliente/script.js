@@ -70,7 +70,7 @@ function obterIniciais(nome) {
     const partes = (nome || "Cliente").trim().split(/\s+/);
 
     if (partes.length === 1) {
-        return partes[0].slice(0, 2).toUpperCase();
+        return partes[0][0].toUpperCase();
     }
 
     return (
@@ -141,23 +141,20 @@ async function inicializarDashboard() {
 }
 
 async function carregarPerfil() {
-    const { data, error } = await supabaseClient
-        .from("profiles")
-        .select("display_name, role")
-        .eq("id", usuarioAtual.id)
-        .maybeSingle();
+    const nome =
+        usuarioAtual.user_metadata?.full_name ||
+        usuarioAtual.user_metadata?.nome_completo ||
+        usuarioAtual.email?.split("@")[0] ||
+        "Cliente";
 
-    if (error || !data) {
-        nomeCliente.textContent = "Cliente";
-        console.error("Erro ao carregar perfil:", error);
-        return;
+    if (nomeCliente) {
+        nomeCliente.textContent = nome;
     }
 
-    const nome = data.display_name || "Cliente";
-
-    nomeCliente.textContent = `Olá, ${nome}`;
-    avatarCliente.textContent = obterIniciais(nome);
-    avatarCliente.title = nome;
+    if (avatarCliente) {
+        avatarCliente.textContent = obterIniciais(nome);
+        avatarCliente.title = nome;
+    }
 }
 
 async function carregarVoos() {
@@ -268,8 +265,17 @@ async function consultarVoo(numero, data) {
         const numeroVoo = voo.flight?.iata ?? numero;
         const origem = voo.departure?.airport ?? "Não informada";
         const destino = voo.arrival?.airport ?? "Não informado";
-        const partida = formatarHorario(voo.departure?.scheduled);
-        const chegada = formatarHorario(voo.arrival?.scheduled);
+        const partida = formatarHorario(
+            voo.departure?.actual ||
+            voo.departure?.estimated ||
+            voo.departure?.scheduled
+        );
+
+        const chegada = formatarHorario(
+            voo.arrival?.actual ||
+            voo.arrival?.estimated ||
+            voo.arrival?.scheduled
+        );
         const status = traduzirStatus(voo.flight_status);
 
         mensagem.textContent = "";
@@ -303,15 +309,30 @@ async function consultarVoo(numero, data) {
                         <strong>${formatarData(data)}</strong>
                     </div>
                     <div>
-                        <span>Partida prevista</span>
+                        <span>Partida</span>
                         <strong>${escaparHTML(partida)}</strong>
                     </div>
                     <div>
-                        <span>Chegada prevista</span>
+                        <span>Chegada</span>
                         <strong>${escaparHTML(chegada)}</strong>
                     </div>
+                    <div>
+                        <span>Terminal de partida</span>
+                        <strong>${escaparHTML(voo.departure?.terminal || "Não informado")}</strong>
+                    </div>
+                    <div>
+                        <span>Portão de partida</span>
+                        <strong>${escaparHTML(voo.departure?.gate || "Não informado")}</strong>
+                    </div>
+                    <div>
+                        <span>Terminal de chegada</span>
+                        <strong>${escaparHTML(voo.arrival?.terminal || "Não informado")}</strong>
+                    </div>
+                    <div>
+                        <span>Portão de chegada</span>
+                        <strong>${escaparHTML(voo.arrival?.gate || "Não informado")}</strong>
+                    </div>
                 </div>
-
                 <button type="button" class="botao-principal botao-acompanhar">
                     Acompanhar este voo
                 </button>
@@ -453,93 +474,52 @@ buscaRapida?.addEventListener("submit", async evento => {
     await consultarVoo(numero, dataConsulta.value);
 });
 
+
 async function carregarNotificacoes() {
     if (!usuarioAtual) return;
 
-    const { data, error } = await supabaseClient
+    const bolinha = document.getElementById("bolinhaNotificacoes");
+
+    const { count, error } = await supabaseClient
         .from("notifications")
-        .select("id, title, message, read_at, created_at")
+        .select("id", { count: "exact", head: true })
         .eq("user_id", usuarioAtual.id)
-        .order("created_at", { ascending: false })
-        .limit(10);
+        .not("source_update_id", "is", null)
+        .is("read_at", null);
 
     if (error) {
-        console.error("Erro ao carregar notificações:", error);
+        console.error("Erro ao consultar notificações:", error);
         return;
     }
 
-    const secao = document.getElementById("notificacoes");
-    if (!secao) return;
+    const quantidade = count || 0;
 
-    secao.querySelectorAll(".notificacao-dinamica")
-        .forEach(item => item.remove());
-
-    const contador = document.querySelector(".contador");
-    const naoLidas = (data || []).filter(item => !item.read_at).length;
-
-    if (contador) {
-        contador.textContent = naoLidas;
-        contador.hidden = naoLidas === 0;
+    if (bolinha) {
+        bolinha.hidden = quantidade === 0;
     }
 
-    data.forEach(item => {
-        secao.insertAdjacentHTML("beforeend", `
-            <article class="aviso notificacao-dinamica">
-                <div class="aviso-icone">${item.read_at ? "✓" : "i"}</div>
-                <div>
-                    <h3>${escaparHTML(item.title)}</h3>
-                    <p>${escaparHTML(item.message)}</p>
-                    <small>
-                        ${new Date(item.created_at).toLocaleString("pt-BR")}
-                        ${item.read_at ? " · Lida" : " · Não lida"}
-                    </small>
-                </div>
-            </article>
-        `);
-    });
+    const botao = document.getElementById("botaoNotificacoes");
+
+    if (botao) {
+        botao.setAttribute(
+            "aria-label",
+            quantidade > 0
+                ? `Notificações, ${quantidade} não lidas`
+                : "Notificações"
+        );
+    }
 }
 
-if (supabaseClient) {
-    supabaseClient.auth.onAuthStateChange((evento, session) => {
+
+document.addEventListener("DOMContentLoaded", () => {
+    if (window.lucide) lucide.createIcons();
+    inicializarDashboard();
+});
+
+if (window.supabaseClient) {
+    supabaseClient.auth.onAuthStateChange((evento) => {
         if (evento === "SIGNED_OUT") {
-            usuarioAtual = null;
-            window.location.replace("../login/index.html");
-        } else if (evento === "SIGNED_IN" && session) {
-            window.location.reload();
+            window.location.replace("../landingPage/index.html");
         }
     });
-
-    inicializarDashboard();
-} else {
-    mostrarMensagem("Não foi possível conectar ao Supabase.");
 }
-
-async function verificarAutenticacao() {
-    const { data, error } = await supabaseClient.auth.getSession();
-
-    if (error || !data.session) {
-        window.location.replace("../login/index.html");
-        return false;
-    }
-
-    return true;
-}
-
-document.addEventListener("DOMContentLoaded", async () => {
-    const autenticado = await verificarAutenticacao();
-
-    if (!autenticado) {
-        return;
-    }
-
-    inicializarDashboard();
-});
-
-supabaseClient.auth.onAuthStateChange((evento, sessao) => {
-    if (evento === "SIGNED_OUT" || !sessao) {
-        window.location.replace("../login/index.html");
-    }
-});
-
-lucide.createIcons();
-

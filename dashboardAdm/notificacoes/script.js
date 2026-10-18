@@ -10,8 +10,8 @@
     const naoLidas = document.getElementById("naoLidasNotificacoes");
     const lidas = document.getElementById("lidasNotificacoes");
 
-    const nomeDepartamento = document.getElementById("nomeDepartamento");
     const nomeUsuario = document.getElementById("nomeUsuario");
+    const departamentoUsuario = document.getElementById("departamentoUsuario");
     const avatarUsuario = document.getElementById("avatarUsuario");
 
     let usuarioAtual = null;
@@ -130,51 +130,69 @@
         atualizarIcones();
     }
 
+
+
     async function carregarPerfil() {
         const { data: { user }, error: erroUsuario } =
             await supabase.auth.getUser();
 
-        if (erroUsuario) throw erroUsuario;
-
-        if (!user) {
-            window.location.href = "../../login/index.html";
+        if (erroUsuario) {
+            console.error("Erro ao verificar autenticação:", erroUsuario);
+            window.location.replace("../../login/index.html");
             return false;
         }
 
-        usuarioAtual = user;
+        if (!user) {
+            window.location.replace("../../login/index.html");
+            return false;
+        }
 
         const { data: perfil, error } = await supabase
             .from("profiles")
             .select("display_name, department_id, role")
             .eq("id", user.id)
-            .single();
+            .maybeSingle();
 
-        if (error) throw error;
+        if (error) {
+            console.error("Erro ao carregar perfil:", error);
+            exibirMensagem("Não foi possível verificar seu acesso.", true);
+            return false;
+        }
 
-        nomeUsuario.textContent =
-            perfil.display_name || user.email || "Usuário";
+        if (!perfil || (perfil.role !== "super_admin" && !perfil.department_id)) {
+            await supabase.auth.signOut();
+            window.location.replace("../../login/index.html");
+            return false;
+        }
+
+        usuarioAtual = user;
+
+        const nome = perfil.display_name || user.email || "Usuário";
+
+        nomeUsuario.textContent = nome;
 
         const departamentos = {
             atendimento: "Atendimento",
             comunicacao: "Comunicação",
             operacoes: "Operações",
-            gestao: "Gestão"
+            gestao: "Gestão",
+            cco: "Centro de Controle Operacional",
+            comercial: "Comercial",
+            handling: "Handling",
+            manutencao: "Manutenção"
         };
 
-        nomeDepartamento.textContent =
+        departamentoUsuario.textContent =
             perfil.role === "super_admin"
-                ? "Administrador geral"
-                : departamentos[perfil.department_id] || "Central de notificações";
+                ? "Super administrador"
+                : departamentos[perfil.department_id] || "Departamento definido";
 
-        const nome = perfil.display_name || user.email || "AT";
+        
+        const partesNome = nome.trim().split(/\s+/).filter(Boolean);
 
-        avatarUsuario.textContent = nome
-            .split(/\s+/)
-            .filter(Boolean)
-            .slice(0, 2)
-            .map(parte => parte[0])
-            .join("")
-            .toUpperCase();
+        avatarUsuario.textContent = partesNome.length > 1
+            ? `${partesNome[0][0]}${partesNome[partesNome.length - 1][0]}`.toUpperCase()
+            : partesNome[0][0].toUpperCase();
 
         return true;
     }
@@ -292,6 +310,50 @@
 
         window.location.href = "../../login/index.html";
     });
+
+    async function controlarAcessosSidebar() {
+        const linkDepartamento = document.getElementById("linkDepartamento");
+        const linkUsuarios = document.getElementById("linkUsuarios");
+
+        if (linkDepartamento) linkDepartamento.hidden = true;
+        if (linkUsuarios) linkUsuarios.hidden = true;
+
+        if (!window.supabaseClient) return;
+
+        const { data: sessaoData } = await window.supabaseClient.auth.getSession();
+        const usuario = sessaoData?.session?.user;
+
+        if (!usuario) return;
+
+        const { data: perfil, error } = await window.supabaseClient
+            .from("profiles")
+            .select("role, department_id")
+            .eq("id", usuario.id)
+            .maybeSingle();
+
+        if (error || !perfil) return;
+
+        const cargo = String(perfil.role || "")
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .toLowerCase()
+            .replace(/[^a-z0-9]/g, "");
+
+        const ehSuperAdmin = [
+            "superadmin",
+            "superadministrador"
+        ].includes(cargo);
+
+        if (linkDepartamento) {
+            linkDepartamento.hidden = ehSuperAdmin || !perfil.department_id;
+        }
+
+        if (linkUsuarios) {
+            linkUsuarios.hidden = !ehSuperAdmin;
+        }
+    }
+
+    controlarAcessosSidebar();
 
     async function iniciar() {
         try {

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | AzulTrack</title>
-
+    <link rel="icon" type="image/png" href="../img/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
@@ -26,12 +26,12 @@
 
 
         <nav class="menu-lateral">
-            <a href="index.html">
+            <a href="index.html" class="ativo">
                 <i data-lucide="layout-dashboard" class="icone"></i>
                 Visão geral
             </a>
 
-            <a href="#meu-voo">
+            <a href="../voos/index.html">
                 <i data-lucide="plane" class="icone"></i>
                 Meus voos
             </a>
@@ -41,7 +41,7 @@
                 Orientações
             </a>
 
-            <a href="#notificacoes">
+            <a href="../notificacoes/index.html">
                 <i data-lucide="bell" class="icone"></i>
                 Notificações
             </a>
@@ -49,12 +49,12 @@
 
         <div class="sidebar-inferior">
             <a href="#configuracoes">
-                <span class="icone">⚙</span>
+                <i data-lucide="settings" class="icone"></i>
                 Configurações
             </a>
 
             <a href="../landingPage/index.html" class="sair">
-                <span class="icone">↪</span>
+                <i data-lucide="log-out" class="icone"></i>
                 Voltar
             </a>
         </div>
@@ -68,37 +68,35 @@
     <main class="principal" id="inicio">
 
         <header class="barra-topo">
-
             <div class="topo-direita">
-                <a href="#notificacoes" class="icone-botao notificacao" aria-label="Ver notificações"><i
-                        data-lucide="bell" class="icone"></i></a>
-
+                <button type="button" class="icone-botao notificacao" id="botaoNotificacoes" aria-label="Notificações"
+                    title="Ver notificações" onclick="window.location.href='../notificacoes/index.html'">
+                    <i data-lucide="bell" class="icone"></i>
+                    <span id="bolinhaNotificacoes" class="bolinha-notificacao" hidden></span>
+                </button>
                 <div class="data-atual">
-                    <strong>Área do cliente</strong>
-                    <span id="nomeCliente">Carregando perfil...</span>
+                    <strong id="nomeCliente">Carregando perfil...</strong>
+                    <span>Área do cliente</span>
                 </div>
 
                 <div class="avatar avatar-pequeno" id="avatarCliente">CL</div>
             </div>
         </header>
-
         <header class="topo">
             <div>
                 <span class="subtitulo">ÁREA DO CLIENTE</span>
                 <h1>Visão geral</h1>
             </div>
         </header>
-
-        <section class="boas-vindas">
-            <div>
-                <span class="etiqueta">BEM-VINDO A BORDO</span>
-                <h2>Sua próxima viagem começa aqui.</h2>
-                <p>Acompanhe os detalhes do seu voo e fique por dentro das atualizações.</p>
+        <section class="boas-vindas-admin">
+            <div class="banner-aviao">
+                <div class="banner-conteudo">
+                    <span>ÁREA DO CLIENTE</span>
+                    <strong>Conectando pessoas.<br>Movendo destinos.</strong>
+                    <small>Sua viagem em um só lugar.</small>
+                </div>
             </div>
-
-            <div class="ilustracao-aviao">✈</div>
         </section>
-
         <section class="secao" id="meu-voo">
 
             <div class="secao-cabecalho">
@@ -186,7 +184,7 @@
             </a>
 
             <a href="../configuracoes/index.html" class="atalho-card">
-                <div class="atalho-icone marinho">⚙</div>
+                <div class="atalho-icone marinho"><i data-lucide="settings" class="icone"></i></div>
                 <div>
                     <h3>Gerencie seu perfil aqui.</h3>
                     <p>Atualize seus dados.</p>
@@ -218,9 +216,9 @@
                 <div class="aviso-icone aviso-ciano">✓</div>
                 <div>
                     <h3>Limitações das consultas</h3>
-                    <p>Devido às limitações do plano gratuito da API, não foi possível consultar os horários programados
+                    <p>Devido às limitações do plano gratuito da API, não foi possível consultar todos os dados
                         para todas as datas futuras. Quando disponíveis, os dados de voos anteriores podem incluir os
-                        horários reais de partida e chegada. As informações devem ser confirmadas nos canais oficiais da
+                        dados reais. As informações devem ser confirmadas nos canais oficiais da
                         companhia aérea.</p>
                 </div>
             </article>
@@ -230,8 +228,6 @@
             <a href="#inicio" class="logo">
                 <img src="../img/logo2.png" alt="AzulTrack">
             </a>
-
-            <p>Projeto demonstrativo — consultas sem dados operacionais reais.</p>
         </footer>
 
     </main>
@@ -240,6 +236,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../supabase.js"></script>
     <script src="script.js"></script>
+
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
 </body>
 
 </html>

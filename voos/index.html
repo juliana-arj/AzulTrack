@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Voos | AzulTrack</title>
+    <link rel="icon" type="image/png" href="../img/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <aside class="sidebar">
+        <a class="marca" href="index.html" aria-label="AzulTrack - início">
+            <span class="marca-texto">AzulTrack</span>
+            <span class="marca-ponto">✦</span>
+        </a>
+
+        <span class="menu-titulo">MENU PRINCIPAL</span>
+
+        <nav class="menu-lateral">
+            <a href="../dashboardCliente/index.html">
+                <i data-lucide="layout-dashboard" class="icone"></i>
+                Visão geral
+            </a>
+            <a href="index.html" class="ativo" aria-current="page">
+                <i data-lucide="plane" class="icone"></i>
+                Meus voos
+            </a>
+            <a href="../check-in/index.html">
+                <i data-lucide="clipboard-check" class="icone"></i>
+                Orientações
+            </a>
+            <a href="../notificacoes/index.html">
+                <i data-lucide="bell" class="icone"></i>
+                Notificações
+            </a>
+        </nav>
+
+        <div class="sidebar-inferior">
+            <a href="../configuracoes/index.html">
+                <i data-lucide="settings" class="icone"></i>
+                Configurações
+            </a>
+            <a href="../landingPage/index.html" class="sair">
+                <i data-lucide="log-out" class="icone"></i>
+                Voltar
+            </a>
+        </div>
+
+        <div class="sidebar-rodape">
+            <span>AZULTRACK</span>
+            <p>Sua viagem em um só lugar.</p>
+        </div>
+    </aside>
+
+    <main class="principal" id="inicio">
+        <header class="barra-topo">
+            <div class="topo-direita">
+                <button type="button" class="icone-botao notificacao" id="botaoNotificacoes" aria-label="Notificações"
+                    title="Ver notificações" onclick="window.location.href='../notificacoes/index.html'">
+                    <i data-lucide="bell" class="icone"></i>
+                    <span id="bolinhaNotificacoes" class="bolinha-notificacao" hidden></span>
+                </button>
+
+                <div class="data-atual">
+                    <strong id="nomeCliente">Carregando perfil...</strong>
+                    <span>Seus voos acompanhados</span>
+                </div>
+
+                <div class="avatar avatar-pequeno" id="avatarCliente">CL</div>
+            </div>
+        </header>
+
+        <header class="topo">
+            <div>
+                <span class="subtitulo">ÁREA DO CLIENTE</span>
+                <h1>Meus voos</h1>
+                <p>Acompanhe os voos que você adicionou à sua lista.</p>
+            </div>
+        </header>
+        <section class="indicadores-voos" aria-label="Resumo dos seus voos">
+            <article class="indicador-voos">
+                <div class="indicador-voos-icone azul-claro"><i data-lucide="plane" class="icone"></i></div>
+                <div class="indicador-voos-texto"><span>Voos acompanhados</span><strong id="totalVoos">0</strong></div>
+            </article>
+            <article class="indicador-voos">
+                <div class="indicador-voos-icone verde-claro"><i data-lucide="plane-takeoff" class="icone"></i></div>
+                <div class="indicador-voos-texto"><span>Voos em andamento</span><strong id="voosAndamento">—</strong>
+                </div>
+            </article>
+            <article class="indicador-voos">
+                <div class="indicador-voos-icone laranja-claro"><i data-lucide="clock-alert" class="icone"></i></div>
+                <div class="indicador-voos-texto"><span>Voos atrasados</span><strong id="voosAtrasados">—</strong></div>
+            </article>
+        </section>
+
+        <section class="secao">
+            <div class="secao-cabecalho">
+                <div>
+                    <h2>Voos acompanhados</h2>
+                    <p>Selecione um cartão para consultar os detalhes do voo.</p>
+                </div>
+                <span class="status status-neutro" id="contadorVoos">0 voos</span>
+            </div>
+
+            <div class="filtros-voos">
+                <div class="campo-filtro">
+                    <label for="filtroVoos">Pesquisar voo</label>
+                    <input type="search" id="filtroVoos" placeholder="Número do voo, origem ou destino...">
+                </div>
+                <div class="campo-filtro">
+                    <label for="filtroStatus">Situação do voo</label>
+                    <select id="filtroStatus">
+                        <option value="todos">Todos os voos</option>
+                        <option value="active">Em andamento</option>
+                        <option value="delayed">Atrasados</option>
+                        <option value="scheduled">Programados</option>
+                        <option value="landed">Pousaram</option>
+                        <option value="cancelled">Cancelados</option>
+                        <option value="unknown">Situação indisponível</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="listaVoosAcompanhados" class="lista-voos">
+                <div class="resultado-vazio">
+                    <h3>Carregando seus voos...</h3>
+                    <p>Aguarde enquanto buscamos os voos salvos na sua conta.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="secao secao-detalhes-voo" id="detalhesVoo" hidden>
+            <div class="secao-cabecalho">
+                <div>
+                    <h2>Detalhes do voo</h2>
+                    <p>Confira os horários e as informações mais recentes disponíveis.</p>
+                </div>
+                <span class="status status-azul" id="statusDetalhes">Selecione um voo</span>
+            </div>
+            <article class="voo-card" id="resultadoVoo"></article>
+        </section>
+
+        <section class="secao">
+            <div class="secao-cabecalho">
+                <div>
+                    <h2>Comunicações da equipe</h2>
+                    <p>Mensagens relacionadas aos seus voos aparecerão aqui quando estiverem disponíveis.</p>
+                </div>
+                <span class="status status-neutro">Informativo</span>
+            </div>
+        </section>
+
+        <footer class="rodape-dashboard">
+            <a href="#inicio" class="logo"><img src="../img/logo2.png" alt="AzulTrack"></a>
+        </footer>
+    </main>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../supabase.js"></script>
+    <script src="script.js"></script>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+</body>
+
+</html>

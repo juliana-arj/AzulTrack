@@ -14,22 +14,20 @@ formLogin.addEventListener("submit", async (evento) => {
     const senha = document.getElementById("senha").value;
 
     try {
-        const { data, error } =
-            await window.supabaseClient.auth.signInWithPassword({
-                email,
-                password: senha
-            });
+        const { data, error } = await window.supabaseClient.auth.signInWithPassword({
+            email,
+            password: senha
+        });
 
         if (error) {
             throw new Error("E-mail ou senha inválidos.");
         }
 
-        const { data: perfil, error: erroPerfil } =
-            await window.supabaseClient
-                .from("profiles")
-                .select("role, department_id")
-                .eq("id", data.user.id)
-                .single();
+        const { data: perfil, error: erroPerfil } = await window.supabaseClient
+            .from("profiles")
+            .select("role, department_id")
+            .eq("id", data.user.id)
+            .single();
 
         if (erroPerfil || !perfil) {
             await window.supabaseClient.auth.signOut();
@@ -41,26 +39,12 @@ formLogin.addEventListener("submit", async (evento) => {
             return;
         }
 
-        if (perfil.role === "admin") {
-            const paginas = {
-                atendimento: "../dashboardAdm/index.html",
-                comunicacao: "../dashboardAdm/index.html",
-                operacoes: "../dashboardAdm/index.html",
-                gestao: "../dashboardAdm/index.html"
-            };
-
-            const destino = paginas[perfil.department_id];
-
-            if (!destino) {
-                await window.supabaseClient.auth.signOut();
-                throw new Error("Área administrativa não configurada.");
-            }
-
-            window.location.href = destino;
+        if (perfil.department_id) {
+            window.location.href = "../dashboardAdm/index.html";
             return;
         }
 
-        if (perfil.role === "user") {
+        if (perfil.role === "user" && !perfil.department_id) {
             window.location.href = "../landingPage/index.html";
             return;
         }

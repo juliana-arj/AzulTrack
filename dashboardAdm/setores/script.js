@@ -5,6 +5,10 @@ const listaUsuarios = document.getElementById("listaUsuarios");
 const pesquisaUsuario = document.getElementById("pesquisaUsuario");
 const filtroSetor = document.getElementById("filtroSetor");
 const mensagemSetores = document.getElementById("mensagemSetores");
+const nomeUsuario = document.getElementById("nomeUsuario");
+const departamentoUsuario = document.getElementById("departamentoUsuario");
+const avatarUsuario = document.getElementById("avatarUsuario");
+const bolinhaNotificacoes = document.getElementById("bolinhaNotificacoes");
 
 let usuarios = [];
 let setores = [];
@@ -129,60 +133,208 @@ function renderizarUsuarios() {
     if (window.lucide) window.lucide.createIcons();
 }
 
+
+async function carregarPerfilCabecalho(user) {
+    const { data: perfil, error } = await clienteSupabase
+        .from("profiles")
+        .select("display_name, department_id, role")
+        .eq("id", user.id)
+        .single();
+
+    if (error) throw error;
+
+    const nome = perfil.display_name || user.email || "Usuário";
+
+    nomeUsuario.textContent = nome;
+
+    const setoresPorId = {
+        atendimento: "Atendimento",
+        comunicacao: "Comunicação",
+        operacoes: "Operações",
+        gestao: "Gestão",
+        cco: "Centro de Controle Operacional",
+        comercial: "Comercial",
+        handling: "Handling",
+        manutencao: "Manutenção"
+    };
+
+    if (perfil.role === "super_admin") {
+        departamentoUsuario.textContent = "Super administrador";
+    } else {
+        const { data: setor, error: erroSetor } = await clienteSupabase
+            .from("departments")
+            .select("name")
+            .eq("id", perfil.department_id)
+            .maybeSingle();
+
+        if (erroSetor) throw erroSetor;
+
+        departamentoUsuario.textContent =
+            setor?.name ||
+            setoresPorId[perfil.department_id] ||
+            "Departamento não definido";
+    }
+
+    avatarUsuario.textContent = nome
+        .trim()
+        .split(/\s+/)
+        .filter(Boolean)
+        .slice(0, 2)
+        .map(parte => parte[0])
+        .join("")
+        .toUpperCase();
+}
+
+async function atualizarBolinhaNotificacoes(userId) {
+    bolinhaNotificacoes.hidden = true;
+
+    const { data, error } = await clienteSupabase
+        .from("notifications")
+        .select("id")
+        .eq("user_id", userId)
+        .is("read_at", null)
+        .limit(1);
+
+    if (error) {
+        console.error("Erro ao consultar notificações:", error);
+        return;
+    }
+
+    bolinhaNotificacoes.hidden = !data || data.length === 0;
+}
+
+document.getElementById("sairConta").addEventListener("click", async event => {
+    event.preventDefault();
+
+    const { error } = await clienteSupabase.auth.signOut();
+
+    if (error) {
+        console.error("Erro ao sair da conta:", error);
+        mostrarMensagem("Não foi possível sair da conta.", "erro");
+        return;
+    }
+
+    window.location.replace("../../login/index.html");
+});
+
 async function carregarDados() {
-    mostrarMensagem("Carregando usuários e setores...");
+    mostrarMensagem("Verificando acesso...");
 
     const { data: { user }, error: erroAutenticacao } =
         await clienteSupabase.auth.getUser();
 
-    if (erroAutenticacao) throw erroAutenticacao;
+    if (erroAutenticacao) {
+        console.error(erroAutenticacao);
+        window.location.replace("../../login/index.html");
+        return;
+    }
 
     if (!user) {
-        window.location.href = "../../login/index.html";
+        window.location.replace("../../login/index.html");
         return;
     }
 
     const { data: perfil, error: erroPerfil } = await clienteSupabase
         .from("profiles")
-        .select("role")
+        .select("id, role, department_id")
         .eq("id", user.id)
-        .single();
+        .maybeSingle();
 
-    if (erroPerfil) throw erroPerfil;
+    if (erroPerfil) {
+        console.error("Erro ao verificar perfil:", erroPerfil);
+        mostrarMensagem("Não foi possível verificar seu acesso.", "erro");
+        return;
+    }
 
-    if (perfil.role !== "super_admin") {
-        mostrarMensagem("Acesso permitido apenas ao super administrador.", "erro");
+    if (!perfil || (perfil.role !== "super_admin" && !perfil.department_id)) {
+        await clienteSupabase.auth.signOut();
+        window.location.replace("../../login/index.html");
         return;
     }
 
     usuarioAtual = user;
 
-    const [resultadoSetores, resultadoUsuarios] = await Promise.all([
-        clienteSupabase
-            .from("departments")
-            .select("id, name")
-            .order("name"),
+    try {
+        await carregarPerfilCabecalho(user);
+        await atualizarBolinhaNotificacoes(user.id);
 
-        clienteSupabase
-            .from("profiles")
-            .select("id, display_name, role, department_id")
-            .order("display_name")
-    ]);
+        const [resultadoSetores, resultadoUsuarios] = await Promise.all([
+            clienteSupabase
+                .from("departments")
+                .select("id, name")
+                .order("name"),
 
-    if (resultadoSetores.error) throw resultadoSetores.error;
-    if (resultadoUsuarios.error) throw resultadoUsuarios.error;
+            clienteSupabase
+                .from("profiles")
+                .select("id, display_name, role, department_id")
+                .order("display_name")
+        ]);
 
-    setores = resultadoSetores.data || [];
+        if (resultadoSetores.error) throw resultadoSetores.error;
+        if (resultadoUsuarios.error) throw resultadoUsuarios.error;
 
-    usuarios = (resultadoUsuarios.data || []).filter(
-        usuario => usuario.role !== "super_admin"
-    );
+        setores = resultadoSetores.data || [];
 
-    carregarFiltroSetores();
-    atualizarIndicadores();
-    renderizarUsuarios();
-    mensagemSetores.hidden = true;
+        usuarios = (resultadoUsuarios.data || []).filter(
+            usuario => usuario.role !== "super_admin"
+        );
+
+        carregarFiltroSetores();
+        atualizarIndicadores();
+        renderizarUsuarios();
+        mensagemSetores.hidden = true;
+    } catch (error) {
+        console.error("Erro ao carregar dados:", error);
+        mostrarMensagem(
+            "Não foi possível carregar os dados. Verifique as permissões do Supabase.",
+            "erro"
+        );
+    }
 }
+
+async function controlarAcessosSidebar() {
+    const linkDepartamento = document.getElementById("linkDepartamento");
+    const linkUsuarios = document.getElementById("linkUsuarios");
+
+    if (linkDepartamento) linkDepartamento.hidden = true;
+    if (linkUsuarios) linkUsuarios.hidden = true;
+
+    if (!window.supabaseClient) return;
+
+    const { data: sessaoData } = await window.supabaseClient.auth.getSession();
+    const usuario = sessaoData?.session?.user;
+
+    if (!usuario) return;
+
+    const { data: perfil, error } = await window.supabaseClient
+        .from("profiles")
+        .select("role, department_id")
+        .eq("id", usuario.id)
+        .maybeSingle();
+
+    if (error || !perfil) return;
+
+    const cargo = String(perfil.role || "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .replace(/[^a-z0-9]/g, "");
+
+    const ehSuperAdmin = [
+        "superadmin",
+        "superadministrador"
+    ].includes(cargo);
+
+    if (linkDepartamento) {
+        linkDepartamento.hidden = ehSuperAdmin || !perfil.department_id;
+    }
+
+    if (linkUsuarios) {
+        linkUsuarios.hidden = !ehSuperAdmin;
+    }
+}
+
+controlarAcessosSidebar();
 
 async function salvarSetor(idUsuario, novoSetor) {
     if (idUsuario === usuarioAtual.id) {

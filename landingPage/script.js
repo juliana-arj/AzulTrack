@@ -31,19 +31,15 @@ async function verificarSessao() {
 
     const usuario = data.session.user;
 
-    const { data: perfil, error: erroPerfil } =
-        await window.supabaseClient
-            .from("profiles")
-            .select("display_name, role, department_id")
-            .eq("id", usuario.id)
-            .single();
+    const nome =
+        usuario.user_metadata?.full_name ||
+        usuario.user_metadata?.nome_completo ||
+        usuario.email?.split("@")[0] ||
+        "Cliente";
 
-    if (erroPerfil || !perfil) {
-        configurarUsuarioDeslogado();
-        return;
-    }
-
-    configurarUsuarioLogado(perfil);
+    configurarUsuarioLogado({
+        display_name: nome
+    });
 }
 
 function configurarUsuarioDeslogado() {

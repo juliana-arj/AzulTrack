@@ -30,20 +30,8 @@
         return;
     }
 
-    if (perfil.role !== "super_admin") {
-        const paginas = {
-            user: "../../landingPage/index.html",
-            atendimento: "../admin-atendimento/index.html",
-            comunicacao: "../admin-comunicacao/index.html",
-            operacoes: "index.html",
-            gestao: "../admin-gestao/index.html"
-        };
-
-        const destino = perfil.role === "admin"
-            ? paginas[perfil.department_id]
-            : paginas[perfil.role];
-
-        window.location.replace(destino || caminhoLogin);
+    if (perfil.role !== "super_admin" && !perfil.department_id) {
+        window.location.replace("../../landingPage/index.html");
         return;
     }
 
@@ -53,20 +41,80 @@
         || sessao.user.email
         || "Administrador";
 
-    const avatar = document.querySelector(".avatar-pequeno");
+    const elementoNome = document.getElementById("nomeUsuario");
+
+    if (elementoNome) {
+        elementoNome.textContent = nome;
+    }
+
+    const avatar = document.getElementById("avatarUsuario");
 
     if (avatar) {
-        avatar.textContent = nome
-            .split(/\s+/)
-            .filter(Boolean)
-            .slice(0, 2)
-            .map(parte => parte[0])
-            .join("")
-            .toUpperCase();
+        const partesNome = nome.trim().split(/\s+/).filter(Boolean);
+
+        avatar.textContent = partesNome.length > 1
+            ? `${partesNome[0][0]}${partesNome[partesNome.length - 1][0]}`.toUpperCase()
+            : partesNome[0][0].toUpperCase();
 
         avatar.title = nome;
         avatar.setAttribute("aria-label", `Administrador: ${nome}`);
     }
+
+    const elementoDepartamento =
+        document.getElementById("departamentoUsuario");
+
+    if (elementoDepartamento) {
+        let nomeDepartamento = "Super Administrador";
+
+        if (perfil.department_id) {
+            const { data: departamentoPerfil, error: erroDepartamento } =
+                await cliente
+                    .from("departments")
+                    .select("name")
+                    .eq("id", perfil.department_id)
+                    .maybeSingle();
+
+            if (erroDepartamento) {
+                console.error(
+                    "Erro ao carregar departamento do perfil:",
+                    erroDepartamento
+                );
+            }
+
+            if (departamentoPerfil?.name) {
+                nomeDepartamento = departamentoPerfil.name;
+            }
+        }
+
+        elementoDepartamento.textContent = nomeDepartamento;
+    }
+
+    async function atualizarBolinhaNotificacoes() {
+        const bolinha = document.getElementById("bolinhaNotificacoes");
+
+        if (!bolinha) return;
+
+        bolinha.hidden = true;
+
+        const { data, error } = await cliente
+            .from("notifications")
+            .select("id")
+            .eq("user_id", sessao.user.id)
+            .is("read_at", null)
+            .limit(1);
+
+        if (error) {
+            console.error(
+                "Erro ao consultar notificações não lidas:",
+                error
+            );
+            return;
+        }
+
+        bolinha.hidden = !data || data.length === 0;
+    }
+
+    await atualizarBolinhaNotificacoes();
 
     const botaoSair = document.querySelector(".sair");
 
@@ -195,6 +243,50 @@
         }
     }
 
+    async function controlarAcessosSidebar() {
+        const linkDepartamento = document.getElementById("linkDepartamento");
+        const linkUsuarios = document.getElementById("linkUsuarios");
+
+        if (linkDepartamento) linkDepartamento.hidden = true;
+        if (linkUsuarios) linkUsuarios.hidden = true;
+
+        if (!window.supabaseClient) return;
+
+        const { data: sessaoData } = await window.supabaseClient.auth.getSession();
+        const usuario = sessaoData?.session?.user;
+
+        if (!usuario) return;
+
+        const { data: perfil, error } = await window.supabaseClient
+            .from("profiles")
+            .select("role, department_id")
+            .eq("id", usuario.id)
+            .maybeSingle();
+
+        if (error || !perfil) return;
+
+        const cargo = String(perfil.role || "")
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .toLowerCase()
+            .replace(/[^a-z0-9]/g, "");
+
+        const ehSuperAdmin = [
+            "superadmin",
+            "superadministrador"
+        ].includes(cargo);
+
+        if (linkDepartamento) {
+            linkDepartamento.hidden = ehSuperAdmin || !perfil.department_id;
+        }
+
+        if (linkUsuarios) {
+            linkUsuarios.hidden = !ehSuperAdmin;
+        }
+    }
+
+    controlarAcessosSidebar();
+
     function obterVoos() {
         const blocos = [...listaVoos.querySelectorAll(".voo-ocorrencia")];
         const voos = [];
@@ -311,8 +403,15 @@
                 .single();
 
             if (erroCadastro) {
+                console.error("Erro detalhado do Supabase:", {
+                    message: erroCadastro.message,
+                    code: erroCadastro.code,
+                    details: erroCadastro.details,
+                    hint: erroCadastro.hint
+                });
+
                 throw new Error(
-                    "Não foi possível registrar a ocorrência. Verifique os campos e as permissões do banco."
+                    `${erroCadastro.message} (código: ${erroCadastro.code || "não informado"})`
                 );
             }
 

@@ -31,20 +31,8 @@ console.log("oi");
         return;
     }
 
-    if (perfil.role !== "super_admin") {
-        const paginas = {
-            user: "../../landingPage/index.html",
-            atendimento: "../admin-atendimento/index.html",
-            comunicacao: "../admin-comunicacao/index.html",
-            operacoes: "index.html",
-            gestao: "../admin-gestao/index.html"
-        };
-
-        const destino = perfil.role === "admin"
-            ? paginas[perfil.department_id]
-            : paginas[perfil.role];
-
-        window.location.replace(destino || caminhoLogin);
+    if (perfil.role !== "super_admin" && !perfil.department_id) {
+        window.location.replace("../../landingPage/index.html");
         return;
     }
 
@@ -54,19 +42,69 @@ console.log("oi");
         || sessao.user.email
         || "Administrador";
 
-    const avatar = document.querySelector(".avatar-pequeno");
+    const elementoNome = document.getElementById("nomeUsuario");
+    const elementoDepartamento = document.getElementById("departamentoUsuario");
+    const avatar = document.getElementById("avatarUsuario");
+
+    if (elementoNome) {
+        elementoNome.textContent = nome;
+    }
 
     if (avatar) {
-        avatar.textContent = nome
-            .split(/\s+/)
-            .filter(Boolean)
-            .slice(0, 2)
-            .map(parte => parte[0])
-            .join("")
-            .toUpperCase();
+        const partesNome = nome.trim().split(/\s+/).filter(Boolean);
+
+        avatar.textContent = partesNome.length > 1
+            ? `${partesNome[0][0]}${partesNome[partesNome.length - 1][0]}`.toUpperCase()
+            : partesNome[0][0].toUpperCase();
 
         avatar.title = nome;
-        avatar.setAttribute("aria-label", `Administrador: ${nome}`);
+        avatar.setAttribute("aria-label", `Usuário: ${nome}`);
+    }
+
+    if (elementoDepartamento) {
+        if (perfil.department_id) {
+            const { data: departamento, error } = await cliente
+                .from("departments")
+                .select("name")
+                .eq("id", perfil.department_id)
+                .single();
+
+            elementoDepartamento.textContent = !error && departamento
+                ? departamento.name
+                : "Departamento não identificado";
+        } else {
+            elementoDepartamento.textContent = perfil.role === "super_admin"
+                ? "Super administrador"
+                : "Departamento não definido";
+        }
+    }
+
+    async function atualizarBolinhaNotificacoes() {
+        const bolinha = document.getElementById("bolinhaNotificacoes");
+
+        if (!bolinha) return;
+
+        bolinha.hidden = true;
+
+        const { data, error } = await cliente
+            .from("notifications")
+            .select("id")
+            .eq("user_id", sessao.user.id)
+            .is("read_at", null)
+            .limit(1);
+
+        if (error) {
+            console.error("Erro ao consultar notificações:", error);
+            return;
+        }
+
+        bolinha.hidden = !data || data.length === 0;
+    }
+
+    await atualizarBolinhaNotificacoes();
+
+    if (window.lucide) {
+        window.lucide.createIcons();
     }
 
     const botaoSair = document.querySelector(".sair");
@@ -331,6 +369,51 @@ console.log("oi");
         }
     }
 
+    async function controlarAcessosSidebar() {
+        const linkDepartamento = document.getElementById("linkDepartamento");
+        const linkUsuarios = document.getElementById("linkUsuarios");
+
+        if (linkDepartamento) linkDepartamento.hidden = true;
+        if (linkUsuarios) linkUsuarios.hidden = true;
+
+        if (!window.supabaseClient) return;
+
+        const { data: sessaoData } = await window.supabaseClient.auth.getSession();
+        const usuario = sessaoData?.session?.user;
+
+        if (!usuario) return;
+
+        const { data: perfil, error } = await window.supabaseClient
+            .from("profiles")
+            .select("role, department_id")
+            .eq("id", usuario.id)
+            .maybeSingle();
+
+        if (error || !perfil) return;
+
+        const cargo = String(perfil.role || "")
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .toLowerCase()
+            .replace(/[^a-z0-9]/g, "");
+
+        const ehSuperAdmin = [
+            "superadmin",
+            "superadministrador"
+        ].includes(cargo);
+
+        if (linkDepartamento) {
+            linkDepartamento.hidden = ehSuperAdmin || !perfil.department_id;
+        }
+
+        if (linkUsuarios) {
+            linkUsuarios.hidden = !ehSuperAdmin;
+        }
+    }
+
+    controlarAcessosSidebar();
+
+
     async function carregarOcorrencias() {
         mensagem.hidden = false;
         mensagem.textContent = "Carregando ocorrências...";
@@ -339,42 +422,32 @@ console.log("oi");
         try {
             const { data, error } = await cliente
                 .from("operational_occurrences")
-                .select("*")
+                .select(`
+                *,
+                departments:departments!responsible_department_id (
+                    id,
+                    name
+                )
+            `)
                 .order("created_at", { ascending: false });
 
-            console.log("Dados recebidos do Supabase:", data);
-            console.log("Erro do Supabase:", error);
-
-            if (error) {
-                console.error("Detalhes do erro:", error);
-
-                ocorrencias = [];
-                lista.replaceChildren();
-                quantidade.textContent = "0 registros";
-
-                mensagem.textContent =
-                    `Erro ao carregar ocorrências: ${error.message}`;
-
-                atualizarIndicadores();
-                return;
-            }
+            if (error) throw error;
 
             ocorrencias = data ?? [];
 
             atualizarIndicadores();
             renderizarOcorrencias();
 
-            console.log(
-                "Quantidade de ocorrências carregadas:",
-                ocorrencias.length
-            );
-
         } catch (erro) {
-            console.error("Erro inesperado:", erro);
+            console.error("Erro ao carregar ocorrências:", erro);
 
+            ocorrencias = [];
+            lista.replaceChildren();
+            quantidade.textContent = "0 registros";
             mensagem.hidden = false;
-            mensagem.textContent =
-                `Erro inesperado: ${erro.message}`;
+            mensagem.textContent = `Erro ao carregar ocorrências: ${erro.message}`;
+
+            atualizarIndicadores();
 
         } finally {
             botaoAtualizar.disabled = false;

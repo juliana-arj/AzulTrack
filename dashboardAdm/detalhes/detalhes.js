@@ -22,6 +22,9 @@
         voos: document.getElementById("listaVoos"),
         historico: document.getElementById("historicoOcorrencia"),
         mensagens: document.getElementById("mensagensOcorrencia"),
+        avatar: document.getElementById("avatarUsuario"),
+        nomeUsuario: document.getElementById("nomeUsuario"),
+        departamentoUsuario: document.getElementById("departamentoUsuario"),
         avatar: document.getElementById("avatarUsuario")
     };
 
@@ -84,6 +87,29 @@
         confirmado: "Confirmado",
         descartado: "Descartado"
     };
+
+
+    async function atualizarBolinhaNotificacoes(usuarioId) {
+        const bolinha = document.getElementById("bolinhaNotificacoes");
+
+        if (!bolinha) return;
+
+        bolinha.hidden = true;
+
+        const { data, error } = await supabase
+            .from("notifications")
+            .select("id")
+            .eq("user_id", usuarioId)
+            .is("read_at", null)
+            .limit(1);
+
+        if (error) {
+            console.error("Erro ao consultar notificações:", error);
+            return;
+        }
+
+        bolinha.hidden = !data || data.length === 0;
+    }
 
     function textoSeguro(valor, alternativa = "Não informado") {
         if (valor === null || valor === undefined || String(valor).trim() === "") {
@@ -174,6 +200,7 @@
         container.appendChild(campo);
     }
 
+
     async function carregarPerfil(usuario) {
         const { data: perfil, error } = await supabase
             .from("profiles")
@@ -185,22 +212,60 @@
             throw new Error("Não foi possível verificar seu perfil de acesso.");
         }
 
-        if (!["admin", "super_admin"].includes(perfil.role)) {
-            window.location.replace("../../login/index.html");
+        if (perfil.role !== "super_admin" && !perfil.department_id) {
+            window.location.replace("../../landingPage/index.html");
             return null;
         }
 
-        const nome = textoSeguro(perfil.display_name, "Administrador");
-        const iniciais = nome
-            .split(/\s+/)
-            .filter(Boolean)
-            .slice(0, 2)
-            .map(parte => parte[0])
-            .join("")
-            .toUpperCase();
+        const nome = perfil.display_name?.trim()
+            || usuario.email
+            || "Administrador";
 
-        elementos.avatar.textContent = iniciais || "AD";
+        if (elementos.nomeUsuario) {
+            elementos.nomeUsuario.textContent = nome;
+        }
 
+        if (elementos.avatar) {
+            const partesNome = nome.trim().split(/\s+/).filter(Boolean);
+
+            elementos.avatar.textContent = partesNome.length > 1
+                ? `${partesNome[0][0]}${partesNome[partesNome.length - 1][0]}`.toUpperCase()
+                : partesNome[0][0].toUpperCase();
+
+            elementos.avatar.title = nome;
+            elementos.avatar.setAttribute("aria-label", `Usuário: ${nome}`);
+        }
+
+        if (elementos.departamentoUsuario) {
+            if (perfil.department_id) {
+                const { data: departamento, error: erroDepartamento } =
+                    await supabase
+                        .from("departments")
+                        .select("name")
+                        .eq("id", perfil.department_id)
+                        .maybeSingle();
+
+                elementos.departamentoUsuario.textContent =
+                    !erroDepartamento && departamento
+                        ? departamento.name
+                        : "Departamento não identificado";
+            } else {
+                elementos.departamentoUsuario.textContent =
+                    perfil.role === "super_admin"
+                        ? "Super administrador"
+                        : "Departamento não definido";
+            }
+        }
+
+        const { data: departamentoPerfil } = await supabase
+            .from("departments")
+            .select("name")
+            .eq("id", perfil.department_id)
+            .maybeSingle();
+
+        perfil.nomeDepartamento = departamentoPerfil?.name || "";
+        perfil.podeEnviarMensagem =
+            perfil.nomeDepartamento.trim().toLowerCase() === "atendimento";
         return perfil;
     }
 
@@ -234,13 +299,6 @@
 
         if (!ocorrencia) {
             throw new Error("Ocorrência não encontrada ou sem permissão para visualizá-la.");
-        }
-
-        if (
-            perfil.role === "admin" &&
-            ocorrencia.responsible_department_id !== perfil.department_id
-        ) {
-            throw new Error("Você não tem permissão para acessar esta ocorrência.");
         }
 
         const { data: departamento } = await supabase
@@ -555,8 +613,10 @@
 
         const botaoMensagem = criarElemento("button", "botao-mensagem", "Registrar mensagem");
         botaoMensagem.type = "button";
+        botaoMensagem.hidden = !perfilAtual.podeEnviarMensagem;
 
         acoes.append(botaoEditar, botaoMensagem);
+
         elementos.conteudo.before(acoes);
 
         const formularioEdicao = criarElemento("form", "formulario-detalhes");
@@ -679,6 +739,8 @@
         });
 
         botaoMensagem.addEventListener("click", () => {
+            if (!perfilAtual.podeEnviarMensagem) return;
+
             formularioEdicao.hidden = true;
             formularioMensagem.reset();
             formularioMensagem.hidden = false;
@@ -693,116 +755,101 @@
             formularioMensagem.hidden = true;
         });
 
-        formularioEdicao.addEventListener("submit", async evento => {
+
+        formularioEdicao.addEventListener("submit", async (evento) => {
             evento.preventDefault();
 
-            const botaoSalvar = formularioEdicao.querySelector("#salvarEdicao");
-            botaoSalvar.disabled = true;
+            const botaoSalvar = formularioEdicao.querySelector(
+                'button[type="submit"]'
+            );
 
             try {
+                if (botaoSalvar) botaoSalvar.disabled = true;
+
                 const dados = {
-                    title: campo("#editarTitulo").value.trim(),
-                    description: campo("#editarDescricao").value.trim(),
-                    category: campo("#editarCategoria").value,
-                    severity: campo("#editarGravidade").value,
-                    status: campo("#editarStatus").value,
-                    responsible_department_id: campo("#editarDepartamento").value,
-                    location: campo("#editarLocal").value.trim() || null,
-                    observations: campo("#editarObservacoes").value.trim() || null,
+                    title: formularioEdicao.querySelector("#editarTitulo").value.trim(),
+                    description: formularioEdicao.querySelector("#editarDescricao").value.trim(),
+                    category: formularioEdicao.querySelector("#editarCategoria").value,
+                    severity: formularioEdicao.querySelector("#editarGravidade").value,
+                    status: formularioEdicao.querySelector("#editarStatus").value,
+                    responsible_department_id: formularioEdicao.querySelector("#editarDepartamento").value || null,
+                    location: formularioEdicao.querySelector("#editarLocal").value.trim(),
+                    observations: formularioEdicao.querySelector("#editarObservacoes").value.trim(),
                     updated_at: new Date().toISOString(),
                     resolved_at: null
                 };
 
-                const motivo = campo("#editarMotivo").value.trim();
-
-                if (!dados.title || !dados.description || !motivo) {
-                    alert("Preencha o título, a descrição e o motivo da alteração.");
-                    return;
-                }
+                const motivo = document.getElementById("editarMotivo").value.trim();
 
                 if (
-                    perfilAtual.role !== "super_admin" &&
-                    dados.responsible_department_id !== perfilAtual.department_id
+                    !dados.title ||
+                    !dados.description ||
+                    !dados.category ||
+                    !dados.severity ||
+                    !dados.status ||
+                    !motivo
                 ) {
-                    alert("Você não pode transferir a ocorrência para outro departamento.");
+                    alert("Preencha todos os campos obrigatórios.");
                     return;
                 }
 
                 const anterior = ocorrenciaAtual;
 
                 if (dados.status === "resolvida") {
-                    dados.resolved_at =
-                        anterior.status === "resolvida" && anterior.resolved_at
-                            ? anterior.resolved_at
-                            : new Date().toISOString();
+                    dados.resolved_at = new Date().toISOString();
                 }
 
                 const alteracoes = [];
 
-                const campos = {
-                    title: "Título",
-                    description: "Descrição",
-                    category: "Categoria",
-                    severity: "Gravidade",
-                    status: "Status",
-                    responsible_department_id: "Departamento responsável",
-                    location: "Localização",
-                    observations: "Observações"
-                };
-
-                Object.entries(campos).forEach(([nomeCampo, nome]) => {
-                    if ((anterior[nomeCampo] ?? "") !== (dados[nomeCampo] ?? "")) {
-                        alteracoes.push(nome);
-                    }
-                });
+                if (anterior.title !== dados.title) alteracoes.push("Título");
+                if (anterior.description !== dados.description) alteracoes.push("Descrição");
+                if (anterior.category !== dados.category) alteracoes.push("Categoria");
+                if (anterior.severity !== dados.severity) alteracoes.push("Severidade");
+                if (anterior.status !== dados.status) alteracoes.push("Status");
+                if (
+                    anterior.responsible_department_id !==
+                    dados.responsible_department_id
+                ) {
+                    alteracoes.push("Departamento responsável");
+                }
+                if (anterior.location !== dados.location) alteracoes.push("Localização");
+                if (anterior.observations !== dados.observations) alteracoes.push("Observações");
 
                 if (!alteracoes.length) {
                     alert("Nenhuma alteração foi realizada.");
                     return;
                 }
 
-                const { error: erroAtualizacao } = await supabase
-                    .from("operational_occurrences")
-                    .update(dados)
-                    .eq("id", ocorrenciaId);
-
-                if (erroAtualizacao) throw erroAtualizacao;
-
-                const mudouStatus = anterior.status !== dados.status;
-                const tipo = dados.status === "resolvida"
-                    ? "resolucao"
-                    : mudouStatus
-                        ? "mudanca_status"
-                        : "atualizacao";
-
                 const mensagemHistorico =
-                    `${motivo} Campos alterados: ${alteracoes.join(", ")}.`;
+                    `${motivo}\nCampos alterados: ${alteracoes.join(", ")}.`;
 
-                const { error: erroHistorico } = await supabase
-                    .from("occurrence_updates")
-                    .insert({
-                        occurrence_id: ocorrenciaId,
-                        author_id: usuarioAtualId,
-                        department_id: perfilAtual.department_id,
-                        update_type: tipo,
-                        internal_message: mensagemHistorico,
-                        customer_message: null
-                    });
+                const { error } = await supabase.rpc(
+                    "salvar_alteracoes_ocorrencia",
+                    {
+                        p_occurrence_id: ocorrenciaId,
+                        p_title: dados.title,
+                        p_description: dados.description,
+                        p_category: dados.category,
+                        p_severity: dados.severity,
+                        p_status: dados.status,
+                        p_responsible_department_id: dados.responsible_department_id,
+                        p_location: dados.location,
+                        p_observations: dados.observations,
+                        p_resolved_at: dados.resolved_at,
+                        p_motivo: mensagemHistorico
+                    }
+                );
 
-                if (erroHistorico) {
-                    console.error("Erro ao registrar histórico:", erroHistorico);
-                    alert("A ocorrência foi atualizada, mas o histórico não foi registrado. Verifique as permissões da tabela occurrence_updates.");
-                } else {
-                    alert("Ocorrência atualizada com sucesso.");
-                }
+                if (error) throw error;
 
+                alert("Ocorrência atualizada com sucesso.");
                 formularioEdicao.hidden = true;
                 await carregarOcorrencia(perfilAtual);
             } catch (erro) {
-                console.error("Erro ao editar ocorrência:", erro);
-                alert(erro.message || "Não foi possível salvar as alterações. Verifique suas permissões.");
+                console.error("Erro ao atualizar ocorrência:", erro);
+                alert("Não foi possível atualizar a ocorrência. Verifique os dados e tente novamente.");
             } finally {
-                botaoSalvar.disabled = false;
+                if (botaoSalvar) botaoSalvar.disabled = false;
             }
         });
 
@@ -849,6 +896,50 @@
         });
     }
 
+    async function controlarAcessosSidebar() {
+        const linkDepartamento = document.getElementById("linkDepartamento");
+        const linkUsuarios = document.getElementById("linkUsuarios");
+
+        if (linkDepartamento) linkDepartamento.hidden = true;
+        if (linkUsuarios) linkUsuarios.hidden = true;
+
+        if (!window.supabaseClient) return;
+
+        const { data: sessaoData } = await window.supabaseClient.auth.getSession();
+        const usuario = sessaoData?.session?.user;
+
+        if (!usuario) return;
+
+        const { data: perfil, error } = await window.supabaseClient
+            .from("profiles")
+            .select("role, department_id")
+            .eq("id", usuario.id)
+            .maybeSingle();
+
+        if (error || !perfil) return;
+
+        const cargo = String(perfil.role || "")
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .toLowerCase()
+            .replace(/[^a-z0-9]/g, "");
+
+        const ehSuperAdmin = [
+            "superadmin",
+            "superadministrador"
+        ].includes(cargo);
+
+        if (linkDepartamento) {
+            linkDepartamento.hidden = ehSuperAdmin || !perfil.department_id;
+        }
+
+        if (linkUsuarios) {
+            linkUsuarios.hidden = !ehSuperAdmin;
+        }
+    }
+
+    controlarAcessosSidebar();
+
     async function iniciar() {
         if (!supabase) {
             definirMensagem("O Supabase não foi inicializado. Confira o arquivo ../../supabase.js.", "erro");
@@ -887,7 +978,9 @@
 
             if (!perfilAtual) return;
 
+            await atualizarBolinhaNotificacoes(usuarioAtualId);
             await carregarOcorrencia(perfilAtual);
+
         } catch (erro) {
             console.error("Erro ao iniciar detalhes:", erro);
             definirMensagem(erro.message || "Ocorreu um erro ao carregar os detalhes.", "erro");

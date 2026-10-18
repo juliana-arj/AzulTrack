@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#012251">
+    <title>Configurações | AzulTrack</title>
+    <link rel="icon" type="image/png" href="../../img/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="configuracoes.css">
+</head>
+
+<body>
+    <aside class="sidebar">
+        <a class="marca" href="../index.html" aria-label="Azul - início">
+            <span class="marca-texto">AzulTrack</span><span class="marca-ponto">✦</span>
+        </a>
+
+        <span class="menu-titulo" style="margin-top: 30px;">PAINEL DE CONTROLE</span>
+        <nav class="menu-lateral">
+            <a class="menu-link" href="../index.html" data-menu="inicio">
+                <i data-lucide="layout-dashboard" class="icone"></i>
+                <span>Visão geral</span>
+            </a>
+
+            <a class="menu-link" href="departamento/index.html" id="linkDepartamento" data-menu="inicio">
+                <i data-lucide="building-2" class="icone"></i>
+                <span>Departamento</span>
+            </a>
+
+            <a class="menu-link" href="../operacoes/index.html" data-menu="atendimento" data-permissao="view_support">
+                <i data-lucide="headset" class="icone"></i>
+                <span>Abrir ocorrência</span>
+            </a>
+
+            <a class="menu-link" href="../detalhes/index.html" data-menu="gestao" data-permissao="view_reports">
+                <i data-lucide="chart-no-axes-combined" class="icone"></i>
+                <span>Ocorrências</span>
+            </a>
+
+            <a class="menu-link" href="../notificacoes/index.html" data-menu="permissoes"
+                data-permissao="manage_settings">
+                <i data-lucide="bell" class="icone"></i>
+                <span>Notificações</span>
+            </a>
+
+            <a class="menu-link" href="../setores/index.html" id="linkUsuarios" data-menu="usuarios"
+                data-permissao="manage_employees">
+                <i data-lucide="users" class="icone"></i>
+                <span>Usuários e funcionários</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-final">
+            <span class="menu-titulo">PREFERÊNCIAS</span>
+            <a class="menu-link ativo" href="index.html">
+                <i data-lucide="settings" class="icone"></i>
+                <span>Configurações</span>
+            </a>
+            <a class="menu-link sair" href="../index.html">
+                <i data-lucide="log-out" class="icone"></i>
+                Sair da conta
+            </a>
+        </div>
+    </aside>
+
+    <main class="principal configuracoes-principal">
+        <header class="barra-topo">
+            <div class="topo-direita">
+                <button type="button" class="icone-botao notificacao" id="botaoNotificacoes" aria-label="Notificações">
+                    <i data-lucide="bell" class="icone"></i>
+                    <span id="bolinhaNotificacoes" class="bolinha-notificacao" hidden></span>
+                </button>
+
+                <div class="data-atual">
+                    <strong id="nomeUsuario">Carregando...</strong>
+                    <span id="departamentoUsuario">Carregando departamento...</span>
+                </div>
+
+                <div class="avatar avatar-pequeno" id="avatarUsuario">--</div>
+            </div>
+        </header>
+
+        <section class="configuracoes-cabecalho">
+            <div>
+                <span class="configuracoes-sobretitulo">SUA CONTA</span>
+                <h1>Configurações</h1>
+                <p>Consulte seu perfil e gerencie os dados de acesso ao AzulTrack.</p>
+            </div>
+            <div class="configuracoes-cabecalho-icone">
+                <i data-lucide="settings-2"></i>
+            </div>
+        </section>
+
+        <div class="configuracoes-mensagem" id="mensagemConfiguracoes" role="status" aria-live="polite" hidden></div>
+
+        <section class="perfil-resumo cartao">
+            <div class="perfil-avatar" id="avatarPerfil">--</div>
+            <div class="perfil-resumo-dados">
+                <span class="perfil-etiqueta">PERFIL DO USUÁRIO</span>
+                <h2 id="perfilNome">Carregando perfil...</h2>
+                <p id="perfilEmail">Carregando e-mail...</p>
+                <div class="perfil-identificacoes">
+                    <span><i data-lucide="building-2"></i><span id="perfilDepartamento">Carregando...</span></span>
+                    <span><i data-lucide="shield-check"></i><span id="perfilFuncao">Verificando acesso...</span></span>
+                </div>
+            </div>
+        </section>
+
+        <div class="configuracoes-layout">
+            <nav class="configuracoes-navegacao" aria-label="Seções de configurações">
+                <a href="#dadosPerfil" class="configuracoes-nav-link ativo">
+                    <i data-lucide="user-round"></i>
+                    <span>Meu perfil</span>
+                    <i data-lucide="chevron-right"></i>
+                </a>
+                <a href="#dadosConta" class="configuracoes-nav-link">
+                    <i data-lucide="contact-round"></i>
+                    <span>Dados da conta</span>
+                    <i data-lucide="chevron-right"></i>
+                </a>
+                <a href="#seguranca" class="configuracoes-nav-link">
+                    <i data-lucide="lock-keyhole"></i>
+                    <span>Segurança</span>
+                    <i data-lucide="chevron-right"></i>
+                </a>
+            </nav>
+
+            <div class="configuracoes-conteudo">
+                <section class="cartao configuracoes-card" id="dadosPerfil">
+                    <div class="configuracoes-card-cabecalho">
+                        <div class="configuracoes-card-icone">
+                            <i data-lucide="user-round"></i>
+                        </div>
+                        <div>
+                            <h2>Meu perfil</h2>
+                            <p>Informações vinculadas ao seu cadastro.</p>
+                        </div>
+                    </div>
+
+                    <div class="perfil-detalhes">
+                        <div class="campo-informativo">
+                            <span>Nome de exibição</span>
+                            <strong id="detalheNome">—</strong>
+                        </div>
+                        <div class="campo-informativo">
+                            <span>E-mail de acesso</span>
+                            <strong id="detalheEmail">—</strong>
+                        </div>
+                        <div class="campo-informativo">
+                            <span>Departamento</span>
+                            <strong id="detalheDepartamento">—</strong>
+                        </div>
+                        <div class="campo-informativo">
+                            <span>Tipo de acesso</span>
+                            <strong id="detalheFuncao">—</strong>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="cartao configuracoes-card" id="dadosConta">
+                    <div class="configuracoes-card-cabecalho">
+                        <div class="configuracoes-card-icone">
+                            <i data-lucide="contact-round"></i>
+                        </div>
+                        <div>
+                            <h2>Dados da conta</h2>
+                            <p>Atualize seu nome ou solicite a alteração do e-mail.</p>
+                        </div>
+                    </div>
+
+                    <form id="formNome" class="configuracoes-formulario">
+                        <label for="nomeExibicao">Nome de exibição</label>
+                        <input type="text" id="nomeExibicao" name="nomeExibicao" maxlength="100" autocomplete="name"
+                            required>
+                        <small>Esse nome será utilizado para identificar você no painel.</small>
+                        <button type="submit" class="botao-configuracoes" id="salvarNome">
+                            <i data-lucide="save"></i>
+                            Salvar alterações
+                        </button>
+                    </form>
+
+                    <div class="configuracoes-divisor"></div>
+
+                    <form id="formEmail" class="configuracoes-formulario">
+                        <label for="emailAtual">E-mail de acesso</label>
+                        <input type="email" id="emailAtual" autocomplete="email" required>
+                        <small>O Supabase poderá solicitar uma confirmação para concluir a alteração.</small>
+                        <button type="submit" class="botao-configuracoes botao-secundario" id="salvarEmail">
+                            <i data-lucide="mail"></i>
+                            Atualizar e-mail
+                        </button>
+                    </form>
+                </section>
+
+                <section class="cartao configuracoes-card" id="seguranca">
+                    <div class="configuracoes-card-cabecalho">
+                        <div class="configuracoes-card-icone">
+                            <i data-lucide="shield-check"></i>
+                        </div>
+                        <div>
+                            <h2>Segurança</h2>
+                            <p>Defina uma nova senha para sua conta.</p>
+                        </div>
+                    </div>
+
+                    <form id="formSenha" class="configuracoes-formulario">
+                        <label for="novaSenha">Nova senha</label>
+                        <div class="campo-senha">
+                            <input type="password" id="novaSenha" name="novaSenha" minlength="8"
+                                autocomplete="new-password" required>
+                            <button type="button" class="mostrar-senha" data-alvo="novaSenha"
+                                aria-label="Mostrar senha">
+                                <i data-lucide="eye"></i>
+                            </button>
+                        </div>
+
+                        <label for="confirmarSenha">Confirmar nova senha</label>
+                        <div class="campo-senha">
+                            <input type="password" id="confirmarSenha" name="confirmarSenha" minlength="8"
+                                autocomplete="new-password" required>
+                            <button type="button" class="mostrar-senha" data-alvo="confirmarSenha"
+                                aria-label="Mostrar senha">
+                                <i data-lucide="eye"></i>
+                            </button>
+                        </div>
+
+                        <small>Utilize pelo menos 8 caracteres e evite senhas fáceis de adivinhar.</small>
+
+                        <button type="submit" class="botao-configuracoes" id="salvarSenha">
+                            <i data-lucide="key-round"></i>
+                            Alterar senha
+                        </button>
+                    </form>
+                </section>
+            </div>
+        </div>
+
+        <footer class="rodape">
+            <span><strong>AZUL</strong> · Painel administrativo</span>
+        </footer>
+    </main>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../supabase.js"></script>
+    <script src="script.js"></script>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+
+</body>
+
+</html>

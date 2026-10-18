@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Orientações de Check-in | AzulTrack</title>
+    <link rel="icon" type="image/png" href="../img/favicon.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,35 +26,35 @@
         <span class="menu-titulo">MENU PRINCIPAL</span>
 
         <nav class="menu-lateral">
-            <a href="../dashboardCliente/index.html">
+            <a href="../dashboardCliente/index.html" title="Visão geral">
                 <i data-lucide="layout-dashboard" class="icone"></i>
-                Visão geral
+                <span>Visão geral</span>
             </a>
 
-            <a href="../dashboardCliente/index.html">
+            <a href="../voos/index.html" title="Meus voos">
                 <i data-lucide="plane" class="icone"></i>
-                Meus voos
+                <span>Meus voos</span>
             </a>
 
-            <a href="index.html">
+            <a href="index.html" class="ativo" aria-current="page" title="Orientações">
                 <i data-lucide="clipboard-check" class="icone"></i>
-                Orientações
+                <span>Orientações</span>
             </a>
 
-            <a href="../dashboardCliente/index.html">
+            <a href="../notificacoes/index.html" title="Notificações">
                 <i data-lucide="bell" class="icone"></i>
-                Notificações
+                <span>Notificações</span>
             </a>
         </nav>
 
         <div class="sidebar-inferior">
-            <a href="index.html#configuracoes">
-                <span class="icone">⚙</span>
+            <a href="../configuracoes/index.html">
+                <i data-lucide="settings" class="icone"></i>
                 Configurações
             </a>
 
             <a href="../landingPage/index.html" class="sair">
-                <span class="icone">↪</span>
+                <i data-lucide="log-out" class="icone"></i>
                 Voltar
             </a>
         </div>
@@ -69,15 +70,18 @@
         <header class="barra-topo">
 
             <div class="topo-direita">
-                <a href="index.html#notificacoes" class="icone-botao notificacao" aria-label="Ver notificações"><i
-                        data-lucide="bell" class="icone"></i></a>
+                <button type="button" class="icone-botao notificacao" id="botaoNotificacoes" aria-label="Notificações"
+                    title="Ver notificações" onclick="window.location.href='../notificacoes/index.html'">
+                    <i data-lucide="bell" class="icone"></i>
+                    <span id="bolinhaNotificacoes" class="bolinha-notificacao" hidden></span>
+                </button>
 
                 <div class="data-atual">
-                    <strong>Área do cliente</strong>
-                    <span id="nomeCliente">Carregando perfil...</span>
+                    <strong id="nomeCliente">Carregando perfil...</strong>
+                    <span>Área do cliente</span>
                 </div>
 
-                <div class="avatar avatar-pequeno" id="avatarCliente"></div>
+                <div class="avatar avatar-pequeno" id="avatarCliente">CL</div>
             </div>
         </header>
 
@@ -93,17 +97,21 @@
             </header>
 
             <section class="banner-orientacoes">
-                <div class="banner-icone"><i data-lucide="clipboard-check" class="icone"></i></div>
+                <div class="banner-icone">
+                    <i data-lucide="clipboard-check" class="icone"></i>
+                </div>
 
                 <div class="banner-texto">
                     <span class="etiqueta">GUIA DO PASSAGEIRO</span>
-                    <h2>Sua viagem começa antes do embarque.</h2>
-                    <p>Confira as etapas, organize seus documentos e saiba o que fazer antes de chegar ao aeroporto.</p>
+                    <h2>Viaje com tranquilidade do check-in ao embarque.</h2>
+                    <p>Confira os documentos, prepare sua bagagem e organize cada etapa antes de chegar ao aeroporto.
+                    </p>
                 </div>
 
-                <div class="banner-aviao">✈</div>
+                <div class="banner-aviao" aria-hidden="true">
+                    <i data-lucide="plane" class="icone"></i>
+                </div>
             </section>
-
             <div class="conteudo-grid">
 
                 <section class="secao orientacoes-lista">
@@ -118,15 +126,18 @@
 
                         <details class="etapa">
                             <summary>
-                                <span class="etapa-icone">◷</span>
+                                <span class="etapa-icone">
+                                    <i data-lucide="clock-3" class="icone"></i>
+                                </span>
                                 <span class="etapa-numero">01</span>
                                 <span class="etapa-titulo">
                                     <strong>Quando fazer o check-in</strong>
                                     <small>Confira os prazos da sua companhia aérea.</small>
                                 </span>
-                                <span class="etapa-seta">⌄</span>
+                                <span class="etapa-seta">
+                                    <i data-lucide="chevron-down" class="icone"></i>
+                                </span>
                             </summary>
-
                             <div class="etapa-conteudo">
                                 <p>O check-in permite confirmar sua presença no voo e, quando disponível, obter o cartão
                                     de embarque.</p>
@@ -145,15 +156,18 @@
 
                         <details class="etapa">
                             <summary>
-                                <span class="etapa-icone">▤</span>
+                                <span class="etapa-icone">
+                                    <i data-lucide="file-text" class="icone"></i>
+                                </span>
                                 <span class="etapa-numero">02</span>
                                 <span class="etapa-titulo">
                                     <strong>Documentos necessários</strong>
-                                    <small>Saiba o que separar antes de sair de casa.</small>
+                                    <small>Saiba quais documentos apresentar no embarque.</small>
                                 </span>
-                                <span class="etapa-seta">⌄</span>
+                                <span class="etapa-seta">
+                                    <i data-lucide="chevron-down" class="icone"></i>
+                                </span>
                             </summary>
-
                             <div class="etapa-conteudo">
                                 <p>Os documentos exigidos dependem do destino, da idade do passageiro e das regras
                                     aplicáveis à viagem.</p>
@@ -173,15 +187,18 @@
 
                         <details class="etapa">
                             <summary>
-                                <span class="etapa-icone">▣</span>
+                                <span class="etapa-icone">
+                                    <i data-lucide="luggage" class="icone"></i>
+                                </span>
                                 <span class="etapa-numero">03</span>
                                 <span class="etapa-titulo">
-                                    <strong>Bagagem</strong>
-                                    <small>Confira limites e itens permitidos.</small>
+                                    <strong>Bagagem e itens permitidos</strong>
+                                    <small>Confira as regras para bagagem de mão e despachada.</small>
                                 </span>
-                                <span class="etapa-seta">⌄</span>
+                                <span class="etapa-seta">
+                                    <i data-lucide="chevron-down" class="icone"></i>
+                                </span>
                             </summary>
-
                             <div class="etapa-conteudo">
                                 <p>As regras de bagagem podem variar conforme a companhia, a tarifa e o destino.</p>
                                 <ul>
@@ -199,15 +216,18 @@
 
                         <details class="etapa">
                             <summary>
-                                <span class="etapa-icone">✈</span>
+                                <span class="etapa-icone">
+                                    <i data-lucide="plane-takeoff" class="icone"></i>
+                                </span>
                                 <span class="etapa-numero">04</span>
                                 <span class="etapa-titulo">
                                     <strong>No dia do voo</strong>
-                                    <small>Organize sua chegada ao aeroporto.</small>
+                                    <small>Confira os horários e as orientações para embarcar.</small>
                                 </span>
-                                <span class="etapa-seta">⌄</span>
+                                <span class="etapa-seta">
+                                    <i data-lucide="chevron-down" class="icone"></i>
+                                </span>
                             </summary>
-
                             <div class="etapa-conteudo">
                                 <p>Depois de concluir o check-in, continue acompanhando as informações da sua viagem.
                                 </p>
@@ -229,7 +249,7 @@
                     </div>
                 </section>
 
-                <aside class="coluna-lateral">
+                <aside class="coluna-lateral" style="margin-top: 75px;">
 
                     <section class="painel-informativo">
                         <div class="painel-icone">i</div>
@@ -274,8 +294,6 @@
                 <a href="index.html" class="logo">
                     <img src="../img/logo2.png" alt="AzulTrack">
                 </a>
-
-                <p>Projeto demonstrativo — confirme as informações nos canais oficiais.</p>
             </footer>
 
         </div>
@@ -284,7 +302,7 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../supabase.js"></script>
-
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script src="script.js"></script>
 </body>
 

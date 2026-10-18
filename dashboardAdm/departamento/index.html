@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo | AzulTrack</title>
+    <link rel="icon" type="image/png" href="../../img/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <aside class="sidebar">
+        <a class="marca" href="../index.html" aria-label="AzulTrack - início">
+            <span class="marca-texto">AzulTrack</span><span class="marca-ponto">✦</span>
+        </a>
+
+        <span class="menu-titulo" style="margin-top: 30px;">PAINEL DE CONTROLE</span>
+
+        <nav class="menu-lateral">
+            <a class="menu-link" href="../index.html" data-menu="inicio">
+                <i data-lucide="layout-dashboard" class="icone"></i>
+                <span>Visão geral</span>
+            </a>
+
+            <a class="menu-link ativo" href="index.html" id="linkDepartamento" data-menu="departamento"
+                aria-current="page">
+                <i data-lucide="building-2" class="icone"></i>
+                <span>Departamento</span>
+            </a>
+
+            <a class="menu-link" href="../operacoes/index.html" data-menu="atendimento" data-permissao="view_support">
+                <i data-lucide="headset" class="icone"></i>
+                <span>Abrir ocorrência</span>
+            </a>
+
+            <a class="menu-link" href="../detalhes/index.html" data-menu="gestao" data-permissao="view_reports">
+                <i data-lucide="chart-no-axes-combined" class="icone"></i>
+                <span>Ocorrências</span>
+            </a>
+
+            <a class="menu-link" href="../notificacoes/index.html" data-menu="permissoes"
+                data-permissao="manage_settings">
+                <i data-lucide="bell" class="icone"></i>
+                <span>Notificações</span>
+            </a>
+
+            <a class="menu-link" href="../setores/index.html" id="linkUsuarios" data-menu="usuarios"
+                data-permissao="manage_employees">
+                <i data-lucide="users" class="icone"></i>
+                <span>Usuários e funcionários</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-final">
+            <span class="menu-titulo">PREFERÊNCIAS</span>
+
+            <a class="menu-link" href="../configuracoes/index.html">
+                <i data-lucide="settings" class="icone"></i>
+                <span>Configurações</span>
+            </a>
+
+            <a class="menu-link sair" href="../index.html">
+                <i data-lucide="log-out" class="icone"></i>Sair da conta
+            </a>
+        </div>
+    </aside>
+
+    <main class="principal" id="inicio">
+        <header class="barra-topo">
+            <div class="topo-direita">
+                <button type="button" class="icone-botao notificacao" id="botaoNotificacoes" aria-label="Notificações">
+                    <i data-lucide="bell" class="icone"></i>
+                    <span id="bolinhaNotificacoes" class="bolinha-notificacao" hidden></span>
+                </button>
+
+                <div class="data-atual">
+                    <strong id="nomeUsuario">Carregando...</strong>
+                    <span id="departamentoUsuario">Carregando departamento...</span>
+                </div>
+
+                <div class="avatar avatar-pequeno" id="avatarUsuario">--</div>
+            </div>
+        </header>
+
+        <section class="departamento-boas-vindas">
+            <div class="departamento-banner">
+                <div class="departamento-banner-conteudo">
+                    <span>AZULTRACK · ÁREA DE ATUAÇÃO</span>
+                    <h1 id="nomeDepartamento">Meu departamento</h1>
+                    <p id="descricaoDepartamento">Acompanhe as atividades, ocorrências e solicitações da sua equipe.</p>
+                    <div class="departamento-banner-status">
+                        <span class="status-pulso"></span>
+                        <span>Informações do departamento</span>
+                    </div>
+                </div>
+                <div class="departamento-banner-icone">
+                    <i data-lucide="building-2"></i>
+                </div>
+            </div>
+        </section>
+
+        <section class="departamento-indicadores" aria-label="Indicadores do departamento">
+            <article class="departamento-indicador">
+                <div class="departamento-indicador-topo">
+                    <span class="departamento-indicador-icone azul">
+                        <i data-lucide="folder-open"></i>
+                    </span>
+                    <span class="indicador-tendencia">Em acompanhamento</span>
+                </div>
+                <span class="departamento-indicador-label">Ocorrências abertas</span>
+                <strong class="departamento-indicador-valor" id="totalAbertas">—</strong>
+                <span class="departamento-indicador-descricao">Ocorrências não concluídas</span>
+            </article>
+
+            <article class="departamento-indicador">
+                <div class="departamento-indicador-topo">
+                    <span class="departamento-indicador-icone laranja">
+                        <i data-lucide="clock-3"></i>
+                    </span>
+                    <span class="indicador-tendencia">Atenção</span>
+                </div>
+                <span class="departamento-indicador-label">Pendências recebidas</span>
+                <strong class="departamento-indicador-valor" id="totalRecebidas">—</strong>
+                <span class="departamento-indicador-descricao">Aguardando ação da equipe</span>
+            </article>
+
+            <article class="departamento-indicador">
+                <div class="departamento-indicador-topo">
+                    <span class="departamento-indicador-icone verde">
+                        <i data-lucide="check-circle-2"></i>
+                    </span>
+                    <span class="indicador-tendencia">Concluídas</span>
+                </div>
+                <span class="departamento-indicador-label">Resolvidas</span>
+                <strong class="departamento-indicador-valor" id="totalResolvidas">—</strong>
+                <span class="departamento-indicador-descricao">Ocorrências concluídas</span>
+            </article>
+
+            <article class="departamento-indicador">
+                <div class="departamento-indicador-topo">
+                    <span class="departamento-indicador-icone roxo">
+                        <i data-lucide="arrow-left-right"></i>
+                    </span>
+                    <span class="indicador-tendencia">Integração</span>
+                </div>
+                <span class="departamento-indicador-label">Pendências enviadas</span>
+                <strong class="departamento-indicador-valor" id="totalEnviadas">—</strong>
+                <span class="departamento-indicador-descricao">Aguardando retorno externo</span>
+            </article>
+        </section>
+
+        <section class="departamento-grid-principal">
+            <article class="departamento-card departamento-card-categorias">
+                <div class="departamento-card-cabecalho">
+                    <div>
+                        <span class="departamento-card-sobretitulo">ACOMPANHAMENTO</span>
+                        <h2>Atividades do departamento</h2>
+                        <p>Distribuição das ocorrências por situação.</p>
+                    </div>
+                    <span class="departamento-card-icone">
+                        <i data-lucide="chart-no-axes-combined"></i>
+                    </span>
+                </div>
+
+                <div class="departamento-status-resumo" id="resumoStatus">
+                    <div class="departamento-status-linha">
+                        <div class="departamento-status-texto">
+                            <span class="departamento-status-ponto ponto-aberta"></span>
+                            <span>Abertas</span>
+                        </div>
+                        <strong id="statusAbertas">—</strong>
+                    </div>
+                    <div class="departamento-status-barra">
+                        <span id="barraAbertas"></span>
+                    </div>
+
+                    <div class="departamento-status-linha">
+                        <div class="departamento-status-texto">
+                            <span class="departamento-status-ponto ponto-andamento"></span>
+                            <span>Em andamento</span>
+                        </div>
+                        <strong id="statusAndamento">—</strong>
+                    </div>
+                    <div class="departamento-status-barra">
+                        <span id="barraAndamento"></span>
+                    </div>
+
+                    <div class="departamento-status-linha">
+                        <div class="departamento-status-texto">
+                            <span class="departamento-status-ponto ponto-resolvida"></span>
+                            <span>Resolvidas</span>
+                        </div>
+                        <strong id="statusResolvidas">—</strong>
+                    </div>
+                    <div class="departamento-status-barra">
+                        <span id="barraResolvidas"></span>
+                    </div>
+                </div>
+                <p class="departamento-observacao" id="mensagemIndicadores">Os indicadores serão exibidos após o
+                    carregamento dos dados.</p>
+            </article>
+
+            <article class="departamento-card departamento-card-atividade">
+                <div class="departamento-card-cabecalho">
+                    <div>
+                        <span class="departamento-card-sobretitulo">MOVIMENTAÇÕES</span>
+                        <h2>Atividade recente</h2>
+                        <p>Últimas ocorrências e atualizações.</p>
+                    </div>
+                    <i data-lucide="activity" class="departamento-cabecalho-icone"></i>
+                </div>
+
+                <div class="departamento-atividade-lista" id="listaAtividades">
+                    <div class="departamento-estado-vazio">
+                        <i data-lucide="inbox"></i>
+                        <strong>Aguardando dados</strong>
+                        <span>As atividades aparecerão aqui quando forem carregadas.</span>
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <section class="departamento-card departamento-card-pendencias">
+            <div class="departamento-card-cabecalho departamento-pendencias-cabecalho">
+                <div>
+                    <span class="departamento-card-sobretitulo">COMUNICAÇÃO INTERÁREAS</span>
+                    <h2>Pendências entre departamentos</h2>
+                    <p>Acompanhe solicitações que envolvem outras equipes.</p>
+                </div>
+                <a href="../detalhes/index.html" class="departamento-link">
+                    Ver ocorrências <i data-lucide="arrow-up-right"></i>
+                </a>
+            </div>
+
+            <div class="departamento-pendencias-abas">
+                <button type="button" class="departamento-aba ativa" data-pendencia="recebidas">
+                    <i data-lucide="inbox"></i>
+                    Recebidas
+                    <span id="contadorRecebidas">0</span>
+                </button>
+                <button type="button" class="departamento-aba" data-pendencia="enviadas">
+                    <i data-lucide="send"></i>
+                    Enviadas
+                    <span id="contadorEnviadas">0</span>
+                </button>
+            </div>
+
+            <div class="departamento-tabela-scroll">
+                <table class="departamento-tabela">
+                    <thead>
+                        <tr>
+                            <th>Ocorrência</th>
+                            <th>Departamento</th>
+                            <th>Prioridade</th>
+                            <th>Status</th>
+                            <th>Atualização</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabelaPendencias">
+                        <tr>
+                            <td colspan="5">
+                                <div class="departamento-estado-vazio">
+                                    <i data-lucide="inbox"></i>
+                                    <strong>Nenhuma informação carregada</strong>
+                                    <span>As pendências aparecerão aqui quando os dados estiverem disponíveis.</span>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="departamento-card departamento-card-especifico">
+            <div class="departamento-card-cabecalho">
+                <div>
+                    <span class="departamento-card-sobretitulo">PAINEL PERSONALIZADO</span>
+                    <h2 id="tituloIndicadoresEspecificos">Indicadores do departamento</h2>
+                    <p id="descricaoIndicadoresEspecificos">Informações relevantes para as atividades da equipe.</p>
+                </div>
+                <span class="departamento-card-icone">
+                    <i data-lucide="target"></i>
+                </span>
+            </div>
+
+            <div class="departamento-especificos-grid" id="indicadoresEspecificos">
+                <div class="departamento-especifico-item">
+                    <span class="departamento-especifico-icone"><i data-lucide="list-checks"></i></span>
+                    <span class="departamento-especifico-label">Demandas em acompanhamento</span>
+                    <strong>—</strong>
+                </div>
+                <div class="departamento-especifico-item">
+                    <span class="departamento-especifico-icone"><i data-lucide="messages-square"></i></span>
+                    <span class="departamento-especifico-label">Interações com outros setores</span>
+                    <strong>—</strong>
+                </div>
+                <div class="departamento-especifico-item">
+                    <span class="departamento-especifico-icone"><i data-lucide="calendar-clock"></i></span>
+                    <span class="departamento-especifico-label">Demandas recentes</span>
+                    <strong>—</strong>
+                </div>
+            </div>
+        </section>
+
+        <section class="departamento-acoes">
+            <a href="../operacoes/index.html" class="departamento-acao">
+                <span><i data-lucide="plus-circle"></i></span>
+                <div>
+                    <strong>Abrir ocorrência</strong>
+                    <small>Registre um novo problema ou solicitação.</small>
+                </div>
+                <i data-lucide="chevron-right"></i>
+            </a>
+
+            <a href="../detalhes/index.html" class="departamento-acao">
+                <span><i data-lucide="search"></i></span>
+                <div>
+                    <strong>Consultar ocorrências</strong>
+                    <small>Acompanhe os registros e suas atualizações.</small>
+                </div>
+                <i data-lucide="chevron-right"></i>
+            </a>
+
+            <a href="../notificacoes/index.html" class="departamento-acao">
+                <span><i data-lucide="bell-ring"></i></span>
+                <div>
+                    <strong>Ver notificações</strong>
+                    <small>Confira os avisos e as solicitações recebidas.</small>
+                </div>
+                <i data-lucide="chevron-right"></i>
+            </a>
+        </section>
+
+        <footer class="rodape">
+            <span><strong>AZUL</strong> · Painel administrativo</span>
+        </footer>
+    </main>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../supabase.js"></script>
+    <script src="script.js"></script>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+
+</body>
+
+</html>

@@ -4,9 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalhes da ocorrência | AzulTrack</title>
-
-    <link rel="stylesheet" href="../style.css">
+    <title>Painel Administrativo | AzulTrack</title>
+    <link rel="icon" type="image/png" href="../../img/favicon.png">
     <link rel="stylesheet" href="../style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
@@ -27,6 +26,11 @@
                 <span>Visão geral</span>
             </a>
 
+            <a class="menu-link" href="departamento/index.html" id="linkDepartamento" data-menu="inicio">
+                <i data-lucide="building-2" class="icone"></i>
+                <span>Departamento</span>
+            </a>
+
             <a class="menu-link" href="../operacoes/index.html" data-menu="atendimento" data-permissao="view_support">
                 <i data-lucide="headset" class="icone"></i>
                 <span>Abrir ocorrência</span>
@@ -43,7 +47,8 @@
                 <span>Notificações</span>
             </a>
 
-            <a class="menu-link" href="../setores/index.html" data-menu="usuarios" data-permissao="manage_employees">
+            <a class="menu-link" href="../setores/index.html" id="linkUsuarios" data-menu="usuarios"
+                data-permissao="manage_employees">
                 <i data-lucide="users" class="icone"></i>
                 <span>Usuários e funcionários</span>
             </a>
@@ -52,37 +57,40 @@
         <div class="sidebar-final">
             <span class="menu-titulo">PREFERÊNCIAS</span>
 
-            <a class="menu-link" href="../index.html">
+            <a class="menu-link" href="../configuracoes/index.html">
                 <i data-lucide="settings" class="icone"></i>
                 <span>Configurações</span>
             </a>
-            <a href="../../login/index.html" class="menu-link sair" id="botaoSair">
+            <a href="../../login/index.html" class="sair menu-link" id="botaoSair">
                 <i data-lucide="log-out"></i>
-                <span>Sair</span>
+                Sair
             </a>
         </div>
     </aside>
 
     <main class="principal">
+
         <header class="barra-topo">
             <div class="topo-direita">
-                <button type="button" class="icone-botao notificacao" aria-label="Notificações">
+                <button type="button" class="icone-botao notificacao" id="botaoNotificacoes" aria-label="Notificações"
+                    onclick="window.location.href='../notificacoes/index.html'">
                     <i data-lucide="bell" class="icone"></i>
+                    <span id="bolinhaNotificacoes" class="bolinha-notificacao" hidden></span>
                 </button>
 
                 <div class="data-atual">
-                    <strong>Central operacional</strong>
-                    <span>Gerenciamento de ocorrências</span>
+                    <strong id="nomeUsuario">Carregando...</strong>
+                    <span id="departamentoUsuario">Carregando departamento...</span>
                 </div>
 
-                <div class="avatar avatar-pequeno" id="avatarUsuario">AT</div>
+                <div class="avatar avatar-pequeno" id="avatarUsuario">--</div>
             </div>
         </header>
 
         <section class="detalhes-cabecalho">
-            <a href="operacoes.html" class="voltar-ocorrencias">
+            <a href="index.html" class="voltar-ocorrencias">
                 <i data-lucide="arrow-left"></i>
-                Voltar para operações
+                Voltar
             </a>
 
             <div class="detalhes-titulo-linha">
@@ -231,8 +239,7 @@
         </div>
 
         <footer class="rodape">
-            <span>AzulTrack — Acompanhamento operacional</span>
-            <span>Informações atualizadas conforme os registros do sistema.</span>
+            <span><strong>AZUL</strong> · Painel administrativo</span>
         </footer>
     </main>
 
@@ -240,6 +247,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../../supabase.js"></script>
     <script src="detalhes.js"></script>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+
 </body>
 
 </html>

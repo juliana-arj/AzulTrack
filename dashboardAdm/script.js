@@ -69,8 +69,14 @@
         .eq("id", sessao.user.id)
         .single();
 
-    if (erroPerfil || !perfil ||
-        !["admin", "super_admin"].includes(perfil.role)) {
+    if (
+        erroPerfil ||
+        !perfil ||
+        (
+            perfil.role !== "super_admin" &&
+            !perfil.department_id
+        )
+    ) {
         await cliente.auth.signOut();
         window.location.replace(caminhoLogin);
         return;
@@ -82,15 +88,19 @@
         || sessao.user.email
         || "Administrador";
 
-    const iniciais = nome
-        .split(/\s+/)
-        .filter(Boolean)
-        .slice(0, 2)
-        .map(parte => parte[0])
-        .join("")
-        .toUpperCase();
+    const partesNome = nome.split(/\s+/).filter(Boolean);
+    const primeiroNome = partesNome[0] || "Administrador";
+    const ultimoNome = partesNome.length > 1
+        ? partesNome[partesNome.length - 1]
+        : "";
 
-    const avatar = document.querySelector(".avatar-pequeno");
+    const iniciais = (
+        primeiroNome[0] + (ultimoNome ? ultimoNome[0] : "")
+    ).toUpperCase();
+
+    definirTexto("#nomeUsuario", nome);
+
+    const avatar = document.querySelector("#avatarUsuario");
 
     if (avatar) {
         avatar.textContent = iniciais;
@@ -98,12 +108,29 @@
         avatar.setAttribute("aria-label", `Administrador: ${nome}`);
     }
 
-    definirTexto(
-        ".boas-texto h1",
-        `Olá, ${nome.split(/\s+/)[0]}!`
-    );
+    const departamento = document.querySelector("#departamentoUsuario");
 
-    definirTexto(".data-atual span", "Dados do Supabase");
+    if (perfil.role === "super_admin") {
+        definirTexto("#departamentoUsuario", "Super Administrador");
+    } else if (perfil.department_id) {
+        const { data: dadosDepartamento, error: erroDepartamento } =
+            await cliente
+                .from("departments")
+                .select("name")
+                .eq("id", perfil.department_id)
+                .maybeSingle();
+
+        if (erroDepartamento) {
+            console.error("Erro ao carregar departamento:", erroDepartamento);
+        }
+
+        definirTexto(
+            "#departamentoUsuario",
+            dadosDepartamento?.name || "Departamento não definido"
+        );
+    } else {
+        definirTexto("#departamentoUsuario", "Departamento não definido");
+    }
 
     const botaoSair = document.querySelector(".sair");
 
@@ -190,8 +217,7 @@
                 "Código",
                 "Ocorrência",
                 "Gravidade",
-                "Status",
-                "Departamento"
+                "Status"
             ].forEach(titulo => {
                 const th = document.createElement("th");
                 th.textContent = titulo;
@@ -277,12 +303,14 @@
         return nomes[valor] || gravidade || "Não informada";
     };
 
+
     const formatarDepartamento = departamento => {
         const nomes = {
             atendimento: "Atendimento",
-            comunicacao: "Comunicação",
-            operacoes: "Operações",
-            gestao: "Gestão"
+            cco: "CCO",
+            manutencao: "Manutenção",
+            handling: "Handling",
+            comercial: "Comercial"
         };
 
         return nomes[departamento] || departamento || "Não definido";
@@ -312,7 +340,7 @@
         if (!ocorrencias.length) {
             const linha = document.createElement("tr");
             const celula = criarCelula("Nenhuma ocorrência encontrada.");
-            celula.colSpan = 5;
+            celula.colSpan = 4;
             linha.appendChild(celula);
             corpo.appendChild(linha);
             return;
@@ -333,17 +361,15 @@
             linha.appendChild(
                 criarCelula(formatarStatus(ocorrencia.status))
             );
-            linha.appendChild(
-                criarCelula(
-                    formatarDepartamento(
-                        ocorrencia.responsible_department_id
-                    )
-                )
-            );
 
             corpo.appendChild(linha);
         });
     }
+
+
+    let periodoGrafico = 7;
+    let dadosGrafico = [];
+
 
     function atualizarGrafico(ocorrencias) {
         const svg = document.querySelector(".grafico-area svg");
@@ -351,6 +377,36 @@
         const legenda = document.querySelector(".legenda");
 
         if (!svg || !eixoX) return;
+
+        const botaoPeriodo = document.querySelector(".seletor-periodo");
+
+        dadosGrafico = ocorrencias;
+
+        if (botaoPeriodo && !botaoPeriodo.dataset.configurado) {
+            botaoPeriodo.dataset.configurado = "true";
+
+            botaoPeriodo.addEventListener("click", () => {
+                const periodos = [
+                    { dias: 7, texto: "Últimos 7 dias" },
+                    { dias: 30, texto: "Últimos 30 dias" }
+                ];
+
+                const atual = periodos.findIndex(
+                    periodo => periodo.dias === periodoGrafico
+                );
+
+                periodoGrafico = periodos[(atual + 1) % periodos.length].dias;
+                botaoPeriodo.textContent =
+                    periodos.find(periodo => periodo.dias === periodoGrafico).texto;
+
+                atualizarGrafico(dadosGrafico);
+            });
+
+            botaoPeriodo.textContent = "Últimos 7 dias";
+        }
+
+        dadosGrafico = ocorrencias;
+
 
         if (legenda) {
             legenda.replaceChildren();
@@ -364,13 +420,13 @@
             legenda.appendChild(item);
         }
 
+
         const dias = [];
 
-        for (let i = 6; i >= 0; i--) {
+        for (let i = periodoGrafico - 1; i >= 0; i--) {
             const data = new Date();
             data.setHours(0, 0, 0, 0);
             data.setDate(data.getDate() - i);
-
             dias.push(data);
         }
 
@@ -381,26 +437,41 @@
 
             return ocorrencias.filter(ocorrencia => {
                 const criadaEm = new Date(ocorrencia.created_at);
-
                 return criadaEm >= inicio && criadaEm < fim;
             }).length;
         });
 
+
         eixoX.replaceChildren();
 
-        dias.forEach(dia => {
+
+        dias.forEach((dia, indice) => {
             const span = document.createElement("span");
-            span.textContent = dia.toLocaleDateString("pt-BR", {
-                day: "2-digit",
-                month: "2-digit"
-            });
+
+            if (periodoGrafico === 1) {
+                span.textContent = "Hoje";
+            } else if (periodoGrafico === 7 || indice % 5 === 0 || indice === dias.length - 1) {
+                span.textContent = dia.toLocaleDateString("pt-BR", {
+                    day: "2-digit",
+                    month: "2-digit"
+                });
+            } else {
+                span.textContent = "";
+            }
+
             eixoX.appendChild(span);
         });
 
         const maximo = Math.max(...contagens, 1);
+        const alturaGrafico = 140;
+        const baseGrafico = 165;
+
         const pontos = contagens.map((valor, indice) => {
-            const x = 10 + indice * (575 / 6);
-            const y = 165 - (valor / maximo) * 130;
+            const x = dias.length === 1
+                ? 10
+                : 10 + indice * (575 / (dias.length - 1));
+
+            const y = baseGrafico - (valor / maximo) * alturaGrafico;
 
             return { x, y };
         });
@@ -446,25 +517,30 @@
             .map(ponto => `${ponto.x},${ponto.y}`)
             .join(" ");
 
-        const primeiro = pontos[0];
-        const ultimo = pontos[pontos.length - 1];
 
-        svg.appendChild(criarSvg("path", {
-            d: `M${primeiro.x} ${primeiro.y} ${pontos
-                .slice(1)
-                .map(ponto => `L${ponto.x} ${ponto.y}`)
-                .join(" ")} L${ultimo.x} 178 L${primeiro.x} 178 Z`,
-            fill: "url(#areaOcorrencias)"
-        }));
+        if (pontos.length > 1) {
+            const primeiro = pontos[0];
+            const ultimo = pontos[pontos.length - 1];
 
-        svg.appendChild(criarSvg("polyline", {
-            points: linhaPontos,
-            fill: "none",
-            stroke: "#0084BE",
-            "stroke-width": "3",
-            "stroke-linecap": "round",
-            "stroke-linejoin": "round"
-        }));
+            svg.appendChild(criarSvg("path", {
+                d: `M${primeiro.x} ${primeiro.y} ${pontos
+                    .slice(1)
+                    .map(ponto => `L${ponto.x} ${ponto.y}`)
+                    .join(" ")} L${ultimo.x} 178 L${primeiro.x} 178 Z`,
+                fill: "url(#areaOcorrencias)"
+            }));
+
+            svg.appendChild(criarSvg("polyline", {
+                points: linhaPontos,
+                fill: "none",
+                stroke: "#0084BE",
+                "stroke-width": "3",
+                "stroke-linecap": "round",
+                "stroke-linejoin": "round"
+            }));
+        }
+
+
 
         pontos.forEach(ponto => {
             svg.appendChild(criarSvg("circle", {
@@ -480,9 +556,11 @@
         if (eixoY) {
             eixoY.replaceChildren();
 
-            for (let i = 5; i >= 0; i--) {
+            const quantidadeMarcas = Math.min(maximo, 5);
+
+            for (let i = quantidadeMarcas; i >= 0; i--) {
                 const span = document.createElement("span");
-                span.textContent = Math.round(maximo * i / 5);
+                span.textContent = Math.round(maximo * i / quantidadeMarcas);
                 eixoY.appendChild(span);
             }
         }
@@ -490,7 +568,9 @@
         const descricao = document.querySelector(".grafico-cartao .cartao-cabecalho p");
 
         if (descricao) {
-            descricao.textContent = "Ocorrências registradas nos últimos 7 dias";
+            descricao.textContent = periodoGrafico === 1
+                ? "Ocorrências registradas hoje"
+                : `Ocorrências registradas nos últimos ${periodoGrafico} dias`;
         }
     }
 
@@ -513,27 +593,32 @@
         });
 
         const total = ocorrencias.length;
-        const cores = [
-            "#0084BE",
-            "#22B5EA",
-            "#F59E0B",
-            "#16A34A",
-            "#DC2626",
-            "#64748B"
-        ];
+
+        const coresStatus = {
+            "Resolvida": "#45ae61",
+            "Concluída": "#39866A",
+            "Encerrada": "#39866A",
+            "Aberta": "#0084BE",
+            "Em analise": "#426A8C",
+            "Em andamento": "#22B5EA",
+            "Cancelada": "#91A7B8"
+        };
+
+        const corPadrao = "#64748B";
 
         const dados = [...grupos.entries()]
             .sort((a, b) => b[1] - a[1]);
 
         let acumulado = 0;
 
-        const segmentos = dados.map(([status, quantidade], indice) => {
+        const segmentos = dados.map(([status, quantidade]) => {
             const inicio = total ? acumulado / total * 100 : 0;
             acumulado += quantidade;
 
             const fim = total ? acumulado / total * 100 : 0;
+            const cor = coresStatus[status] || corPadrao;
 
-            return `${cores[indice % cores.length]} ${inicio}% ${fim}%`;
+            return `${cor} ${inicio}% ${fim}%`;
         });
 
         grafico.style.background = total
@@ -563,22 +648,31 @@
             return;
         }
 
-        dados.forEach(([status, quantidade], indice) => {
+        dados.forEach(([status, quantidade]) => {
             const linha = document.createElement("div");
+            linha.className = "status-legenda-item";
+
             const ponto = document.createElement("i");
-            const nome = document.createElement("span");
-            const numero = document.createElement("strong");
-            const percentual = total
-                ? Math.round(quantidade / total * 100)
-                : 0;
-
             ponto.className = "status-ponto";
-            ponto.style.backgroundColor = cores[indice % cores.length];
+            ponto.style.backgroundColor = coresStatus[status] || corPadrao;
 
+            const nome = document.createElement("span");
+            nome.className = "status-nome";
             nome.textContent = status;
-            numero.textContent = `${quantidade} ${percentual}%`;
 
-            linha.append(ponto, nome, numero);
+            const valores = document.createElement("div");
+            valores.className = "status-valores";
+
+            const totalOcorrencias = document.createElement("strong");
+            totalOcorrencias.className = "status-quantidade";
+            totalOcorrencias.textContent = quantidade;
+
+            const percentual = document.createElement("span");
+            percentual.className = "status-percentual";
+            percentual.textContent = `${Math.round(quantidade / total * 100)}%`;
+
+            valores.append(totalOcorrencias, percentual);
+            linha.append(ponto, nome, valores);
             legenda.appendChild(linha);
         });
 
@@ -612,7 +706,14 @@
 
             const simbolo = document.createElement("span");
             simbolo.className = "notificacao-simbolo info";
-            simbolo.textContent = notificacao.read_at ? "✓" : "i";
+
+            const icone = document.createElement("i");
+            icone.setAttribute(
+                "data-lucide",
+                notificacao.read_at ? "check-circle" : "bell-ring"
+            );
+
+            simbolo.appendChild(icone);
 
             const conteudo = document.createElement("div");
 
@@ -633,11 +734,38 @@
             } else {
                 cartao.appendChild(item);
             }
+
+            if (window.lucide) {
+                window.lucide.createIcons({
+                    nodes: [item]
+                });
+            }
         });
 
         const descricao = cartao.querySelector(".cartao-cabecalho p");
 
         if (descricao) descricao.textContent = "Notificações da sua conta";
+    }
+
+
+    function atualizarBolinhaNotificacoes(notificacoes) {
+        const bolinha = document.getElementById("bolinhaNotificacoes");
+        const botao = document.getElementById("botaoNotificacoes");
+
+        if (!bolinha || !botao) return;
+
+        const naoLidas = notificacoes.filter(
+            notificacao => !notificacao.read_at
+        ).length;
+
+        bolinha.hidden = naoLidas === 0;
+
+        botao.setAttribute(
+            "aria-label",
+            naoLidas > 0
+                ? `Notificações: ${naoLidas} não lidas`
+                : "Notificações"
+        );
     }
 
     async function carregarDashboard() {
@@ -695,11 +823,11 @@
                 }
             }
 
-            montarTabela(ocorrencias.slice(0, 10));
+            montarTabela(ocorrencias.slice(0, 2));
             atualizarGrafico(ocorrencias);
             atualizarDistribuicao(ocorrencias);
-            atualizarNotificacoes(notificacoes);
-
+            atualizarNotificacoes(notificacoes.slice(0, 2));
+            atualizarBolinhaNotificacoes(notificacoes);
             const atualizacao = document.querySelector(".ponto-atualizado");
 
             if (atualizacao) {
@@ -715,7 +843,7 @@
 
             if (descricaoTabela) {
                 descricaoTabela.textContent =
-                    `${ocorrencias.length} ocorrência(s) carregada(s)`;
+                    `Ultimas ocorrências registradas`;
             }
 
             const aviso = document.getElementById("avisoDashboard");
@@ -730,8 +858,54 @@
         }
     }
 
+    async function controlarAcessosSidebar() {
+        const linkDepartamento = document.getElementById("linkDepartamento");
+        const linkUsuarios = document.getElementById("linkUsuarios");
+
+        if (linkDepartamento) linkDepartamento.hidden = true;
+        if (linkUsuarios) linkUsuarios.hidden = true;
+
+        if (!window.supabaseClient) return;
+
+        const { data: sessaoData } = await window.supabaseClient.auth.getSession();
+        const usuario = sessaoData?.session?.user;
+
+        if (!usuario) return;
+
+        const { data: perfil, error } = await window.supabaseClient
+            .from("profiles")
+            .select("role, department_id")
+            .eq("id", usuario.id)
+            .maybeSingle();
+
+        if (error || !perfil) return;
+
+        const cargo = String(perfil.role || "")
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .toLowerCase()
+            .replace(/[^a-z0-9]/g, "");
+
+        const ehSuperAdmin = [
+            "superadmin",
+            "superadministrador"
+        ].includes(cargo);
+
+        if (linkDepartamento) {
+            linkDepartamento.hidden = ehSuperAdmin || !perfil.department_id;
+        }
+
+        if (linkUsuarios) {
+            linkUsuarios.hidden = !ehSuperAdmin;
+        }
+    }
+
+    controlarAcessosSidebar();
+
     document.querySelectorAll(".menu-link, .acao-link, .boas-acoes a, .marca")
         .forEach(link => {
+            if (link.matches(".sair")) return;
+
             const destino = link.getAttribute("href");
 
             if (!destino || !destino.startsWith("#")) return;

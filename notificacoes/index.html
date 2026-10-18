@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notificações | AzulTrack</title>
+    <link rel="icon" type="image/png" href="../img/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <aside class="sidebar">
+        <a class="marca" href="index.html" aria-label="AzulTrack - início">
+            <span class="marca-texto">AzulTrack</span>
+            <span class="marca-ponto">✦</span>
+        </a>
+
+        <span class="menu-titulo">MENU PRINCIPAL</span>
+
+        <nav class="menu-lateral">
+            <a href="../dashboardCliente/index.html">
+                <i data-lucide="layout-dashboard" class="icone"></i>
+                Visão geral
+            </a>
+            <a href="../voos/index.html">
+                <i data-lucide="plane" class="icone"></i>
+                Meus voos
+            </a>
+            <a href="../check-in/index.html">
+                <i data-lucide="clipboard-check" class="icone"></i>
+                Orientações
+            </a>
+            <a href="index.html" class="ativo" aria-current="page">
+                <i data-lucide="bell" class="icone"></i>
+                Notificações
+                <span class="notificacoes-menu-contador" id="contadorMenu" hidden>0</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-inferior">
+            <a href="../configuracoes/index.html">
+                <i data-lucide="settings" class="icone"></i>
+                Configurações
+            </a>
+            <a href="../landingPage/index.html" class="sair">
+                <i data-lucide="log-out" class="icone"></i>
+                Voltar
+            </a>
+        </div>
+
+        <div class="sidebar-rodape">
+            <span>AZULTRACK</span>
+            <p>Sua viagem em um só lugar.</p>
+        </div>
+    </aside>
+
+    <main class="principal" id="inicio">
+        <header class="barra-topo">
+            <div class="topo-direita">
+                <div class="data-atual">
+                    <strong id="nomeCliente">Área do cliente</strong>
+                    <span>Central de notificações</span>
+                </div>
+                <div class="avatar avatar-pequeno" id="avatarCliente">CL</div>
+            </div>
+        </header>
+
+        <header class="topo">
+            <div>
+                <span class="subtitulo">ÁREA DO CLIENTE</span>
+                <h1>Notificações</h1>
+                <p>Acompanhe atualizações e mensagens importantes da sua conta.</p>
+            </div>
+        </header>
+
+        <section class="notificacoes-banner">
+            <div class="notificacoes-banner-icone">
+                <i data-lucide="bell-ring" class="icone"></i>
+            </div>
+            <div>
+                <span>AZULTRACK</span>
+                <h2>Fique por dentro da sua viagem.</h2>
+                <p>Consulte suas notificações e não perca as atualizações disponibilizadas para você.</p>
+            </div>
+        </section>
+
+        <section class="indicadores-voos notificacoes-indicadores" aria-label="Resumo das notificações">
+            <article class="indicador-voos">
+                <div class="indicador-voos-icone azul-claro">
+                    <i data-lucide="bell" class="icone"></i>
+                </div>
+                <div class="indicador-voos-texto">
+                    <span>Total de notificações</span>
+                    <strong id="totalNotificacoes">—</strong>
+                </div>
+            </article>
+
+            <article class="indicador-voos">
+                <div class="indicador-voos-icone laranja-claro">
+                    <i data-lucide="bell-ring" class="icone"></i>
+                </div>
+                <div class="indicador-voos-texto">
+                    <span>Não lidas</span>
+                    <strong id="totalNaoLidas">—</strong>
+                </div>
+            </article>
+
+            <article class="indicador-voos">
+                <div class="indicador-voos-icone verde-claro">
+                    <i data-lucide="check-check" class="icone"></i>
+                </div>
+                <div class="indicador-voos-texto">
+                    <span>Lidas</span>
+                    <strong id="totalLidas">—</strong>
+                </div>
+            </article>
+        </section>
+
+        <section class="secao notificacoes-secao">
+            <div class="secao-cabecalho notificacoes-cabecalho">
+                <div>
+                    <h2>Suas notificações</h2>
+                    <p>Visualize as mensagens e gerencie o status de leitura.</p>
+                </div>
+                <button type="button" class="botao-marcar-todas" id="marcarTodasLidas" disabled>
+                    <i data-lucide="check-check" class="icone"></i>
+                    Marcar todas como lidas
+                </button>
+            </div>
+
+            <div class="notificacoes-filtros">
+                <div class="campo-filtro">
+                    <label for="filtroNotificacoes">Pesquisar</label>
+                    <input type="search" id="filtroNotificacoes" placeholder="Buscar pelo título ou mensagem...">
+                </div>
+
+                <div class="campo-filtro">
+                    <label for="filtroLeitura">Situação</label>
+                    <select id="filtroLeitura">
+                        <option value="todas">Todas as notificações</option>
+                        <option value="nao-lidas">Não lidas</option>
+                        <option value="lidas">Lidas</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="notificacoes-lista" id="listaNotificacoes" aria-live="polite">
+                <div class="resultado-vazio">
+                    <h3>Carregando notificações...</h3>
+                    <p>Aguarde enquanto buscamos as mensagens da sua conta.</p>
+                </div>
+            </div>
+
+            <div class="notificacoes-rodape-lista">
+                <span id="contadorResultados">Carregando...</span>
+                <button type="button" class="botao-secundario-notificacoes" id="limparFiltros">
+                    Limpar filtros
+                </button>
+            </div>
+        </section>
+        <footer class="rodape-dashboard">
+            <a href="#inicio" class="logo">
+                <img src="../img/logo2.png" alt="AzulTrack">
+            </a>
+        </footer>
+    </main>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../supabase.js"></script>
+    <script src="script.js"></script>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+
+</body>
+
+</html>

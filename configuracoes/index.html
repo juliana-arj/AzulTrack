@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#012251">
+    <title>Configurações da conta | AzulTrack</title>
+    <link rel="icon" type="image/png" href="../../img/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <aside class="sidebar">
+        <a class="marca" href="index.html" aria-label="AzulTrack - início">
+            <span class="marca-texto">AzulTrack</span>
+            <span class="marca-ponto">✦</span>
+        </a>
+
+        <span class="menu-titulo">MENU PRINCIPAL</span>
+
+        <nav class="menu-lateral">
+            <a href="../dashboardCliente/index.html">
+                <i data-lucide="layout-dashboard" class="icone"></i>
+                Visão geral
+            </a>
+            <a href="../voos/index.html">
+                <i data-lucide="plane" class="icone"></i>
+                Meus voos
+            </a>
+            <a href="../check-in/index.html">
+                <i data-lucide="clipboard-check" class="icone"></i>
+                Orientações
+            </a>
+            <a href="index.html" class="" aria-current="page">
+                <i data-lucide="bell" class="icone"></i>
+                Notificações
+                <span class="notificacoes-menu-contador" id="contadorMenu" hidden>0</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-inferior ativo">
+            <a href="../configuracoes/index.html">
+                <i data-lucide="settings" class="icone"></i>
+                Configurações
+            </a>
+            <a href="../landingPage/index.html" class="sair">
+                <i data-lucide="log-out" class="icone"></i>
+                Voltar
+            </a>
+        </div>
+
+        <div class="sidebar-rodape">
+            <span>AZULTRACK</span>
+            <p>Sua viagem em um só lugar.</p>
+        </div>
+    </aside>
+
+    <main class="principal configuracoes-principal">
+        <header class="barra-topo">
+            <div class="topo-direita">
+                <button type="button" class="icone-botao notificacao" id="botaoNotificacoes" aria-label="Notificações"
+                    title="Ver notificações">
+                    <i data-lucide="bell" class="icone"></i>
+                    <span id="bolinhaNotificacoes" class="bolinha-notificacao" hidden></span>
+                </button>
+
+                <div class="data-atual">
+                    <strong id="nomeCliente">Carregando perfil...</strong>
+                    <span>Área do cliente</span>
+                </div>
+
+                <div class="avatar avatar-pequeno" id="avatarCliente">CL</div>
+            </div>
+        </header>
+
+        <section class="configuracoes-cabecalho">
+            <div>
+                <span class="configuracoes-sobretitulo">SUA CONTA</span>
+                <h1>Configurações</h1>
+                <p>Consulte seus dados e gerencie o acesso à sua conta AzulTrack.</p>
+            </div>
+
+            <div class="configuracoes-cabecalho-icone">
+                <i data-lucide="settings-2"></i>
+            </div>
+        </section>
+
+        <div class="configuracoes-mensagem" id="mensagemConfiguracoes" role="status" aria-live="polite" hidden></div>
+
+        <section class="perfil-resumo cartao">
+            <div class="perfil-avatar" id="avatarPerfil">CL</div>
+
+            <div class="perfil-resumo-dados">
+                <span class="perfil-etiqueta">PERFIL DO PASSAGEIRO</span>
+                <h2 id="perfilNome">Carregando perfil...</h2>
+                <p id="perfilEmail">Carregando e-mail...</p>
+
+                <div class="perfil-identificacoes">
+                    <span>
+                        <i data-lucide="user-round"></i>
+                        <span>Conta de cliente</span>
+                    </span>
+                    <span>
+                        <i data-lucide="shield-check"></i>
+                        <span>Conta autenticada</span>
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <div class="configuracoes-layout">
+            <nav class="configuracoes-navegacao" aria-label="Seções de configurações">
+                <a href="#dadosPerfil" class="configuracoes-nav-link ativo">
+                    <i data-lucide="user-round"></i>
+                    <span>Meu perfil</span>
+                    <i data-lucide="chevron-right"></i>
+                </a>
+
+                <a href="#dadosConta" class="configuracoes-nav-link">
+                    <i data-lucide="contact-round"></i>
+                    <span>Dados da conta</span>
+                    <i data-lucide="chevron-right"></i>
+                </a>
+
+                <a href="#seguranca" class="configuracoes-nav-link">
+                    <i data-lucide="lock-keyhole"></i>
+                    <span>Segurança</span>
+                    <i data-lucide="chevron-right"></i>
+                </a>
+            </nav>
+
+            <div class="configuracoes-conteudo">
+                <section class="cartao configuracoes-card" id="dadosPerfil">
+                    <div class="configuracoes-card-cabecalho">
+                        <div class="configuracoes-card-icone">
+                            <i data-lucide="user-round"></i>
+                        </div>
+                        <div>
+                            <h2>Meu perfil</h2>
+                            <p>Confira as informações vinculadas à sua conta.</p>
+                        </div>
+                    </div>
+
+                    <div class="perfil-detalhes">
+                        <div class="campo-informativo">
+                            <span>Nome de exibição</span>
+                            <strong id="detalheNome">—</strong>
+                        </div>
+
+                        <div class="campo-informativo">
+                            <span>E-mail de acesso</span>
+                            <strong id="detalheEmail">—</strong>
+                        </div>
+
+                        <div class="campo-informativo">
+                            <span>Tipo de conta</span>
+                            <strong>Passageiro</strong>
+                        </div>
+
+                        <div class="campo-informativo">
+                            <span>Autenticação</span>
+                            <strong>Supabase Auth</strong>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="cartao configuracoes-card" id="dadosConta">
+                    <div class="configuracoes-card-cabecalho">
+                        <div class="configuracoes-card-icone">
+                            <i data-lucide="contact-round"></i>
+                        </div>
+                        <div>
+                            <h2>Dados da conta</h2>
+                            <p>Personalize seu nome e gerencie seu e-mail de acesso.</p>
+                        </div>
+                    </div>
+
+                    <form id="formNome" class="configuracoes-formulario">
+                        <label for="nomeExibicao">Nome de exibição</label>
+                        <input type="text" id="nomeExibicao" name="nomeExibicao" maxlength="100" autocomplete="name"
+                            required>
+                        <small>Esse nome será exibido no painel do AzulTrack.</small>
+
+                        <button type="submit" class="botao-configuracoes" id="salvarNome">
+                            <i data-lucide="save"></i>
+                            Salvar alterações
+                        </button>
+                    </form>
+
+                    <div class="configuracoes-divisor"></div>
+
+                    <form id="formEmail" class="configuracoes-formulario">
+                        <label for="emailAtual">E-mail de acesso</label>
+                        <input type="email" id="emailAtual" name="emailAtual" autocomplete="email" required>
+                        <small>Você poderá precisar confirmar a alteração pelo e-mail enviado pelo Supabase.</small>
+
+                        <button type="submit" class="botao-configuracoes botao-secundario" id="salvarEmail">
+                            <i data-lucide="mail"></i>
+                            Atualizar e-mail
+                        </button>
+                    </form>
+                </section>
+
+                <section class="cartao configuracoes-card" id="seguranca">
+                    <div class="configuracoes-card-cabecalho">
+                        <div class="configuracoes-card-icone">
+                            <i data-lucide="shield-check"></i>
+                        </div>
+                        <div>
+                            <h2>Segurança</h2>
+                            <p>Atualize sua senha para proteger sua conta.</p>
+                        </div>
+                    </div>
+
+                    <form id="formSenha" class="configuracoes-formulario">
+                        <label for="novaSenha">Nova senha</label>
+                        <div class="campo-senha">
+                            <input type="password" id="novaSenha" name="novaSenha" minlength="8"
+                                autocomplete="new-password" required>
+                            <button type="button" class="mostrar-senha" data-alvo="novaSenha"
+                                aria-label="Mostrar senha">
+                                <i data-lucide="eye"></i>
+                            </button>
+                        </div>
+
+                        <label for="confirmarSenha">Confirmar nova senha</label>
+                        <div class="campo-senha">
+                            <input type="password" id="confirmarSenha" name="confirmarSenha" minlength="8"
+                                autocomplete="new-password" required>
+                            <button type="button" class="mostrar-senha" data-alvo="confirmarSenha"
+                                aria-label="Mostrar senha">
+                                <i data-lucide="eye"></i>
+                            </button>
+                        </div>
+
+                        <small>Utilize pelo menos 8 caracteres e evite senhas fáceis de adivinhar.</small>
+
+                        <button type="submit" class="botao-configuracoes" id="salvarSenha">
+                            <i data-lucide="key-round"></i>
+                            Alterar senha
+                        </button>
+                    </form>
+                </section>
+            </div>
+        </div>
+
+        <footer class="rodape-dashboard">
+            <p>AzulTrack · Sua viagem em um só lugar.</p>
+        </footer>
+    </main>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../supabase.js"></script>
+    <script src="script.js"></script>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+
+</body>
+
+</html>

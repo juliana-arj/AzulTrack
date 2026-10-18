@@ -845,6 +845,693 @@ a {
 }
 
 
+.barra-topo {
+    margin-bottom: 26px;
+}
+
+.topo-direita {
+    margin-left: auto;
+    gap: 15px;
+}
+
+.icone-botao.notificacao {
+    flex-shrink: 0;
+    border: 1px solid #DFEAF3;
+    background: #FFFFFF;
+    color: var(--azul);
+    transition: background .2s ease, border-color .2s ease, transform .2s ease;
+}
+
+.icone-botao.notificacao:hover {
+    border-color: #B9E5F7;
+    background: #EAF7FD;
+    transform: translateY(-1px);
+}
+
+.icone-botao.notificacao i.icone {
+    position: static;
+    width: 19px;
+    height: 19px;
+    min-width: 19px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    stroke-width: 1.8;
+}
+
+.data-atual {
+    gap: 4px;
+}
+
+.data-atual strong {
+    max-width: 190px;
+    overflow: hidden;
+    font-size: 11px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.data-atual span {
+    font-size: 10px;
+}
+
+.avatar.avatar-pequeno {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    border: 2px solid var(--ciano);
+    border-radius: 50%;
+    background: #DDF5FE;
+    color: var(--azul);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.conteudo {
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+.topo {
+    margin-bottom: 25px;
+}
+
+.topo h1 {
+    margin-top: 7px;
+    font-size: clamp(24px, 2.2vw, 30px);
+    letter-spacing: -.7px;
+    line-height: 1.35;
+}
+
+.subtitulo {
+    font-size: 10px;
+    letter-spacing: 1.4px;
+}
+
+.descricao-topo {
+    max-width: 620px;
+    margin-top: 10px;
+    font-size: 12px;
+    line-height: 1.9;
+}
+
+.banner-orientacoes {
+    min-height: 190px;
+    gap: 25px;
+    margin-bottom: 32px;
+    padding: 32px;
+    border: 1px solid rgba(34, 181, 234, .2);
+    border-radius: 16px;
+    background:
+        radial-gradient(ellipse at 90% 15%, rgba(34, 181, 234, .23), transparent 35%),
+        linear-gradient(115deg, #012251 0%, #023B72 58%, #025692 100%);
+    box-shadow: 0 12px 28px rgba(1, 34, 81, .09);
+}
+
+.banner-icone {
+    width: 62px;
+    height: 62px;
+    border: 1px solid rgba(34, 181, 234, .4);
+    border-radius: 15px;
+    background: rgba(255, 255, 255, .07);
+}
+
+.banner-icone .icone {
+    width: 29px;
+    height: 29px;
+}
+
+.banner-texto {
+    max-width: 600px;
+}
+
+.banner-texto h2 {
+    max-width: 520px;
+    margin: 9px 0;
+    font-size: clamp(19px, 2vw, 25px);
+    line-height: 1.4;
+    letter-spacing: -.4px;
+}
+
+.banner-texto p {
+    max-width: 510px;
+    font-size: 12px;
+    line-height: 1.9;
+}
+
+.banner-aviao {
+    display: grid;
+    place-items: center;
+    width: 100px;
+    height: 100px;
+    margin-right: 10px;
+    border: 1px solid rgba(255, 255, 255, .12);
+    border-radius: 28px;
+    background: rgba(255, 255, 255, .05);
+    transform: rotate(-8deg);
+}
+
+.banner-aviao .icone {
+    width: 52px;
+    height: 52px;
+    color: #71D8F7;
+    stroke-width: 1.2;
+}
+
+.conteudo-grid {
+    grid-template-columns: minmax(0, 1.65fr) minmax(280px, .85fr);
+    gap: 25px;
+}
+
+.secao-cabecalho {
+    margin-bottom: 20px;
+}
+
+.secao-cabecalho h2 {
+    font-size: 18px;
+    letter-spacing: -.3px;
+}
+
+.secao-cabecalho p {
+    font-size: 11px;
+}
+
+.lista-etapas {
+    gap: 13px;
+}
+
+.etapa {
+    border-color: #E1EAF2;
+    border-radius: 13px;
+    box-shadow: 0 3px 12px rgba(1, 34, 81, .025);
+}
+
+.etapa:hover,
+.etapa[open] {
+    border-color: #A9DFF3;
+    box-shadow: 0 8px 22px rgba(1, 34, 81, .06);
+}
+
+.etapa summary {
+    min-height: 94px;
+    gap: 14px;
+    padding: 18px;
+}
+
+.etapa-icone {
+    width: 46px;
+    height: 46px;
+    border: 1px solid #D9EFF9;
+    border-radius: 12px;
+    background: #EDF8FD;
+    font-size: 22px;
+}
+
+.etapa-numero {
+    font-size: 10px;
+    letter-spacing: .5px;
+}
+
+.etapa-titulo {
+    gap: 6px;
+}
+
+.etapa-titulo strong {
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.etapa-titulo small {
+    font-size: 10px;
+    line-height: 1.7;
+}
+
+.etapa-seta {
+    width: 25px;
+    height: 25px;
+    border-radius: 7px;
+    background: #F0F7FB;
+    font-size: 18px;
+}
+
+.etapa-conteudo {
+    padding: 0 24px 24px 92px;
+    font-size: 11px;
+    line-height: 2;
+}
+
+.etapa-conteudo ul {
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.nota-etapa {
+    margin-top: 18px;
+    padding: 13px 15px;
+    border-radius: 0 9px 9px 0;
+    font-size: 10px;
+}
+
+.coluna-lateral {
+    gap: 18px;
+}
+
+.painel-informativo,
+.painel-oficial {
+    padding: 24px;
+    border-color: #E0EAF2;
+    border-radius: 13px;
+    box-shadow: 0 4px 16px rgba(1, 34, 81, .035);
+}
+
+.painel-informativo {
+    background: linear-gradient(145deg, #EDF8FD, #FFFFFF);
+}
+
+.painel-icone {
+    width: 38px;
+    height: 38px;
+    margin-bottom: 16px;
+    border-radius: 11px;
+    font-size: 17px;
+}
+
+.painel-informativo h2,
+.painel-oficial h2 {
+    margin-bottom: 17px;
+    font-size: 14px;
+}
+
+.lista-dicas {
+    gap: 15px;
+}
+
+.lista-dicas li {
+    padding-left: 24px;
+    font-size: 10px;
+    line-height: 1.9;
+}
+
+.lista-dicas li::before {
+    display: grid;
+    place-items: center;
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    background: #DDF5FE;
+    color: #025692;
+    font-size: 10px;
+}
+
+.botao-oficial {
+    min-height: 46px;
+    padding: 13px 16px;
+    border-radius: 9px;
+    font-size: 11px;
+    transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+}
+
+.botao-oficial:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(2, 86, 146, .18);
+}
+
+.painel-oficial>small {
+    font-size: 10px;
+}
+
+.dica-extra {
+    gap: 14px;
+    padding: 19px;
+    border-radius: 12px;
+}
+
+.dica-extra h3 {
+    font-size: 12px;
+}
+
+.dica-extra p {
+    font-size: 10px;
+    line-height: 1.9;
+}
+
+.rodape-dashboard {
+    margin-top: 38px;
+    padding-top: 23px;
+}
+
+.rodape-dashboard p {
+    font-size: 10px;
+    line-height: 1.8;
+}
+
+.menu-lateral a.ativo {
+    background: var(--ciano);
+    color: var(--azul-escuro);
+    font-weight: 600;
+}
+
+.menu-lateral a.ativo .icone {
+    color: var(--azul-escuro);
+}
+
+.menu-lateral a span {
+    min-width: 0;
+}
+
+
+.etapa summary {
+    display: grid;
+    grid-template-columns: 46px 25px minmax(0, 1fr) 25px;
+    align-items: center;
+    gap: 13px;
+    min-height: 100px;
+}
+
+.etapa-icone {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    margin: 0;
+}
+
+.etapa-icone .icone {
+    width: 23px;
+    height: 23px;
+    min-width: 23px;
+    color: var(--azul);
+    stroke-width: 1.8;
+}
+
+.etapa-numero {
+    width: auto;
+    justify-content: center;
+    text-align: center;
+}
+
+.etapa-titulo {
+    align-self: center;
+}
+
+.etapa-seta {
+    display: grid;
+    place-items: center;
+    width: 25px;
+    height: 25px;
+    margin: 0;
+}
+
+.etapa-seta .icone {
+    width: 18px;
+    height: 18px;
+    min-width: 18px;
+    transition: transform .2s ease;
+}
+
+.etapa[open] .etapa-seta .icone {
+    transform: rotate(180deg);
+}
+
+.painel-icone,
+.dica-icone {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+}
+
+.painel-icone .icone,
+.dica-icone .icone {
+    width: 19px;
+    height: 19px;
+    min-width: 19px;
+}
+
+.painel-icone {
+    border-radius: 11px;
+}
+
+.painel-icone-ciano .icone {
+    color: var(--azul-medio);
+}
+
+.botao-oficial {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.botao-oficial .icone {
+    width: 17px;
+    height: 17px;
+    min-width: 17px;
+}
+
+.conteudo-grid {
+    align-items: stretch;
+}
+
+.orientacoes-lista,
+.coluna-lateral {
+    min-width: 0;
+}
+
+.coluna-lateral {
+    align-self: stretch;
+}
+
+
+.icone-botao.notificacao {
+    position: relative;
+}
+
+.bolinha-notificacao {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 9px;
+    height: 9px;
+    background-color: #ef4444;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.bolinha-notificacao[hidden] {
+    display: none;
+}
+
+
+@media (min-width: 1101px) {
+    .coluna-lateral {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: 1fr 1fr auto;
+        align-content: stretch;
+    }
+
+    .painel-informativo,
+    .painel-oficial {
+        height: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+    .etapa summary {
+        grid-template-columns: 34px 18px minmax(0, 1fr) 18px;
+        gap: 8px;
+        min-height: 82px;
+        padding: 12px 10px;
+    }
+
+    .etapa-icone {
+        width: 34px;
+        height: 34px;
+    }
+
+    .etapa-icone .icone {
+        width: 19px;
+        height: 19px;
+        min-width: 19px;
+    }
+
+    .etapa-seta {
+        width: 18px;
+        height: 22px;
+    }
+
+    .etapa-seta .icone {
+        width: 16px;
+        height: 16px;
+        min-width: 16px;
+    }
+}
+
+
+@media (max-width: 1100px) {
+    .conteudo-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .coluna-lateral {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+    }
+
+    .dica-extra {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 800px) {
+    .menu-lateral a {
+        position: relative;
+    }
+
+    .menu-lateral a span {
+        display: none;
+    }
+
+    .barra-topo {
+        margin-bottom: 23px;
+    }
+
+    .banner-orientacoes {
+        min-height: 170px;
+        padding: 25px;
+    }
+
+    .banner-aviao {
+        width: 72px;
+        height: 72px;
+        margin-right: 0;
+    }
+
+    .banner-aviao .icone {
+        width: 38px;
+        height: 38px;
+    }
+}
+
+@media (max-width: 600px) {
+    .topo-direita {
+        gap: 10px;
+    }
+
+    .data-atual {
+        gap: 3px;
+        padding-left: 10px;
+    }
+
+    .data-atual strong {
+        max-width: 145px;
+        font-size: 10px;
+    }
+
+    .data-atual span {
+        font-size: 9px;
+    }
+
+    .avatar.avatar-pequeno {
+        width: 35px;
+        height: 35px;
+    }
+
+    .icone-botao.notificacao {
+        width: 36px;
+        height: 36px;
+    }
+
+    .topo h1 {
+        font-size: 23px;
+    }
+
+    .banner-orientacoes {
+        align-items: flex-start;
+        gap: 14px;
+        padding: 22px 17px;
+        border-radius: 13px;
+    }
+
+    .banner-icone {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+    }
+
+    .banner-icone .icone {
+        width: 21px;
+        height: 21px;
+    }
+
+    .banner-texto h2 {
+        font-size: 17px;
+    }
+
+    .banner-texto p {
+        font-size: 10px;
+    }
+
+    .banner-aviao {
+        display: none;
+    }
+
+    .coluna-lateral {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .etapa summary {
+        gap: 8px;
+        padding: 13px 10px;
+    }
+
+    .etapa-icone {
+        width: 33px;
+        height: 33px;
+        font-size: 17px;
+    }
+
+    .etapa-numero {
+        width: 17px;
+        font-size: 9px;
+    }
+
+    .etapa-titulo strong {
+        font-size: 10px;
+    }
+
+    .etapa-titulo small {
+        font-size: 9px;
+    }
+
+    .etapa-conteudo {
+        padding: 0 15px 18px;
+        font-size: 10px;
+    }
+
+    .painel-informativo,
+    .painel-oficial {
+        padding: 20px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+        animation-duration: .01ms !important;
+    }
+}
+
 @media (max-width: 1100px) {
     .conteudo-grid {
         grid-template-columns: minmax(0, 1fr);
