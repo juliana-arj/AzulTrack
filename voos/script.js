@@ -322,7 +322,21 @@ function atualizarIndicadores() {
 
     document.getElementById("voosAtrasados").textContent =
         consultasConcluidas
-            ? voosSalvos.filter(voo => voo.statusApi === "delayed").length
+            ? voosSalvos.filter(voo => {
+                const comunicacoesVoo = obterComunicacoesDoVoo(voo);
+
+                const atrasoInformado = comunicacoesVoo.some(comunicacao => {
+                    const atraso = Number(comunicacao.estimated_delay_minutes);
+
+                    return comunicacao.estimated_delay_minutes !== null &&
+                        comunicacao.estimated_delay_minutes !== undefined &&
+                        comunicacao.estimated_delay_minutes !== "" &&
+                        Number.isFinite(atraso) &&
+                        atraso > 0;
+                });
+
+                return voo.statusApi === "delayed" || atrasoInformado;
+            }).length
             : "—";
 }
 
