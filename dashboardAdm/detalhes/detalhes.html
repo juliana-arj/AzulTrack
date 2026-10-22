@@ -242,6 +242,25 @@
             <span><strong>AZUL</strong> · Painel administrativo</span>
         </footer>
     </main>
+    <div class="modal-sucesso" id="modalSucesso" hidden>
+        <div class="modal-sucesso-fundo"></div>
+        <div class="modal-sucesso-conteudo" role="dialog" aria-modal="true" aria-labelledby="tituloSucesso">
+            <div class="modal-sucesso-icone">
+                <i data-lucide="check-circle-2"></i>
+            </div>
+            <span class="modal-sucesso-etiqueta">AZULTRACK</span>
+            <h2 id="tituloSucesso">Operação concluída!</h2>
+            <p id="mensagemSucesso">A ação foi concluída com sucesso.</p>
+            <div class="modal-sucesso-codigo">
+                <span>Ocorrência</span>
+                <strong id="codigoOcorrenciaSucesso"></strong>
+            </div>
+            <button type="button" id="fecharModalSucesso">
+                Continuar
+                <i data-lucide="arrow-right"></i>
+            </button>
+        </div>
+    </div>
 
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>

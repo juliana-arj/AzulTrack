@@ -3326,6 +3326,157 @@ tbody tr:hover {
   text-align: center;
 }
 
+.modal-sucesso[hidden] {
+    display: none;
+}
+
+.modal-sucesso {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modal-sucesso-fundo {
+    position: absolute;
+    inset: 0;
+    background: rgba(1, 18, 43, 0.68);
+    backdrop-filter: blur(6px);
+    animation: aparecerFundo 0.25s ease;
+}
+
+.modal-sucesso-conteudo {
+    position: relative;
+    width: 100%;
+    max-width: 430px;
+    padding: 36px 30px 30px;
+    border: 1px solid rgba(34, 181, 234, 0.18);
+    border-radius: 24px;
+    background: #ffffff;
+    box-shadow: 0 24px 80px rgba(0, 18, 48, 0.25);
+    text-align: center;
+    animation: aparecerModal 0.3s ease;
+}
+
+.modal-sucesso-icone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 76px;
+    height: 76px;
+    margin: 0 auto 22px;
+    border-radius: 50%;
+    background: #e5f8f1;
+    color: #11966e;
+}
+
+.modal-sucesso-icone svg {
+    width: 42px;
+    height: 42px;
+    stroke-width: 1.8;
+}
+
+.modal-sucesso-etiqueta {
+    color: #0284be;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.modal-sucesso-conteudo h2 {
+    margin: 10px 0;
+    color: #012251;
+    font-size: 25px;
+    font-weight: 750;
+}
+
+.modal-sucesso-conteudo p {
+    margin: 0 auto 24px;
+    max-width: 320px;
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.modal-sucesso-codigo {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    margin-bottom: 24px;
+    padding: 16px;
+    border: 1px solid #d9edf7;
+    border-radius: 14px;
+    background: #f3faff;
+}
+
+.modal-sucesso-codigo span {
+    color: #64748b;
+    font-size: 12px;
+}
+
+.modal-sucesso-codigo strong {
+    color: #025692;
+    font-size: 23px;
+    letter-spacing: 0.5px;
+}
+
+.modal-sucesso-conteudo button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    min-height: 48px;
+    border: none;
+    border-radius: 12px;
+    background: #025692;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.modal-sucesso-conteudo button:hover {
+    background: #012251;
+    transform: translateY(-1px);
+}
+
+.modal-sucesso-conteudo button svg {
+    width: 18px;
+    height: 18px;
+}
+
+@keyframes aparecerFundo {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes aparecerModal {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-sucesso-conteudo {
+        padding: 30px 22px 24px;
+        border-radius: 20px;
+    }
+
+    .modal-sucesso-conteudo h2 {
+        font-size: 22px;
+    }
+}
+
 @media (max-width: 760px) {
   .pagina-setores {
     padding: 18px;

@@ -88,6 +88,42 @@
         descartado: "Descartado"
     };
 
+    const modalSucesso = document.getElementById("modalSucesso");
+    const tituloSucesso = document.getElementById("tituloSucesso");
+    const mensagemSucesso = document.getElementById("mensagemSucesso");
+    const codigoOcorrenciaSucesso = document.getElementById("codigoOcorrenciaSucesso");
+    const botaoFecharModalSucesso = document.getElementById("fecharModalSucesso");
+
+    function mostrarModalSucesso(titulo, mensagem) {
+        tituloSucesso.textContent = titulo;
+        mensagemSucesso.textContent = mensagem;
+        codigoOcorrenciaSucesso.textContent =
+            elementos.codigo.textContent || `#${ocorrenciaId} `;
+
+        modalSucesso.hidden = false;
+        document.body.style.overflow = "hidden";
+
+        if (window.lucide) {
+            window.lucide.createIcons();
+        }
+    }
+
+    function fecharModalSucesso() {
+        modalSucesso.hidden = true;
+        document.body.style.overflow = "";
+    }
+
+    botaoFecharModalSucesso.addEventListener("click", fecharModalSucesso);
+
+    modalSucesso.querySelector(".modal-sucesso-fundo")
+        .addEventListener("click", fecharModalSucesso);
+
+    document.addEventListener("keydown", evento => {
+        if (evento.key === "Escape" && !modalSucesso.hidden) {
+            fecharModalSucesso();
+        }
+    });
+
 
     async function atualizarBolinhaNotificacoes(usuarioId) {
         const bolinha = document.getElementById("bolinhaNotificacoes");
@@ -842,7 +878,10 @@
 
                 if (error) throw error;
 
-                alert("Ocorrência atualizada com sucesso.");
+                mostrarModalSucesso(
+                    "Ocorrência atualizada!",
+                    "As alterações foram salvas e o registro está atualizado."
+                );
                 formularioEdicao.hidden = true;
                 await carregarOcorrencia(perfilAtual);
             } catch (erro) {
@@ -882,7 +921,10 @@
 
                 if (error) throw error;
 
-                alert("Mensagem registrada com sucesso.");
+                mostrarModalSucesso(
+                    "Mensagem registrada!",
+                    "A mensagem foi salva no histórico da ocorrência."
+                );
                 formularioMensagem.reset();
                 formularioMensagem.hidden = true;
 

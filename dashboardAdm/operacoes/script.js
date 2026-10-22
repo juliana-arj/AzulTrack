@@ -3,6 +3,30 @@
     const cliente = window.supabaseClient;
     const caminhoLogin = "../../login/index.html";
 
+    const modalSucesso = document.getElementById("modalSucesso");
+    const codigoOcorrenciaSucesso = document.getElementById("codigoOcorrenciaSucesso");
+    const botaoFecharModalSucesso = document.getElementById("fecharModalSucesso");
+
+    function mostrarModalSucesso(codigo) {
+        codigoOcorrenciaSucesso.textContent = `#${codigo}`;
+        modalSucesso.hidden = false;
+        document.body.style.overflow = "hidden";
+
+        if (window.lucide) {
+            window.lucide.createIcons();
+        }
+    }
+
+    function fecharModalSucesso() {
+        modalSucesso.hidden = true;
+        document.body.style.overflow = "";
+    }
+
+    botaoFecharModalSucesso.addEventListener("click", fecharModalSucesso);
+
+    modalSucesso.querySelector(".modal-sucesso-fundo")
+        .addEventListener("click", fecharModalSucesso);
+
     if (!cliente) {
         window.location.replace(caminhoLogin);
         return;
@@ -468,13 +492,11 @@
                 );
             }
 
-            alert(
-                `Ocorrência #${ocorrencia.occurrence_code} registrada com sucesso.`
-            );
-
             formulario.reset();
             listaVoos.replaceChildren();
             gravidade.value = "media";
+
+            mostrarModalSucesso(ocorrencia.occurrence_code);
 
         } catch (erro) {
             console.error("Erro ao registrar ocorrência:", erro);
